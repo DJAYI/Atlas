@@ -2,17 +2,30 @@
 
 namespace App\Models;
 
+use AgreementActivityEnum;
+use AgreementTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Agreement extends Model
 {
-    protected $fillable = ['name', 'description', 'university_id'];
+    protected $fillable = [
+        'year',
+        'semester',
+        'code',
+        'type',
+        'activity',
+        'start_date',
+        'end_date'
+    ];
 
-    public function university()
-    {
-        return $this->belongsTo(University::class);
-    }
+    protected $casts = [
+        'type' => AgreementTypeEnum::class,
+        'activity' => AgreementActivityEnum::class,
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
 
+    // Relación con Eventos (si aplica)
     public function events()
     {
         return $this->hasMany(Event::class);

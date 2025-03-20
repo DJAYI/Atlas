@@ -13,9 +13,20 @@ return new class extends Migration
     {
         Schema::create('agreements', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->foreignId('university_id')->constrained('universities')->cascadeOnDelete();
+            $table->year('year');
+            $table->string('semester', 2);
+            $table->string('code', 4)->unique();
+            $table->enum('type', ['marco', 'especifico']);
+            $table->enum('activity', [
+                'formacion',
+                'investigacion',
+                'extension',
+                'administrativa',
+                'otra'
+            ]);
+
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }
