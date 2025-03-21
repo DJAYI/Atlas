@@ -13,11 +13,6 @@ return new class extends Migration
     {
         Schema::create('agreements', function (Blueprint $table) {
             $table->id();
-<<<<<<< HEAD
-            $table->string('name');
-            $table->string('description');
-            $table->foreignId('university_id')->constrained('universities')->cascadeOnDelete();
-=======
             $table->year('year');
             $table->string('semester', 2);
             $table->string('code', 4)->unique();
@@ -32,7 +27,6 @@ return new class extends Migration
 
             $table->date('start_date');
             $table->date('end_date');
->>>>>>> 59d1c10bf4a9a1cd11dba6c43e502062676d2e99
             $table->timestamps();
         });
     }
