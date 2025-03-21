@@ -5,8 +5,9 @@
 
             <img src="https://cdni.iconscout.com/illustration/premium/thumb/international-expansion-illustration-download-in-svg-png-gif-file-formats--world-logo-market-growth-global-strategy-franchising-pack-business-illustrations-9823188.png?f=webp"
                 class="object-cover w-full aspect-square" alt="">
-            <a href=""
-                class="inline-block px-4 py-3 font-semibold text-center text-white transition rounded-lg mx-7 bg-gradient-to-tr from-blue-500 to-blue-700 hover:shadow-[1px_1px_20px] hover:shadow-blue-400/65 hover:bg-blend-darken hover:scale-95 ">Regístrate</a>
+            <a href="{{ route('assistance') }}"
+                class="inline-block px-4 py-3 font-semibold text-center text-white transition rounded-lg mx-7 bg-gradient-to-tr from-blue-500 to-blue-700 hover:shadow-[1px_1px_20px] hover:shadow-blue-400/65 hover:bg-blend-darken hover:scale-95 ">Regístra
+                tu Asistencia</a>
         </div>
         <div class="flex-col items-center justify-center hidden gap-4 md:flex">
             <hr class="h-56 border-r-2 border-green-300">

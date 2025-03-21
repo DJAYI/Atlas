@@ -17,13 +17,11 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="relative min-h-screen">
-        <div class="fixed inset-0 w-full min-h-screen -z-50 bg-gradient-to-br from-white to-green-200"></div>
-
+    <div class="min-h-screen">
+        <div class="fixed w-full h-screen bg-gradient-to-bl from-white to-green-200 -z-50"></div>
         <!-- Page Content -->
         <main>
             {{ $slot }}
-
         </main>
     </div>
 </body>
