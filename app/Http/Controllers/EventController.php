@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Agreement;
 use App\Models\Country;
 use App\Models\Event;
@@ -21,7 +22,8 @@ class EventController extends Controller
         $agreements = Agreement::all();
         $countries = Country::all();
         $financialEntities = FinancialEntity::all();
-        return view('dashboard.pages.events.index', compact('events', 'universities', 'agreements', 'countries', 'financialEntities'));
+        $activities = Activity::all();
+        return view('dashboard.pages.events.index', compact('events', 'universities', 'agreements', 'countries', 'financialEntities', 'activites'));
     }
 
     /**

@@ -53,7 +53,7 @@
         </div>
         <div class="flex flex-col gap-3">
             <h3 class="text-xl font-semibold text-gray-600">Información de Movilidad</h3>
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-3 gap-4">
                 <div class="flex flex-col gap-2">
                     <label for="modality" class="text-gray-500">Modalidad del Evento</label>
                     <select required name="modality" id="modality"
@@ -99,7 +99,49 @@
         </div>
         <div class="flex flex-col gap-3">
             <h3 class="text-xl font-semibold text-gray-600">Información Financiera</h3>
-            <div class="grid grid-cols-3"></div>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label for="financial_entity" class="text-gray-500">Entidad Financiera</label>
+                    <select required name="financial_entity" id="financial_entity"
+                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
+                        <option selected disabled value="">Seleccione una entidad financiera</option>
+                        @foreach ($financialEntities as $financialEntity)
+                            <option value="{{ $financialEntity->id }}">{{ $financialEntity->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="financial_country_id" class="text-gray-500">País Financiador</label>
+                    <select name="financial_country_id" id="financial_country_id"
+                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
+                        <option selected disabled value="">Seleccione un país</option>
+                        @foreach ($countries as $country)
+                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label for="agreement" class="text-gray-500">¿Tiene Convenio?</label>
+                    <select name="has_agreement" id="has_agreement"
+                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
+                        <option selected disabled value="">Seleccione una opción</option>
+                        <option value="si">Si</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="hidden flex-col gap-2">
+                    <label for="agreement_id" class="text-gray-500">Convenio</label>
+                    <select name="agreement_id" id="agreement_id"
+                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
+                        <option selected disabled value="">Seleccione un convenio</option>
+                        @foreach ($agreements as $agreement)
+                            <option value="{{ $agreement->id }}">{{ $agreement->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
             <div class="grid grid-cols-3"></div>
             <div class="grid grid-cols-1"></div>
         </div>
@@ -112,6 +154,7 @@
     const $$ = (selector) => document.querySelectorAll(selector);
 
     const selectModality = $('#modality');
+    const selectHasAgreement = $('#has_agreement');
 
     selectModality.addEventListener('change', (e) => {
         const selectedValue = e.target.value;
@@ -125,5 +168,18 @@
             $('#at_home').classList.add('hidden');
             $('#at_home').classList.remove('flex');
         }
-    })
+    });
+
+    selectHasAgreement.addEventListener('change', (e) => {
+        const selectedValue = e.target.value;
+
+        // Si tiene convenio, se muestra el campo de convenios con un display flex
+        if (selectedValue === 'si') {
+            $('#agreement_id').parentElement.classList.remove('hidden');
+            $('#agreement_id').parentElement.classList.add('flex');
+        } else {
+            $('#agreement_id').parentElement.classList.add('hidden');
+            $('#agreement_id').parentElement.classList.remove('flex');
+        }
+    });
 </script>
