@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agreement;
+use App\Models\Country;
 use App\Models\Event;
+use App\Models\FinancialEntity;
+use App\Models\University;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -12,7 +16,12 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        $events = Event::all();
+        $universities = University::all();
+        $agreements = Agreement::all();
+        $countries = Country::all();
+        $financialEntities = FinancialEntity::all();
+        return view('dashboard.pages.events.index', compact('events', 'universities', 'agreements', 'countries', 'financialEntities'));
     }
 
     /**
@@ -28,7 +37,7 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
@@ -36,7 +45,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view('dashboard.pages.events.show', compact('event'));
     }
 
     /**
@@ -44,7 +53,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return view('dashboard.pages.events.edit', compact('event'));
     }
 
     /**

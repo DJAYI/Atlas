@@ -1,3 +1,7 @@
-<x-app-layout>
-    <div class="grid w-full h-screen grid-cols-2 bg-black max-w-7xl place-items-center"></div>
-</x-app-layout>
+<x-layouts.dashboard-layout title="Estadísticas">
+    <div class="my-4 flex flex-row justify-between items-center">
+        <h2 class="text-2xl font-semibold text-green-700">
+            Estadísticas
+        </h2>
+    </div>
+</x-layouts.dashboard-layout>

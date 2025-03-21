@@ -14,13 +14,20 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Choice.JS --}}
+    <!-- Agregar el archivo CSS (aunque no vamos a usar los estilos, es requerido para un funcionamiento adecuado) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+
+    <!-- Agregar el archivo JS de Choices.js -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </head>
 
 <body class="font-sans antialiased">
     <div class="min-h-screen">
         <div class="fixed w-full h-screen bg-gradient-to-bl from-white to-green-200 -z-50"></div>
         <!-- Page Content -->
-        <main>
+        <main class="">
             {{ $slot }}
         </main>
     </div>
