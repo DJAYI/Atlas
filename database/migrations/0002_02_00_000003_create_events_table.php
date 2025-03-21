@@ -19,7 +19,11 @@ return new class extends Migration
             $table->string('event_code');
 
             $table->enum('has_agreement', ['si', 'no']);
+<<<<<<< HEAD
             $table->foreignId('agreement_id')->constrained('agreements')->cascadeOnDelete()->nullable();
+=======
+            $table->foreignId('agreement_id')->nullable()->constrained('agreements')->cascadeOnDelete();
+>>>>>>> 59d1c10bf4a9a1cd11dba6c43e502062676d2e99
 
             $table->enum('modality', ['presencial', 'virtual', 'en casa']);
             $table->enum('location', ['nacional', 'internacional', 'local']);
@@ -31,7 +35,11 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
 
+<<<<<<< HEAD
             $table->foreignId('financial_country_id')->constrained(
+=======
+            $table->foreignId('financial_country_id')->nullable()->constrained(
+>>>>>>> 59d1c10bf4a9a1cd11dba6c43e502062676d2e99
                 table: 'countries',
                 indexName: 'financial_country_id'
             )->cascadeOnDelete();

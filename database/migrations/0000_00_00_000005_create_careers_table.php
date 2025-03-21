@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->foreignId('faculty_id')->constrained('faculties')->cascadeOnDelete();
+<<<<<<< HEAD
+=======
+            $table->foreignId('university_id')->constrained('universities')->cascadeOnDelete();
+>>>>>>> 59d1c10bf4a9a1cd11dba6c43e502062676d2e99
             $table->timestamps();
         });
     }

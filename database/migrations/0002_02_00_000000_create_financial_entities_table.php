@@ -15,8 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
+<<<<<<< HEAD
             $table->string('code', 2)->unique();
             $table->foreignId('country_id')->constrained('countries')->cascadeOnDelete();
+=======
+            $table->string('code', 4)->unique();
+
+>>>>>>> 59d1c10bf4a9a1cd11dba6c43e502062676d2e99
             $table->timestamps();
         });
     }
