@@ -31,15 +31,7 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
 
-            $table->foreignId('financial_country_id')->nullable()->constrained(
-                table: 'countries',
-                indexName: 'financial_country_id'
-            )->cascadeOnDelete();
-
             $table->foreignId('university_id')->constrained('universities')->cascadeOnDelete();
-            $table->float('financial_value', 8, 2);
-            $table->float('financial_international_value', 8, 2)->nullable();
-            $table->foreignId('financial_entity_id')->constrained('financial_entities')->cascadeOnDelete();
 
             $table->timestamps();
         });

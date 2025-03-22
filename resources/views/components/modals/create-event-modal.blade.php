@@ -1,9 +1,9 @@
-@props(['universities' => [], 'agreements' => [], 'countries' => [], 'financialEntities' => []])
+@props(['universities' => [], 'agreements' => [], 'countries' => [], 'financialEntities' => [], 'activities' => []])
 
 {{-- Create event button --}}
 
 {{-- Create event Modal --}}
-<div class="backdrop:backdrop-blur-sm backdrop:backdrop-opacity-95 transition bg-white rounded-xl px-5 py-8 shadow-lg max-h-screen flex-col gap-4"
+<div class="flex-col max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
     id="create-event" popover>
     <h3 class="text-4xl font-semibold">Nuevo Evento</h3>
     <br>
@@ -57,18 +57,18 @@
                 <div class="flex flex-col gap-2">
                     <label for="modality" class="text-gray-500">Modalidad del Evento</label>
                     <select required name="modality" id="modality"
-                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
+                        class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                         <option selected disabled value="">Seleccione una modalidad</option>
                         <option value="presencial">Presencial</option>
                         <option value="virtual">Virtual</option>
                     </select>
                 </div>
 
-                <div class="hidden flex-col gap-2" id="at_home">
+                <div class="flex-col hidden gap-2" id="at_home">
                     <label for="internationalization_at_home" class="text-gray-500 ">Internacionalización en
                         Casa</label>
                     <select required name="internationalization_at_home" id="internationalization_at_home"
-                        class=" py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
+                        class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm ">
                         <option selected disabled value="">Seleccione una opción</option>
                         <option value="si">Si</option>
                         <option value="no">No</option>
@@ -78,7 +78,7 @@
                 <div class="flex flex-col gap-2">
                     <label for="location" class="text-gray-500">Localización del Evento</label>
                     <select required name="location" id="location"
-                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
+                        class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                         <option selected disabled value="">Seleccione una localización</option>
                         <option value="nacional">Nacional</option>
                         <option value="internacional">Internacional</option>
@@ -98,52 +98,54 @@
             </div>
         </div>
         <div class="flex flex-col gap-3">
-            <h3 class="text-xl font-semibold text-gray-600">Información Financiera</h3>
+            <h3 class="text-xl font-semibold text-gray-600">Información Adicional</h3>
             <div class="grid grid-cols-3 gap-4">
-                <div class="flex flex-col gap-2">
-                    <label for="financial_entity" class="text-gray-500">Entidad Financiera</label>
-                    <select required name="financial_entity" id="financial_entity"
-                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
-                        <option selected disabled value="">Seleccione una entidad financiera</option>
-                        @foreach ($financialEntities as $financialEntity)
-                            <option value="{{ $financialEntity->id }}">{{ $financialEntity->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label for="financial_country_id" class="text-gray-500">País Financiador</label>
-                    <select name="financial_country_id" id="financial_country_id"
-                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
-                        <option selected disabled value="">Seleccione un país</option>
-                        @foreach ($countries as $country)
-                            <option value="{{ $country->id }}">{{ $country->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
 
                 <div class="flex flex-col gap-2">
                     <label for="agreement" class="text-gray-500">¿Tiene Convenio?</label>
-                    <select name="has_agreement" id="has_agreement"
-                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
+                    <select name="has_agreement" required id="has_agreement"
+                        class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                         <option selected disabled value="">Seleccione una opción</option>
                         <option value="si">Si</option>
                         <option value="no">No</option>
                     </select>
                 </div>
 
-                <div class="hidden flex-col gap-2">
+                <div class="flex-col hidden gap-2">
                     <label for="agreement_id" class="text-gray-500">Convenio</label>
-                    <select name="agreement_id" id="agreement_id"
-                        class="py-2 px-4 bg-white border border-green-300 rounded-lg shadow-sm  transition">
+                    <select name="agreement_id" required id="agreement_id"
+                        class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                         <option selected disabled value="">Seleccione un convenio</option>
                         @foreach ($agreements as $agreement)
                             <option value="{{ $agreement->id }}">{{ $agreement->name }}</option>
                         @endforeach
                     </select>
                 </div>
+
+                <div class="flex flex-col gap-2">
+                    <label for="activity_id" class="text-gray-500">Actividad</label>
+                    <select name="activity_id" id="activity_id"
+                        class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
+                        <option selected disabled value="">Seleccione una Actividad</option>
+                        @foreach ($activities as $activity)
+                            <option value="{{ $activity->id }}">{{ $activity->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-            <div class="grid grid-cols-3"></div>
-            <div class="grid grid-cols-1"></div>
+            <div class="grid grid-cols-1">
+                <div class="flex flex-row items-center justify-end gap-2">
+                    <button type="submit"
+                        class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
+                        Crear Evento
+                    </button>
+                    <button type="button" popovertarget="create-event"
+                        class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95">
+                        Cancelar
+                    </button>
+                </div>
+
+            </div>
         </div>
     </form>
 </div>

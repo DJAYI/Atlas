@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Agreement;
-use App\Models\Country;
 use App\Models\Event;
-use App\Models\FinancialEntity;
 use App\Models\University;
 use Illuminate\Http\Request;
 
@@ -17,13 +15,11 @@ class EventController extends Controller
      */
     public function index()
     {
+        $activities = Activity::all();
         $events = Event::all();
         $universities = University::all();
         $agreements = Agreement::all();
-        $countries = Country::all();
-        $financialEntities = FinancialEntity::all();
-        $activities = Activity::all();
-        return view('dashboard.pages.events.index', compact('events', 'universities', 'agreements', 'countries', 'financialEntities', 'activites'));
+        return view('dashboard.pages.events.index', compact('events', 'universities', 'agreements', 'activities'));
     }
 
     /**

@@ -24,11 +24,7 @@ class Event extends Model
         'end_date',
         'start_time',
         'end_time',
-        'financial_country_id',
         'university_id',
-        'financial_value',
-        'financial_international_value',
-        'financial_entity_id'
     ];
 
     protected $casts = [
@@ -56,21 +52,9 @@ class Event extends Model
         return $this->belongsTo(Agreement::class);
     }
 
-    // Relación con Country (financial_country_id)
-    public function financialCountry()
-    {
-        return $this->belongsTo(Country::class, 'financial_country_id');
-    }
-
     // Relación con University
     public function university()
     {
         return $this->belongsToMany(University::class);
-    }
-
-    // Relación con FinancialEntity
-    public function financialEntity()
-    {
-        return $this->belongsTo(FinancialEntity::class);
     }
 }
