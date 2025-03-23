@@ -7,6 +7,8 @@ use App\Models\Agreement;
 use App\Models\Event;
 use App\Models\University;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class EventController extends Controller
 {
@@ -15,11 +17,10 @@ class EventController extends Controller
      */
     public function index()
     {
-        $activities = Activity::all();
         $events = Event::all();
-        $universities = University::all();
-        $agreements = Agreement::all();
-        return view('dashboard.pages.events.index', compact('events', 'universities', 'agreements', 'activities'));
+
+
+        return view('dashboard.pages.events.index', compact('events'));
     }
 
     /**
@@ -35,7 +36,56 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // Validación de los datos
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'responsable' => 'required|string|max:255',
+            'activity_id' => 'required|exists:activities,id',
+            'has_agreement' => ['required', Rule::in(['si', 'no'])],
+            'agreement_id' => 'nullable|exists:agreements,id',
+            'modality' => ['required', Rule::in(['presencial', 'virtual', 'en casa'])],
+            'location' => ['required', Rule::in(['nacional', 'internacional', 'local'])],
+            'internationalization_at_home' => ['nullable', Rule::in(['si', 'no'])],
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i',
+            'universities' => 'required|array', // Debe ser un array de IDs
+            'universities.*' => 'exists:universities,id' // Cada ID debe existir en la BD
+        ]);
+
+        // Si hay errores de validación, devolverlos
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Error en la validación',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Generar código del evento
+        $dateCode = date('dm', strtotime($request->start_date)); // ddmm de la fecha
+        $randomCode = mt_rand(100, 999); // Número aleatorio de 3 dígitos
+        $eventCode = $dateCode . $randomCode;
+
+        // Crear el evento sin incluir 'universities'
+        $event = Event::create([
+            'name' => $request->name,
+            'responsable' => $request->responsable,
+            'activity_id' => $request->activity_id,
+            'has_agreement' => $request->has_agreement,
+            'modality' => $request->modality,
+            'location' => $request->location,
+            'internationalization_at_home' => $request->internationalization_at_home,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'event_code' => $eventCode,
+        ]);
+
+        // Asociar universidades al evento en la tabla pivote
+        $event->universities()->attach($request->universities);
+        return redirect()->route('events')->with('success', 'Evento creado exitosamente.');
     }
 
     /**

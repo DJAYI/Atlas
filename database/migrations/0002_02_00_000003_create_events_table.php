@@ -16,22 +16,20 @@ return new class extends Migration
             $table->string('name');
             $table->string('responsable');
             $table->foreignId('activity_id')->constrained('activities')->cascadeOnDelete();
-            $table->string('event_code');
+            $table->string('event_code')->unique();
 
-            $table->enum('has_agreement', ['si', 'no']);
+            $table->enum('has_agreement', ['si', 'no'])->default('no');
             $table->foreignId('agreement_id')->nullable()->constrained('agreements')->cascadeOnDelete();
 
             $table->enum('modality', ['presencial', 'virtual', 'en casa']);
             $table->enum('location', ['nacional', 'internacional', 'local']);
-            $table->enum('internationalization_at_home', ['si', 'no']);
-
+            $table->enum('internationalization_at_home', ['si', 'no'])->default('no');
             $table->date('start_date');
             $table->date('end_date');
 
             $table->time('start_time');
             $table->time('end_time');
 
-            $table->foreignId('university_id')->constrained('universities')->cascadeOnDelete();
 
             $table->timestamps();
         });

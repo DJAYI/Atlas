@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use HasAgreement;
+use App\Casts\HasAgreement;
+use App\Casts\Location;
+use App\Casts\Modality;
+use App\Casts\InternalizationAtHome;
 use Illuminate\Database\Eloquent\Model;
-use InternationalizationAtHome;
-use Location;
-use Modality;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+use InternationalizationAtHomeEnum;
 
 class Event extends Model
 {
@@ -31,13 +34,11 @@ class Event extends Model
         'has_agreement' => HasAgreement::class,
         'modality' => Modality::class,
         'location' => Location::class,
-        'internationalization_at_home' => InternationalizationAtHome::class,
+        'internationalization_at_home' => InternalizationAtHome::class,
         'start_date' => 'date',
         'end_date' => 'date',
-        'start_time' => 'datetime:H:i',
-        'end_time' => 'datetime:H:i',
-        'financial_value' => 'float',
-        'financial_international_value' => 'float'
+        'start_time' => 'datetime:H:i', // ✅ Formato correcto
+        'end_time' => 'datetime:H:i',   // ✅ Formato correcto
     ];
 
     // Relación con Activity
@@ -52,9 +53,8 @@ class Event extends Model
         return $this->belongsTo(Agreement::class);
     }
 
-    // Relación con University
-    public function university()
+    public function universities()
     {
-        return $this->belongsToMany(University::class);
+        return $this->belongsToMany(University::class, 'event_university', 'event_id', 'university_id');
     }
 }

@@ -1,3 +1,7 @@
+@php
+    $events = $events->sortByDesc('created_at');
+@endphp
+
 <x-layouts.dashboard-layout title="Gestión de Eventos">
     <div class="flex flex-row items-center justify-between my-4">
         <h2 class="text-2xl font-semibold text-green-700">
@@ -10,12 +14,16 @@
             Crear Evento
         </button>
     </div>
-    <div class="flex flex-col px-4 py-2 bg-gradient-to-b from-green-200/50 to-white rounded-t-xl min-h-52">
-        @foreach ($events as $event)
-            <div class="flex flex-row items-center justify-between p-4 mb-2 rounded-lg shadow-md bg-white/90">
-                <div class="flex flex-col gap-1">
-                    <h3 class="text-lg font-semibold text-gray-700">{{ $event->name }}</h3>
-                    <p class="text-sm text-gray-500">Código: {{ $event->code }}</p>
+    <div
+        class="flex flex-col justify-around px-4 py-4 sm:flex-row bg-gradient-to-b from-green-200/50 to-white rounded-t-xl min-h-52">
+        @foreach ($events->take(2) as $event)
+            <div
+                class="flex flex-row items-center justify-between gap-5 px-4 py-2 mb-1 rounded-lg bg-gradient-to-b from-white to-transparent">
+                <div class="flex flex-col gap-3">
+                    <div class="">
+                        <h3 class="text-lg font-semibold text-gray-700">{{ $event->name }}</h3>
+                    </div>
+                    <p class="text-sm text-gray-500">Código: {{ $event->event_code }}</p>
                     <p class="text-sm text-gray-500">Fecha: {{ $event->start_date }} - {{ $event->end_date }}</p>
                 </div>
                 <div class="flex flex-row gap-2">
@@ -58,11 +66,6 @@
             </tr>
         </thead>
     </table>
-
-    <x-modals.create-event-modal />
-
-</x-layouts.dashboard-layout universities="{{ $universities }}" agreements="{{ $agreements }}"
-    activities="{{ $activities }}"></x-layouts.dashboard-layout>
-
-{{-- Choice.Js util --}}
-@vite(['resources/js/modules/utils/multiSelectUtil.js'])
+    <x-modals.create-event-modal universities={{ $universities }} agreements={{ $agreements }}
+        activities={{ $activities }}></x-modals.create-event-modal>
+</x-layouts.dashboard-layout>

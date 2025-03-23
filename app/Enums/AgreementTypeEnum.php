@@ -1,4 +1,7 @@
 <?
+
+namespace App\Enums;
+
 enum AgreementTypeEnum: string
 {
     case MARCO = 'marco';

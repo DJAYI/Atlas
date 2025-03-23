@@ -1,13 +1,12 @@
-@props(['universities' => [], 'agreements' => [], 'countries' => [], 'financialEntities' => [], 'activities' => []])
+@props(['universities' => [], 'agreements' => [], 'activities' => []])
 
-{{-- Create event button --}}
 
 {{-- Create event Modal --}}
 <div class="flex-col max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
     id="create-event" popover>
     <h3 class="text-4xl font-semibold">Nuevo Evento</h3>
     <br>
-    <form action="" class="flex flex-col gap-6" method="POST">
+    <form action="{{ route('events.store') }}" class="flex flex-col gap-6" method="POST">
         @csrf
         @method('POST')
 
@@ -24,6 +23,7 @@
                     <input required type="text" name="responsable" id="responsable"
                         class="py-2 px-4 w-[400px] bg-white border border-green-300 rounded-lg shadow-sm  transition">
                 </div>
+
             </div>
         </div>
         <div class="flex flex-col gap-3">
@@ -67,9 +67,9 @@
                 <div class="flex-col hidden gap-2" id="at_home">
                     <label for="internationalization_at_home" class="text-gray-500 ">Internacionalización en
                         Casa</label>
-                    <select required name="internationalization_at_home" id="internationalization_at_home"
+                    <select name="internationalization_at_home" id="internationalization_at_home"
                         class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm ">
-                        <option selected disabled value="">Seleccione una opción</option>
+                        <option selected disabled>Seleccione una opción</option>
                         <option value="si">Si</option>
                         <option value="no">No</option>
                     </select>
@@ -82,13 +82,13 @@
                         <option selected disabled value="">Seleccione una localización</option>
                         <option value="nacional">Nacional</option>
                         <option value="internacional">Internacional</option>
-                        <option value="regional">Local</option>
+                        <option value="local">Local</option>
                     </select>
                 </div>
 
                 <div class="flex flex-col gap-2 max-w-72">
                     <label for="university" class="text-gray-500">Universidad/es del Evento</label>
-                    <select required name="university" id="university" class="w-full" name="universities" multiple>
+                    <select required name="universities[]" id="university" class="w-full" name="universities" multiple>
                         <option disabled>Seleccione una universidad</option>
                         @foreach ($universities as $university)
                             <option value="{{ $university->id }}">{{ $university->name }}</option>
@@ -113,11 +113,11 @@
 
                 <div class="flex-col hidden gap-2">
                     <label for="agreement_id" class="text-gray-500">Convenio</label>
-                    <select name="agreement_id" required id="agreement_id"
+                    <select name="agreement_id" id="agreement_id"
                         class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                         <option selected disabled value="">Seleccione un convenio</option>
                         @foreach ($agreements as $agreement)
-                            <option value="{{ $agreement->id }}">{{ $agreement->name }}</option>
+                            <option value="{{ $agreement->id }}">{{ $agreement->code }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -150,38 +150,8 @@
     </form>
 </div>
 
+@vite(['resources/js/modules/utils/conditionalSelect.js'])
+@vite(['resources/js/modules/utils/multiSelectUtil.js'])
+@vite(['resources/js/modules/utils/dateValidation.js'])
 
-<script>
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => document.querySelectorAll(selector);
-
-    const selectModality = $('#modality');
-    const selectHasAgreement = $('#has_agreement');
-
-    selectModality.addEventListener('change', (e) => {
-        const selectedValue = e.target.value;
-
-        // Solo si es presencial, se muestra el campo de internacionalización en casa con un display flex
-        if (selectedValue === 'presencial') {
-            $('#at_home').classList.remove('hidden');
-            $('#at_home').classList.add('flex');
-            $('#internationalization_at_home').value = 'no'; // Resetear el valor del select
-        } else {
-            $('#at_home').classList.add('hidden');
-            $('#at_home').classList.remove('flex');
-        }
-    });
-
-    selectHasAgreement.addEventListener('change', (e) => {
-        const selectedValue = e.target.value;
-
-        // Si tiene convenio, se muestra el campo de convenios con un display flex
-        if (selectedValue === 'si') {
-            $('#agreement_id').parentElement.classList.remove('hidden');
-            $('#agreement_id').parentElement.classList.add('flex');
-        } else {
-            $('#agreement_id').parentElement.classList.add('hidden');
-            $('#agreement_id').parentElement.classList.remove('flex');
-        }
-    });
-</script>
+<script></script>

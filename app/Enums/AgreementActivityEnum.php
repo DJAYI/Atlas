@@ -1,5 +1,7 @@
 <?
 
+namespace App\Enums;
+
 enum AgreementActivityEnum: string
 {
     case FORMACION = 'formacion';

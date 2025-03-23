@@ -1,5 +1,8 @@
 <?php
-enum Modality: string
+
+namespace App\Enums;
+
+enum ModalityEnum: string
 {
     case PRESENCIAL = 'presencial';
     case VIRTUAL = 'virtual';
