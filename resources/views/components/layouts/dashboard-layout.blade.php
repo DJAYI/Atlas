@@ -1,11 +1,11 @@
 @props(['title' => 'Sistema de Internacionalización de Eventos'])
 
 <x-app-layout>
-    <header class="flex flex-col bg-white/90 sm:flex-row  gap-5 items-center justify-between w-full px-4 py-3">
+    <header class="flex flex-col items-center justify-between w-full gap-5 px-4 py-3 bg-white/90 sm:flex-row">
         <div class="flex items-center justify-between gap-6">
             <h1 class="text-3xl font-black text-green-700">Hermes</h1>
             <button
-                class="sm:hidden p-2 outline outline-green-300 hover:outline-4 transition hover:outline-green-400 hover:shadow-md hover:shadow-green-200 rounded-xl hover:ring-8 hover:ring-green-200 "
+                class="p-2 transition sm:hidden outline outline-green-300 hover:outline-4 hover:outline-green-400 hover:shadow-md hover:shadow-green-200 rounded-xl hover:ring-8 hover:ring-green-200 "
                 id="menu-btn">
                 @php
                     $menuIcon = public_path('icons/bars-menu.svg');
@@ -15,33 +15,33 @@
         </div>
 
         <nav id="menu" class="flex flex-col md:flex-row [&>*]:list-none items-center gap-5 rounded-xl p-4">
-            <li class="hover:scale-95 transition"><a
+            <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
                     href="{{ route('events') }}">Eventos</a>
             </li>
-            <li class="hover:scale-95 transition"><a
+            <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
                     href="">Calendario</a></li>
-            <li class="hover:scale-95 transition"><a
+            <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
                     href="">Reportes</a></li>
-            <li class="hover:scale-95 transition"><a
+            <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
                     href="">Universidades</a>
             </li>
-            <li class="hover:scale-95 transition"><a
+            <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
                     href="">Convenios</a></li>
-            <li class="hover:scale-95 transition"><a
+            <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
                     href="">Programas</a></li>
-            <li class="hover:scale-95 transition"><a
+            <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
                     href="">Mapa</a>
             </li>
         </nav>
 
-        <form action="{{ route('logout') }}" class="w-full sm:w-fit flex justify-center items-center" method="POST">
+        <form action="{{ route('logout') }}" class="flex items-center justify-center w-full sm:w-fit" method="POST">
             @csrf
             @method('POST')
             <button type="submit"
@@ -50,7 +50,7 @@
         </form>
     </header>
 
-    <main class="px-6 py-4 bg-white rounded-md max-w-7xl w-full mx-4 sm:mx-auto h-screen">
+    <main class="w-full min-h-screen px-6 py-4 mx-4 bg-white rounded-md max-w-7xl sm:mx-auto">
         {{-- <div class="my-4">
             <h2 class="text-2xl font-semibold text-green-700">
                 {{ $title }}

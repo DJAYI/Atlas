@@ -18,9 +18,9 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
+        $eventsPaginated = Event::orderBy('start_date', 'desc')->paginate(6);
 
-
-        return view('dashboard.pages.events.index', compact('events'));
+        return view('dashboard.pages.events.index', compact(['events', 'eventsPaginated']));
     }
 
     /**
@@ -115,8 +115,15 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event)
+    public function destroy(string $id)
     {
-        //
+        // Buscar el evento por ID
+
+        $event = Event::findOrFail($id);
+        // Eliminar el evento
+        $event->universities()->detach(); // Desasociar universidades
+        $event->delete(); // Eliminar el evento
+
+        return redirect()->route('events')->with('success', 'Evento eliminado exitosamente.');
     }
 }
