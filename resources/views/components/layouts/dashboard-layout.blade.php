@@ -27,17 +27,21 @@
                     href="">Reportes</a></li>
             <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
-                    href="">Universidades</a>
+                    href="{{ route('universities') }}">Universidades</a>
             </li>
             <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
-                    href="">Convenios</a></li>
+                    href="{{ route('agreements') }}">Convenios</a></li>
             <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
-                    href="">Programas</a></li>
+                    href="{{ route('careers') }}">Programas</a></li>
             <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
                     href="">Mapa</a>
+            </li>
+            <li class="transition hover:scale-95"><a
+                    class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
+                    href="{{ route('activities') }}">Actividades</a>
             </li>
         </nav>
 

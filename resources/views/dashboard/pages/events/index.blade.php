@@ -30,7 +30,7 @@
                     </p>
                 </div>
                 <div class="flex flex-row gap-2">
-                    <a href="{{ route('events.show', $event->id) }}"
+                    <a href="{{ route('events.edit', $event->id) }}"
                         class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
                         popovertarget="edit-event" popoverdata="{{ $event->id }}">Editar</a>
                     <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
@@ -102,7 +102,7 @@
                         @endif
                     </td>
                     <td class="px-6 py-4">
-                        <a href="{{ route('events.show', $event->id) }}"
+                        <a href="{{ route('events.edit', $event->id) }}"
                             class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
                             popovertarget="edit-event" popoverdata="{{ $event->id }}">Editar</a>
                         <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">

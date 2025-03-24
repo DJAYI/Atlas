@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use AgreementActivityEnum;
-use AgreementTypeEnum;
+use App\Enums\AgreementActivityEnum;
+use App\Enums\AgreementTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Agreement extends Model

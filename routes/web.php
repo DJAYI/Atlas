@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AgreementController;
+use App\Http\Controllers\CareerController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UniversityController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,23 +16,55 @@ Route::get('/assistance', function () {
     return view('assistance');
 })->name('assistance');
 
+// Rutes for the dashboard
 Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
         return view('dashboard.index');
     })->name('dashboard');
 
-    Route::get('/events', [EventController::class, 'index'])->name('events');
+    Route::prefix('events')->group(function () {
+        Route::get('/', [EventController::class, 'index'])->name('events');
+        Route::get('/{id}', [EventController::class, 'show'])->name('events.show');
+        Route::get('/edit/{id}', [EventController::class, 'edit'])->name('events.edit');
+        Route::post('/', [EventController::class, 'store'])->name('events.store');
+        Route::put('/{id}', [EventController::class, 'update'])->name('events.update');
+        Route::delete('/{id}', [EventController::class, 'destroy'])->name('events.destroy');
+    });
 
-    Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
+    Route::prefix('universities')->group(function () {
+        Route::get('/', [UniversityController::class, 'index'])->name('universities');
+        Route::get('/{id}', [UniversityController::class, 'edit'])->name('universities.edit');
+        Route::post('/', [UniversityController::class, 'store'])->name('universities.store');
+        Route::put('/{id}', [UniversityController::class, 'update'])->name('universities.update');
+        Route::delete('/{id}', [UniversityController::class, 'destroy'])->name('universities.destroy');
+    });
 
-    Route::get('/events/edit/{id}', [EventController::class, 'edit'])->name('events.edit');
+    Route::prefix('activities')->group(function () {
+        Route::get('/', [ActivityController::class, 'index'])->name('activities');
+        Route::get('/{id}', [ActivityController::class, 'show'])->name('activities.show');
+        Route::post('/', [ActivityController::class, 'store'])->name('activities.store');
+        Route::put('/{id}', [ActivityController::class, 'update'])->name('activities.update');
+        Route::delete('/{id}', [ActivityController::class, 'destroy'])->name('activities.destroy');
+    });
 
-    Route::post('/events', [EventController::class, 'store'])->name('events.store');
+    Route::prefix('agreements')->group(function () {
+        Route::get('/', [AgreementController::class, 'index'])->name('agreements');
+        Route::get('/{id}', [AgreementController::class, 'show'])->name('agreements.show');
+        Route::post('/', [AgreementController::class, 'store'])->name('agreements.store');
+        Route::put('/{id}', [AgreementController::class, 'update'])->name('agreements.update');
+        Route::get('/{id}', [AgreementController::class, 'edit'])->name('agreements.edit');
+        Route::delete('/{id}', [AgreementController::class, 'destroy'])->name('agreements.destroy');
+    });
 
-    Route::put('/events/{id}', [EventController::class, 'update'])->name('events.update');
-
-    Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');
+    Route::prefix('careers')->group(function () {
+        Route::get('/', [CareerController::class, 'index'])->name('careers');
+        Route::get('/{id}', [CareerController::class, 'show'])->name('careers.show');
+        Route::post('/', [CareerController::class, 'store'])->name('careers.store');
+        Route::put('/{id}', [CareerController::class, 'update'])->name('careers.update');
+        Route::delete('/{id}', [CareerController::class, 'destroy'])->name('careers.destroy');
+    });
 });
+
 
 
 

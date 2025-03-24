@@ -12,7 +12,10 @@ class AgreementController extends Controller
      */
     public function index()
     {
-        //
+        $agreements = Agreement::all();
+        $agreementsPaginated = Agreement::orderBy('start_date', 'desc')->paginate(6);
+
+        return view('dashboard.pages.agreements.index', compact(['agreements', 'agreementsPaginated']));
     }
 
     /**

@@ -12,7 +12,12 @@ class UniversityController extends Controller
      */
     public function index()
     {
-        //
+
+
+        $universities = University::all();
+        $universitiesPaginated = University::orderBy('name', 'asc')->paginate(6);
+
+        return view('dashboard.pages.universities.index', compact(['universities', 'universitiesPaginated']));
     }
 
     /**
@@ -29,6 +34,28 @@ class UniversityController extends Controller
     public function store(Request $request)
     {
         //
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:50|unique:universities,code',
+            'description' => 'nullable|string',
+            'city_id' => 'required|exists:cities,id',
+        ]);
+
+        // Create a new university instance with validated data except the city relation
+        $university = new University();
+        $university->name = $validatedData['name'];
+        $university->code = $validatedData['code'];
+        $university->description = $validatedData['description'];
+
+        // Associate the university with a city
+        $city = \App\Models\City::find($validatedData['city_id']);
+        $university->city()->associate($city);
+
+        $university->save();
+
+        return redirect()->route('universities')
+            ->with('success', 'University created successfully.');
     }
 
     /**
@@ -42,24 +69,57 @@ class UniversityController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(University $university)
+    public function edit(string $id)
     {
-        //
+        // Find the university by ID
+        $university = University::findOrFail($id);
+        $cities = \App\Models\City::all();
+
+        return view('dashboard.pages.universities.edit', compact(['university', 'cities']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, University $university)
+    public function update(Request $request, string $id)
     {
-        //
+        // Find the university by ID
+        $university = University::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:50|unique:universities,code,' . $university->id,
+            'description' => 'nullable|string',
+            'city_id' => 'required|exists:cities,id',
+        ]);
+
+        // Update the university with validated data
+        $university->name = $validatedData['name'];
+        $university->code = $validatedData['code'];
+        $university->description = $validatedData['description'];
+
+        // Associate the university with a city
+        $city = \App\Models\City::find($validatedData['city_id']);
+        $university->city()->associate($city);
+
+        $university->save();
+
+        return redirect()->route('universities')
+            ->with('success', 'University updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(University $university)
+    public function destroy(string $id)
     {
-        //
+        // Find the university by ID
+        $university = University::findOrFail($id);
+
+        // Delete the university
+        $university->delete();
+
+        return redirect()->route('universities')
+            ->with('success', 'University deleted successfully.');
     }
 }
