@@ -58,7 +58,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
 
     Route::prefix('careers')->group(function () {
         Route::get('/', [CareerController::class, 'index'])->name('careers');
-        Route::get('/{id}', [CareerController::class, 'show'])->name('careers.show');
+        Route::get('/{id}', [CareerController::class, 'edit'])->name('careers.edit');
         Route::post('/', [CareerController::class, 'store'])->name('careers.store');
         Route::put('/{id}', [CareerController::class, 'update'])->name('careers.update');
         Route::delete('/{id}', [CareerController::class, 'destroy'])->name('careers.destroy');

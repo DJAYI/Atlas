@@ -18,6 +18,7 @@ use App\Models\Activity;
 use App\Models\Agreement;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Faculty;
 
 class DatabaseSeeder extends Seeder
 {
@@ -53,6 +54,24 @@ class DatabaseSeeder extends Seeder
             'state_id' => 1,
             'name' => 'HERMOSILLO',
             'code' => 'HMO',
+        ]);
+
+        Faculty::create([
+            'name' => 'FACULTAD DE CIENCIAS ECONÓMICAS, ADMINISTRATIVAS Y CONTABLES',
+            'description' => 'La Fundación Universitaria Tecnológico Comfenalco, ubicada en Cartagena de Indias, Bolívar, Colombia, ofrece programas académicos en áreas como economía, administración y contabilidad.',
+            'code' => 'FCEAC',
+        ]);
+
+        Faculty::create([
+            'name' => 'FACULTAD DE CIENCIAS SOCIALES Y EDUCACIÓN',
+            'description' => 'La Fundación Universitaria Tecnológico Comfenalco, ubicada en Cartagena de Indias, Bolívar, Colombia, ofrece programas académicos en áreas como psicología, trabajo social y educación.',
+            'code' => 'FCSE',
+        ]);
+
+        Faculty::create([
+            'name' => 'FACULTAD DE INGENIERÍA',
+            'description' => 'La Fundación Universitaria Tecnológico Comfenalco, ubicada en Cartagena de Indias, Bolívar, Colombia, ofrece programas académicos en áreas como ingeniería civil, ingeniería industrial e ingeniería de sistemas.',
+            'code' => 'FI',
         ]);
     }
 }

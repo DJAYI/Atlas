@@ -5,7 +5,7 @@
         </h2>
 
         <button
-            class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
+            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
             popovertarget="create-university">
             Crear Universidad
         </button>
@@ -58,7 +58,7 @@
 
                     <td class="px-6 py-4">
                         <a href="{{ route('universities.edit', $university->id) }}"
-                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
+                            class="inline-block inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
                             popovertarget="edit-university" popoverdata="{{ $university->id }}">Editar</a>
                         <form action="{{ route('universities.destroy', $university->id) }}" method="POST"
                             class="inline">

@@ -1,19 +1,17 @@
 <x-layouts.dashboard-layout>
     <div class="flex flex-row items-center justify-between my-4">
         <h2 class="text-2xl font-semibold text-green-700">
-            Gestión de Convenios
-        </h2>
+            Gestión de Programas </h2>
 
         <button
             class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
-            popovertarget="create-agreement">
-            Crear Convenio
+            popovertarget="create-career">
+            Crear Programa
         </button>
     </div>
     <br>
-
     <div class="flex flex-row justify-between mx-5">
-        <h3 class="text-lg font-semibold">Todos los Convenios</h3>
+        <h3 class="text-lg font-semibold">Todos los Programas</h3>
 
         <div class="relative sm:w-1/2">
             <input required type="text" placeholder="Buscar convenio" id="filter-search"
@@ -29,64 +27,56 @@
     <table class="w-full text-sm text-left text-gray-500 rtl:text-right">
         <thead class="text-gray-700 uppercase">
             <tr>
-                <th scope="col" class="px-6 py-3">Año</th>
-                <th scope="col" class="px-6 py-3">Periodo</th>
-                <th scope="col" class="px-6 py-3">Código</th>
-                <th scope="col" class="px-6 py-3">Tipo</th>
-                <th scope="col" class="px-6 py-3">Actividad</th>
-                <th scope="col" class="px-6 py-3">Fecha</th>
+                <th scope="col" class="px-6 py-3">Nombre</th>
+                <th scope="col" class="px-6 py-3">Descripción</th>
+                <th scope="col" class="px-6 py-3">Facultad</th>
                 <th scope="col" class="px-6 py-3">Acciones</th>
-
             </tr>
         </thead>
+
         <tbody id="table-data">
-            @foreach ($agreementsPaginated as $agreement)
+            @foreach ($careersPaginated as $career)
                 <tr>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {{ $agreement->year }}
+                        {{ $career->name }}
                     </td>
+
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {{ $agreement->semester }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $agreement->code }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $agreement->type }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $agreement->activity }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ \Carbon\Carbon::parse($agreement->start_date)->format('d/m/Y') }} -
-                        {{ \Carbon\Carbon::parse($agreement->end_date)->format('d/m/Y') }}
+                        {{ $career->description }}
                     </td>
 
                     <td class="px-6 py-4">
-                        <a href="{{ route('agreements.edit', $agreement->id) }}"
+                        {{ $career->faculty->name }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        <a href="{{ route('careers.edit', $career->id) }}"
                             class="inline-block inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
-                            popovertarget="edit-university" popoverdata="{{ $agreement->id }}">Editar</a>
-                        <form action="{{ route('agreements.destroy', $agreement->id) }}" method="POST" class="inline">
+                            popovertarget="edit-career" popoverdata="{{ $career->id }}">Editar</a>
+                        <form action="{{ route('careers.destroy', $career->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
                                 class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
-                                popovertarget="delete-university" popoverdata="{{ $agreement->id }}">Eliminar</button>
+                                popovertarget="delete-career" popoverdata="{{ $career->id }}">Eliminar</button>
                         </form>
                     </td>
                 </tr>
             @endforeach
-            @if ($agreementsPaginated->isEmpty())
+
+            @if ($careersPaginated->isEmpty())
                 <tr>
-                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                        No hay Convenios registrados
+                    <td colspan="4" class="px-6 py-4 text-center">
+                        No hay programas disponibles.
                     </td>
                 </tr>
             @endif
+
         </tbody>
     </table>
-    {{ $agreementsPaginated->links() }}
-</x-layouts.dashboard-layout>
 
-<x-modals.create-agreement-modal />
+    {{ $careersPaginated->links() }}
+</x-layouts.dashboard-layout>
+<x-modals.create-career-modal faculties={{ $faculties }} />
+
 @vite(['resources/js/modules/utils/filterSearch.js'])
