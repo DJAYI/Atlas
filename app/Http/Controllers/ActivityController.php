@@ -12,7 +12,9 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        //
+        $activities = Activity::all();
+        $activitiesPaginated = Activity::orderBy('created_at', 'desc')->paginate(10);
+        return view('dashboard.pages.activities.index', compact(['activities', 'activitiesPaginated']));
     }
 
     /**
@@ -28,7 +30,14 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+        ]);
+
+        Activity::create($request->all());
+
+        return redirect()->route('activities')->with('success', 'Activity created successfully.');
     }
 
     /**
@@ -42,24 +51,37 @@ class ActivityController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Activity $activity)
+    public function edit(string $id)
     {
-        //
+        $activity = Activity::findOrFail($id);
+        return view('dashboard.pages.activities.edit', compact('activity'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Activity $activity)
+    public function update(Request $request, string $id)
     {
-        //
+        $activity = Activity::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+        ]);
+
+        $activity->update($request->all());
+
+        return redirect()->route('activities')->with('success', 'Activity updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Activity $activity)
+    public function destroy(string $id)
     {
-        //
+        $activity = Activity::findOrFail($id);
+        $activity->delete();
+
+        return redirect()->route('activities')->with('success', 'Activity deleted successfully.');
     }
 }

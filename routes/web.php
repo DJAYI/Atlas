@@ -24,7 +24,6 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
 
     Route::prefix('events')->group(function () {
         Route::get('/', [EventController::class, 'index'])->name('events');
-        Route::get('/{id}', [EventController::class, 'show'])->name('events.show');
         Route::get('/edit/{id}', [EventController::class, 'edit'])->name('events.edit');
         Route::post('/', [EventController::class, 'store'])->name('events.store');
         Route::put('/{id}', [EventController::class, 'update'])->name('events.update');
@@ -41,7 +40,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
 
     Route::prefix('activities')->group(function () {
         Route::get('/', [ActivityController::class, 'index'])->name('activities');
-        Route::get('/{id}', [ActivityController::class, 'show'])->name('activities.show');
+        Route::get('/{id}', [ActivityController::class, 'edit'])->name('activities.edit');
         Route::post('/', [ActivityController::class, 'store'])->name('activities.store');
         Route::put('/{id}', [ActivityController::class, 'update'])->name('activities.update');
         Route::delete('/{id}', [ActivityController::class, 'destroy'])->name('activities.destroy');

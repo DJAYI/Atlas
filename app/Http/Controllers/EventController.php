@@ -117,9 +117,7 @@ class EventController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Buscar el evento por ID
-        $event = Event::findOrFail($id);
-
+        // Validación de los datos
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'responsable' => 'required|string|max:255',
@@ -133,29 +131,26 @@ class EventController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i',
-            'universities' => 'required|array',
-            'universities.*' => 'exists:universities,id'
+            'universities' => 'required|array', // Debe ser un array de IDs
+            'universities.*' => 'exists:universities,id' // Cada ID debe existir en la BD
         ]);
 
+        // Si hay errores de validación, devolverlos
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Error en la validación',
                 'errors' => $validator->errors()
             ], 422);
         }
+        // Buscar el evento por ID
+        $event = Event::findOrFail($id);
 
-        // Regeneramos el código del evento en base a la nueva fecha de inicio
-        $dateCode = date('dm', strtotime($request->start_date));
-        $randomCode = mt_rand(100, 999);
-        $eventCode = $dateCode . $randomCode;
-
-        // Actualizar los datos del evento
+        // Actualizar el evento sin incluir 'universities'
         $event->update([
             'name' => $request->name,
             'responsable' => $request->responsable,
             'activity_id' => $request->activity_id,
             'has_agreement' => $request->has_agreement,
-            'agreement_id' => $request->agreement_id,
             'modality' => $request->modality,
             'location' => $request->location,
             'internationalization_at_home' => $request->internationalization_at_home,
@@ -163,12 +158,16 @@ class EventController extends Controller
             'end_date' => $request->end_date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'event_code' => $eventCode,
         ]);
-
+        // Actualizar el acuerdo asociado al evento
+        if ($request->has_agreement == 'si') {
+            $event->agreement_id = $request->agreement_id;
+        } else {
+            $event->agreement_id = null;
+        }
+        $event->save();
         // Actualizar las universidades asociadas al evento
         $event->universities()->sync($request->universities);
-
         return redirect()->route('events')->with('success', 'Evento actualizado exitosamente.');
     }
 

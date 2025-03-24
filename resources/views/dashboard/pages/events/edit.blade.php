@@ -15,12 +15,12 @@
                 <div class="flex flex-col gap-2">
                     <label for="name" class="text-gray-500">Nombre</label>
                     <input required value="{{ $event->name }}" type="text" name="name" id="name"
-                        class="py-2 px-4 w-[400px] bg-white border border-green-300 rounded-lg shadow-sm transition">
+                        class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="responsable" class="text-gray-500">Responsable</label>
                     <input required value="{{ $event->responsable }}" type="text" name="responsable" id="responsable"
-                        class="py-2 px-4 w-[400px] bg-white border border-green-300 rounded-lg shadow-sm transition">
+                        class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                 </div>
             </div>
         </div>
@@ -31,25 +31,25 @@
                     <label for="start_date" class="text-gray-500">Fecha de Inicio</label>
                     <input required type="date" name="start_date" id="start_date" min="{{ date('Y-m-d') }}"
                         value="{{ old('start_date', $event->start_date ? $event->start_date->format('Y-m-d') : '') }}"
-                        class="py-2 px-4 w-[200px] bg-white border border-green-300 rounded-lg shadow-sm transition">
+                        class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="end_date" class="text-gray-500">Fecha de Fin</label>
                     <input required type="date" name="end_date" id="end_date" min="{{ date('Y-m-d') }}"
                         value="{{ old('end_date', $event->end_date ? $event->end_date->format('Y-m-d') : '') }}"
-                        class="py-2 px-4 w-[200px] bg-white border border-green-300 rounded-lg shadow-sm transition">
+                        class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="start_time" class="text-gray-500">Hora de Inicio</label>
                     <input required type="time" name="start_time" id="start_time"
                         value="{{ old('start_time', $event->start_time ? $event->start_time->format('H:i') : '') }}"
-                        class="py-2 px-4 w-[200px] bg-white border border-green-300 rounded-lg shadow-sm transition">
+                        class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="end_time" class="text-gray-500">Hora de Fin</label>
                     <input required type="time" name="end_time" id="end_time"
                         value="{{ old('end_time', $event->end_time ? $event->end_time->format('H:i') : '') }}"
-                        class="py-2 px-4 w-[200px] bg-white border border-green-300 rounded-lg shadow-sm transition">
+                        class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                 </div>
             </div>
         </div>

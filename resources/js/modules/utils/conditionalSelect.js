@@ -39,5 +39,22 @@ selectHasAgreement.addEventListener("change", (e) => {
         $("#agreement_id").parentElement.classList.add("hidden");
         $("#agreement_id").parentElement.classList.remove("flex");
         $("#agreement_id").removeAttribute("required");
+        $("#agreement_id").value = ""; // Resetear el valor del select
     }
 });
+
+// Validate if the select has a value "si" until load the page
+if (selectHasAgreement.value === "si") {
+    $("#agreement_id").parentElement.classList.remove("hidden");
+    $("#agreement_id").parentElement.classList.add("flex");
+}
+
+// Validate if the select has a value "presencial" until load the page
+
+if (selectModality.value === "presencial") {
+    $("#at_home").classList.remove("hidden");
+    $("#at_home").classList.add("flex");
+} else {
+    $("#at_home").classList.add("hidden");
+    $("#at_home").classList.remove("flex");
+}

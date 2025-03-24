@@ -2,14 +2,8 @@
 
 namespace App\Models;
 
-use App\Casts\HasAgreement;
-use App\Casts\Location;
-use App\Casts\Modality;
-use App\Casts\InternalizationAtHome;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-use InternationalizationAtHomeEnum;
+use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
@@ -31,10 +25,10 @@ class Event extends Model
     ];
 
     protected $casts = [
-        'has_agreement' => HasAgreement::class,
-        'modality' => Modality::class,
-        'location' => Location::class,
-        'internationalization_at_home' => InternalizationAtHome::class,
+        'has_agreement' => 'string',
+        'modality' => 'string',
+        'location' => 'string',
+        'internationalization_at_home' => 'string',
         'start_date' => 'date',
         'end_date' => 'date',
         'start_time' => 'datetime:H:i', // ✅ Formato correcto
