@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class University extends Model
 {
-    protected $fillable = ['city_id', 'name', 'code', 'description'];
+    protected $fillable = ['country', 'name', 'code', 'description'];
 
-    public function city()
+    public function country()
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(Country::class);
     }
 
     public function agreements()

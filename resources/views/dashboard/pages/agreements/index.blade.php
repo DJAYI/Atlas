@@ -46,7 +46,7 @@
                         {{ $agreement->year }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {{ $agreement->period }}
+                        {{ $agreement->semester }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $agreement->code }}

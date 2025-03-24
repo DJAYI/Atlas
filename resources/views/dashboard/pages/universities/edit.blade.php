@@ -25,13 +25,13 @@
                         class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                 </div>
                 <div class="flex flex-col gap-2">
-                    <label for="city_id" class="text-gray-500">Ciudad</label>
-                    <select required name="city_id" id="city_id"
+                    <label for="country_id" class="text-gray-500">Ciudad</label>
+                    <select required name="country_id" id="country_id"
                         class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
-                        @foreach ($cities as $city)
-                            <option value="{{ $city->id }}"
-                                {{ $university->city_id == $city->id ? 'selected' : '' }}>
-                                {{ $city->name }}
+                        @foreach ($countries as $country)
+                            <option value="{{ $country->id }}"
+                                {{ $university->country_id == $country->id ? 'selected' : '' }}>
+                                {{ $country->name }}
                             </option>
                         @endforeach
                     </select>

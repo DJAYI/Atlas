@@ -39,7 +39,7 @@ class UniversityController extends Controller
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:50|unique:universities,code',
             'description' => 'nullable|string',
-            'city_id' => 'required|exists:cities,id',
+            'country_id' => 'required|exists:cities,id',
         ]);
 
         // Create a new university instance with validated data except the city relation
@@ -49,8 +49,8 @@ class UniversityController extends Controller
         $university->description = $validatedData['description'];
 
         // Associate the university with a city
-        $city = \App\Models\City::find($validatedData['city_id']);
-        $university->city()->associate($city);
+        $country = \App\Models\Country::find($validatedData['country_id']);
+        $university->country()->associate($country);
 
         $university->save();
 
@@ -73,9 +73,9 @@ class UniversityController extends Controller
     {
         // Find the university by ID
         $university = University::findOrFail($id);
-        $cities = \App\Models\City::all();
+        $countries = \App\Models\Country::all();
 
-        return view('dashboard.pages.universities.edit', compact(['university', 'cities']));
+        return view('dashboard.pages.universities.edit', compact(['university', 'countries']));
     }
 
     /**
@@ -90,7 +90,7 @@ class UniversityController extends Controller
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:50|unique:universities,code,' . $university->id,
             'description' => 'nullable|string',
-            'city_id' => 'required|exists:cities,id',
+            'country_id' => 'required|exists:cities,id',
         ]);
 
         // Update the university with validated data
@@ -99,8 +99,8 @@ class UniversityController extends Controller
         $university->description = $validatedData['description'];
 
         // Associate the university with a city
-        $city = \App\Models\City::find($validatedData['city_id']);
-        $university->city()->associate($city);
+        $country = \App\Models\Country::find($validatedData['country_id']);
+        $university->country()->associate($country);
 
         $university->save();
 

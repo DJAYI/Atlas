@@ -1,5 +1,3 @@
-@props(['cities' => []])
-
 {{-- Create event Modal --}}
 <div class="flex-col max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
     id="create-agreement" popover>
@@ -14,12 +12,12 @@
             <div class="grid grid-cols-2 gap-4">
                 <div class="flex flex-col gap-2">
                     <label for="year" class="text-gray-500">Año</label>
-                    <input required type="text" name="year" id="year"
+                    <input required maxlength="4" type="text" name="year" id="year"
                         class="py-2 px-4 w-[400px] bg-white border border-green-300 rounded-lg shadow-sm  transition">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="semester" class="text-gray-500">Periodo</label>
-                    <input required type="text" name="semester" id="semester"
+                    <input required maxlength="1" type="text" name="semester" id="semester"
                         class="py-2 px-4 w-[400px] bg-white border border-green-300 rounded-lg shadow-sm  transition">
                 </div>
 
@@ -31,7 +29,7 @@
                 <div class="grid grid-cols-3 gap-4">
                     <div class="flex flex-col gap-2">
                         <label for="code" class="text-gray-500">Código</label>
-                        <input required type="text" name="code" id="code"
+                        <input required maxlength="6" type="text" name="code" id="code"
                             class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                     </div>
                     <div class="flex flex-col gap-2">
@@ -62,12 +60,12 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="flex flex-col gap-2">
                         <label for="start_date" class="text-gray-500">Fecha de Inicio</label>
-                        <input required type="date" name="start_date" id="start_date"
+                        <input required type="date" min="{{ date('Y-m-d') }}" name="start_date" id="start_date"
                             class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="end_date" class="text-gray-500">Fecha de Fin</label>
-                        <input required type="date" name="end_date" id="end_date"
+                        <input required type="date" min="{{ date('Y-m-d') }}" name="end_date" id="end_date"
                             class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                     </div>
                 </div>
@@ -76,7 +74,7 @@
                 <div class="flex flex-row items-center justify-end gap-2">
                     <button type="submit"
                         class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
-                        Crear Evento
+                        Crear Convenio
                     </button>
                     <button type="button" popovertarget="create-agreement"
                         class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95">
@@ -86,3 +84,4 @@
             </div>
     </form>
 </div>
+@vite(['resources/js/modules/utils/dateValidation.js'])

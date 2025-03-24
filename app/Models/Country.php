@@ -13,8 +13,8 @@ class Country extends Model
         return $this->hasMany(State::class);
     }
 
-    public function financialEntities()
+    public function universities()
     {
-        return $this->hasMany(FinancialEntity::class);
+        return $this->hasMany(University::class);
     }
 }

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('agreements', function (Blueprint $table) {
             $table->id();
             $table->year('year');
-            $table->string('semester', 2);
-            $table->string('code', 4)->unique();
+            $table->string('semester', 1);
+            $table->string('code', 6)->unique();
             $table->enum('type', ['marco', 'especifico']);
             $table->enum('activity', [
                 'formacion',

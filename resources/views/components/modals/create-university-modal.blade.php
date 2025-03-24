@@ -1,4 +1,4 @@
-@props(['cities' => []])
+@props(['countries' => []])
 
 {{-- Create event Modal --}}
 <div class="flex-col max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
@@ -19,15 +19,15 @@
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="code" class="text-gray-500">Código</label>
-                    <input required type="text" name="code" id="code"
+                    <input required type="text" name="code" maxlength="5" id="code"
                         class="py-2 px-4 w-[400px] bg-white border border-green-300 rounded-lg shadow-sm  transition">
                 </div>
                 <div class="flex flex-col gap-2">
-                    <label for="city_id" class="text-gray-500">Ciudad</label>
-                    <select required name="city_id" id="city_id"
+                    <label for="country_id" class="text-gray-500">País</label>
+                    <select required name="country_id" id="country_id"
                         class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
-                        @foreach ($cities as $city)
-                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                        @foreach ($countries as $country)
+                            <option value="{{ $country->id }}">{{ $country->name }}</option>
                         @endforeach
                     </select>
                 </div>

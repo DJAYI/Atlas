@@ -12,9 +12,4 @@ class City extends Model
     {
         return $this->belongsTo(State::class);
     }
-
-    public function universities()
-    {
-        return $this->hasMany(University::class);
-    }
 }

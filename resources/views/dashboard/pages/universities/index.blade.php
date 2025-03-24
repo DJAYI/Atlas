@@ -29,7 +29,7 @@
     <table class="w-full text-sm text-left text-gray-500 rtl:text-right">
         <thead class="text-gray-700 uppercase">
             <tr>
-                <th scope="col" class="px-6 py-3">Ciudad</th>
+                <th scope="col" class="px-6 py-3">Pais</th>
                 <th scope="col" class="px-6 py-3">Nombre</th>
                 <th scope="col" class="px-6 py-3">Código</th>
                 <th scope="col" class="px-6 py-3">Descripción</th>
@@ -41,7 +41,7 @@
             @foreach ($universitiesPaginated as $university)
                 <tr>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {{ $university->city->name }}
+                        {{ $university->country->name }}
                     </td>
 
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
@@ -83,6 +83,6 @@
     {{ $universitiesPaginated->links() }}
 </x-layouts.dashboard-layout>
 
-<x-modals.create-university-modal cities={{ $cities }} />
+<x-modals.create-university-modal countries={{ $countries }} />
 
 @vite(['resources/js/modules/utils/filterSearch.js'])

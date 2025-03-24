@@ -44,37 +44,15 @@ class DatabaseSeeder extends Seeder
         State::create([
             'id' => 1,
             'country_id' => 1,
-            'name' => 'CIUDAD DE MEXICO',
-            'code' => 'CDMX',
+            'name' => 'SONORA',
+            'code' => 'SON',
         ]);
 
         City::create([
             'id' => 1,
             'state_id' => 1,
-            'name' => 'CIUDAD DE MEXICO',
-            'code' => 'CDMX',
-        ]);
-
-        University::create([
-            'id' => 1,
-            'city_id' => 1,
-            'name' => 'UNIVERSIDAD AUTONOMA DE MEXICO',
-            'code' => 'UAM',
-            'description' => 'Universidad Autonoma de Mexico',
-        ]);
-
-        University::create([
-            'id' => 2,
-            'city_id' => 1,
-            'name' => 'Universidad de Sonora',
-            'code' => 'US',
-            'description' => '',
-        ]);
-
-        Activity::create([
-            'id' => 1,
-            'name' => 'Congreso',
-            'description' => 'Congreso',
+            'name' => 'HERMOSILLO',
+            'code' => 'HMO',
         ]);
     }
 }
