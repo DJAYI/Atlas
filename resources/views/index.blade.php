@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="grid w-full h-screen grid-cols-1 gap-5 mx-auto md:grid-cols-[1fr_4px_1fr] max-w-7xl place-items-center">
         <div class="flex flex-col justify-center gap-4">
-            <h1 class="text-3xl font-black text-center drop-shadow-md ">¿Eres un Asistente a un Evento?</h1>
+            <h1 class="text-3xl font-black text-center drop-shadow-md ">¿Vas a registrar tu asistencia?</h1>
 
             <img src="https://cdni.iconscout.com/illustration/premium/thumb/international-expansion-illustration-download-in-svg-png-gif-file-formats--world-logo-market-growth-global-strategy-franchising-pack-business-illustrations-9823188.png?f=webp"
                 class="object-cover w-full aspect-square" alt="">
@@ -21,9 +21,7 @@
                 @csrf
                 @method('POST')
 
-                <h3 class="text-2xl">¿Ya tienes cuenta? <span
-                        class="font-semibold text-green-700 underline drop-shadow-[0_0px_10px_rgba(70,160,60,.8)]">
-                        Inicia sesión aquí</span> </h3>
+                <h3 class="text-2xl text-pretty max-w-[450px]">¿Vas a gestionar tu internacionalización?</h3>
 
                 <div class="flex flex-col gap-4">
 

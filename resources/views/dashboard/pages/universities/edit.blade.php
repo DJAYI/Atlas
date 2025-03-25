@@ -25,7 +25,7 @@
                         class="w-full px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                 </div>
                 <div class="flex flex-col gap-2">
-                    <label for="country_id" class="text-gray-500">Ciudad</label>
+                    <label for="country_id" class="text-gray-500">País</label>
                     <select required name="country_id" id="country_id"
                         class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm">
                         @foreach ($countries as $country)

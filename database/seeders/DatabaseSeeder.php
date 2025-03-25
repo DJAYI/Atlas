@@ -56,10 +56,38 @@ class DatabaseSeeder extends Seeder
             'code' => 'HMO',
         ]);
 
+        Country::create([
+            'id' => 2,
+            'name' => 'COLOMBIA',
+            'iso_code_alpha-3' => '170',
+            'iso_code' => 'COL',
+        ]);
+        State::create([
+            'id' => 2,
+            'country_id' => 2,
+            'name' => 'BOLIVAR',
+            'code' => 'BOL',
+        ]);
+        City::create([
+            'id' => 2,
+            'state_id' => 2,
+            'name' => 'CARTAGENA DE INDIAS',
+            'code' => 'CTG',
+        ]);
+
+
+
         Faculty::create([
             'name' => 'FACULTAD DE CIENCIAS ECONÓMICAS, ADMINISTRATIVAS Y CONTABLES',
             'description' => 'La Fundación Universitaria Tecnológico Comfenalco, ubicada en Cartagena de Indias, Bolívar, Colombia, ofrece programas académicos en áreas como economía, administración y contabilidad.',
             'code' => 'FCEAC',
+        ]);
+
+        University::create([
+            'name' => 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO',
+            'description' => 'La Fundación Universitaria Tecnológico Comfenalco, ubicada en Cartagena de Indias, Bolívar, Colombia, ofrece programas académicos en diversas áreas del conocimiento.',
+            'code' => 'FUTC',
+            'country_id' => 2,
         ]);
 
         Faculty::create([

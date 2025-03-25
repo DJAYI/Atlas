@@ -25,9 +25,6 @@ return new class extends Migration
             $table->string('institutional_email')->unique();
             $table->string('phone')->nullable();
 
-            $table->foreignId('country_id')->constrained('countries');
-            $table->foreignId('state_id')->constrained('states');
-            $table->foreignId('city_id')->constrained('cities');
             $table->string('address')->nullable();
 
             $table->foreignId('university_id')->constrained('universities');

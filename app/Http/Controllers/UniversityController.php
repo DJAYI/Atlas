@@ -39,7 +39,7 @@ class UniversityController extends Controller
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:50|unique:universities,code',
             'description' => 'nullable|string',
-            'country_id' => 'required|exists:cities,id',
+            'country_id' => 'required|exists:countries,id',
         ]);
 
         // Create a new university instance with validated data except the city relation
@@ -90,7 +90,7 @@ class UniversityController extends Controller
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:50|unique:universities,code,' . $university->id,
             'description' => 'nullable|string',
-            'country_id' => 'required|exists:cities,id',
+            'country_id' => 'required|exists:countries,id',
         ]);
 
         // Update the university with validated data
