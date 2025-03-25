@@ -1,7 +1,8 @@
 @props(['title' => 'Sistema de Internacionalización de Eventos'])
 
 <x-app-layout>
-    <header class="flex flex-col items-center justify-between w-full gap-5 px-4 py-3 bg-white/90 sm:flex-row">
+    <header style="view-transition-name: dashboard-header"
+        class="flex flex-col items-center justify-between w-full gap-5 px-4 py-3 bg-white/90 sm:flex-row">
         <div class="flex items-center justify-between gap-6">
             <h1 class="text-3xl font-black text-green-700">Hermes</h1>
             <button

@@ -1,3 +1,4 @@
 <x-app-layout>
-    <!-- Simplicity is an acquired taste. - Katharine Gerould -->
+    <x-utils.language-selector route="assistance" />
+
 </x-app-layout>

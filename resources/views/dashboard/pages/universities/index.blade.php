@@ -59,7 +59,7 @@
                     <td class="px-6 py-4">
                         <a href="{{ route('universities.edit', $university->id) }}"
                             class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
-                            popovertarget="edit-university" popoverdata="{{ $university->id }}">Editar</a>
+                            popovertarget="edit-university" popoverdata="{{ $university->id }}">Ver más</a>
                         <form action="{{ route('universities.destroy', $university->id) }}" method="POST"
                             class="inline">
                             @csrf

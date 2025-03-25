@@ -65,7 +65,7 @@
                     <td class="px-6 py-4">
                         <a href="{{ route('agreements.edit', $agreement->id) }}"
                             class="inline-block inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
-                            popovertarget="edit-university" popoverdata="{{ $agreement->id }}">Editar</a>
+                            popovertarget="edit-university" popoverdata="{{ $agreement->id }}">Ver más</a>
                         <form action="{{ route('agreements.destroy', $agreement->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')

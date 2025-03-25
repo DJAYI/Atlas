@@ -6,15 +6,24 @@ use App\Http\Controllers\CareerController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UniversityController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
+Route::redirect('/', '/es', 301);
+
+
+Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'es|en']], function () {
+    Route::get('/', function (string $locale) {
+        App::setLocale($locale);
+        return view('index', ['locale' => $locale]);
+    })->name('home');
+
+    Route::get('/assistance', function (string $locale) {
+        App::setLocale($locale);
+        return view('assistance', ['locale' => $locale]);
+    })->name('assistance');
 });
 
-Route::get('/assistance', function () {
-    return view('assistance');
-})->name('assistance');
 
 // Rutes for the dashboard
 Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
@@ -28,6 +37,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::post('/', [EventController::class, 'store'])->name('events.store');
         Route::put('/{id}', [EventController::class, 'update'])->name('events.update');
         Route::delete('/{id}', [EventController::class, 'destroy'])->name('events.destroy');
+        Route::post('/events/{id}/certificates', [EventController::class, 'sendAllCertificates'])->name('events.sendAllCertificates');
+        Route::post('/events/{id}/certificates/{id}', [EventController::class, 'sendCertificate'])->name('events.sendCertificate');
     });
 
     Route::prefix('universities')->group(function () {

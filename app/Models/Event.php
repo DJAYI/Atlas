@@ -51,4 +51,9 @@ class Event extends Model
     {
         return $this->belongsToMany(University::class, 'event_university', 'event_id', 'university_id');
     }
+
+    public function assistances()
+    {
+        return $this->hasMany(Assistance::class);
+    }
 }

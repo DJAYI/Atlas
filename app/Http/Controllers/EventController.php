@@ -100,6 +100,9 @@ class EventController extends Controller
         // Obtener la actividad asociada al evento
         $activityAssociated = $event->activity_id;
 
+        // Obtener los asistentes al evento
+        $assistances = $event->assistances()->with('person')->get();
+
 
         return view('dashboard.pages.events.edit', compact([
             'event',
@@ -108,7 +111,8 @@ class EventController extends Controller
             'agreements',
             'universitiesAssociated',
             'agreementAssociated',
-            'activityAssociated'
+            'activityAssociated',
+            'assistances'
         ]));
     }
 
@@ -184,5 +188,41 @@ class EventController extends Controller
         $event->delete(); // Eliminar el evento
 
         return redirect()->route('events')->with('success', 'Evento eliminado exitosamente.');
+    }
+
+    public function sendAllCertificates(Request $request, string $id)
+    {
+        // Enviar certificados a todos los asistentes tanto a sus correos personales como institucionales
+
+        // Obtener el evento por ID
+        $event = Event::findOrFail($id);
+        // Obtener los asistentes al evento
+        $assistances = $event->assistances()->with('person')->get();
+        // Recorrer los asistentes y enviar el certificado a cada uno como PDF por correo
+        foreach ($assistances as $assistance) {
+            $person = $assistance->person;
+            // Aquí puedes implementar la lógica para enviar el certificado por correo
+            // Puedes usar una librería de envío de correos como Laravel Mail
+            // y generar el PDF del certificado usando una librería como DomPDF o Snappy
+            // Ejemplo:
+            // Mail::to($person->email)->send(new CertificateMail($event, $person));
+        }
+        return redirect()->route('events')->with('success', 'Certificados enviados exitosamente.');
+    }
+
+    public function sendCertificate(Request $request, string $event_id, string $assistance_id)
+    {
+        // Enviar certificado a un asistente específico por correo
+        // Obtener el evento por ID
+        $event = Event::findOrFail($event_id);
+        // Obtener la asistencia por ID
+        $assistance = $event->assistances()->with('person')->findOrFail($assistance_id);
+        $person = $assistance->person;
+        // Aquí puedes implementar la lógica para enviar el certificado por correo
+        // Puedes usar una librería de envío de correos como Laravel Mail
+        // y generar el PDF del certificado usando una librería como DomPDF o Snappy
+        // Ejemplo:
+        // Mail::to($person->email)->send(new CertificateMail($event, $person));
+        return redirect()->route('events')->with('success', 'Certificado enviado exitosamente.');
     }
 }

@@ -155,6 +155,88 @@
             </div>
         </div>
     </form>
+    <hr class="my-8 border-gray-300">
+    <div class="flex flex-row justify-between mt-8">
+        <div class="flex flex-row items-center gap-5">
+            <h3 class="text-lg font-semibold">Todos los asistentes
+
+                <span class="px-2 py-1 text-sm font-semibold text-white bg-green-500 rounded-full">
+                    {{ $assistances->count() }}
+                </span>
+            </h3>
+
+            {{-- Button for send Certificates to all --}}
+            <form action="{{ route('events.sendAllCertificates', $event->id) }}" method="POST" class="inline">
+                @csrf
+
+                <button type="submit"
+                    class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
+                    Enviar Certificados a Todos
+                </button>
+            </form>
+        </div>
+
+        <div class="relative sm:w-1/2">
+
+            <input required type="text" placeholder="Buscar evento" id="filter-search"
+                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border border-green-300 rounded-lg shadow-sm">
+            <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+        </div>
+    </div>
+    <br>
+    <table class="w-full text-sm text-left text-gray-500 rtl:text-right ">
+        <thead class="text-gray-700 uppercase ">
+            <tr>
+                <th scope="col" class="px-6 py-3">Nombre Completo</th>
+                <th scope="col" class="px-6 py-3">Típo de Documento</th>
+                <th scope="col" class="px-6 py-3">Num. de Documento</th>
+                <th scope="col" class="px-6 py-3">Email</th>
+                <th scope="col" class="px-6 py-3">Universidad</th>
+                <th scope="col" class="px-6 py-3">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="table-data">
+            @foreach ($assistances as $assistance)
+                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <td colspan="1" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        {{ $assistance->full_name }}
+                    </td>
+                    <td colspan="1" class="px-6 py-4">
+                        {{ $assistance->document_type }}
+                    </td>
+                    <td colspan="1" class="px-6 py-4">
+                        {{ $assistance->document_number }}
+                    </td>
+                    <td colspan="1" class="px-6 py-4">
+                        {{ $assistance->email }}
+                    </td>
+                    <td colspan="1" class="px-6 py-4">
+                        {{ $assistance->university->name }}
+                    </td>
+
+                    <td colspan="1" class="px-6 py-4">
+                        {{-- Send certificate individual --}}
+                        <form
+                            action="{{ route('events.sendCertificate', [
+                                'event' => $event->id,
+                                'assistance' => $assistance->id,
+                            ]) }}"
+                            method="POST" class="inline">
+                            @csrf
+                            <button type="submit"
+                                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
+                                Enviar Certificado
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 </x-layouts.dashboard-layout>
 
 @vite(['resources/js/modules/utils/conditionalSelect.js'])
