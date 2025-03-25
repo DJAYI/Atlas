@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\CareerController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UniversityController;
@@ -37,8 +38,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::post('/', [EventController::class, 'store'])->name('events.store');
         Route::put('/{id}', [EventController::class, 'update'])->name('events.update');
         Route::delete('/{id}', [EventController::class, 'destroy'])->name('events.destroy');
-        Route::post('/events/{id}/certificates', [EventController::class, 'sendAllCertificates'])->name('events.sendAllCertificates');
-        Route::post('/events/{id}/certificates/{id}', [EventController::class, 'sendCertificate'])->name('events.sendCertificate');
+        Route::post('/events/{id}/certificates', [CertificateController::class, 'sendAllCertificates'])->name('events.sendAllCertificates');
+        Route::post('/events/{event_id}/certificates/{assistance_id}', [CertificateController::class, 'sendCertificate'])->name('events.sendCertificate');
     });
 
     Route::prefix('universities')->group(function () {

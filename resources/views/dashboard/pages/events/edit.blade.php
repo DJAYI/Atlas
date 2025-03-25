@@ -178,7 +178,7 @@
 
         <div class="relative sm:w-1/2">
 
-            <input required type="text" placeholder="Buscar evento" id="filter-search"
+            <input required type="text" placeholder="Buscar asistente" id="filter-search"
                 class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border border-green-300 rounded-lg shadow-sm">
             <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
@@ -200,30 +200,30 @@
             </tr>
         </thead>
         <tbody id="table-data">
-            @foreach ($assistances as $assistance)
+            @foreach ($assistancesPaginated as $assistance)
                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                     <td colspan="1" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {{ $assistance->full_name }}
+                        {{ $assistance->person->firstname }} {{ $assistance->person->lastname }}
                     </td>
                     <td colspan="1" class="px-6 py-4">
-                        {{ $assistance->document_type }}
+                        {{ $assistance->person->document_type }}
                     </td>
                     <td colspan="1" class="px-6 py-4">
-                        {{ $assistance->document_number }}
+                        {{ $assistance->person->document_number }}
                     </td>
                     <td colspan="1" class="px-6 py-4">
-                        {{ $assistance->email }}
+                        {{ $assistance->person->email }}
                     </td>
                     <td colspan="1" class="px-6 py-4">
-                        {{ $assistance->university->name }}
+                        {{ $assistance->person->university->name }}
                     </td>
 
                     <td colspan="1" class="px-6 py-4">
                         {{-- Send certificate individual --}}
                         <form
                             action="{{ route('events.sendCertificate', [
-                                'event' => $event->id,
-                                'assistance' => $assistance->id,
+                                'event_id' => $event->id,
+                                'assistance_id' => $assistance->id,
                             ]) }}"
                             method="POST" class="inline">
                             @csrf
@@ -237,6 +237,10 @@
             @endforeach
         </tbody>
     </table>
+    <div class="mt-4">
+        {{ $assistancesPaginated->links() }}
+    </div>
+
 </x-layouts.dashboard-layout>
 
 @vite(['resources/js/modules/utils/conditionalSelect.js'])
