@@ -3,7 +3,8 @@
 
     <div class="grid w-full h-screen grid-cols-1 gap-5 mx-auto md:grid-cols-[1fr_4px_1fr] max-w-7xl place-items-center">
         <div class="flex flex-col justify-center gap-4">
-            <h1 class="text-3xl font-black text-center drop-shadow-md ">{{ __('Bienvenido a Hermes') }}</h1>
+            <h1 class="text-3xl font-black text-center drop-shadow-md ">
+                {{ __('¿Éres un Asistente?') }}</h1>
 
             <img src="https://cdni.iconscout.com/illustration/premium/thumb/international-expansion-illustration-download-in-svg-png-gif-file-formats--world-logo-market-growth-global-strategy-franchising-pack-business-illustrations-9823188.png?f=webp"
                 class="object-cover w-full aspect-square" alt="">

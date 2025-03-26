@@ -18,11 +18,11 @@
         <nav id="menu" class="flex flex-col md:flex-row [&>*]:list-none items-center gap-5 rounded-xl p-4">
             <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
-                    href="{{ route('events') }}">Eventos</a>
-            </li>
+                    href="{{ route('dashboard') }}">Reportes</a></li>
             <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
-                    href="">Reportes</a></li>
+                    href="{{ route('events') }}">Eventos</a>
+            </li>
             <li class="transition hover:scale-95"><a
                     class="text-black hover:shadow-[1px_1px_20px_2px_#36c318]  bg-[#bbecd2] font-semibold px-4 py-2 transition ring ring-green-400/20 rounded-xl"
                     href="{{ route('universities') }}">Universidades</a>
