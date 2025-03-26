@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Faculty;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,9 +22,11 @@ class CareerManagementServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $faculty = Faculty::all();
-        View::composer('components.modals.create-career-modal', function ($view) use ($faculty) {
-            $view->with('faculties', $faculty);
-        });
+        if (Schema::hasTable('faculties')) {
+            $faculty = Faculty::all();
+            View::composer('components.modals.create-career-modal', function ($view) use ($faculty) {
+                $view->with('faculties', $faculty);
+            });
+        }
     }
 }

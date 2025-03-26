@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\City;
 use App\Models\Country;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,10 +23,14 @@ class UniversityManagementServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $countries = Country::all();
 
-        View::composer('components.modals.create-university-modal', function ($view) use ($countries) {
-            $view->with(compact('countries'));
-        });
+
+        if (Schema::hasTable('countries')) {
+            $countries = Country::all();
+
+            View::composer('components.modals.create-university-modal', function ($view) use ($countries) {
+                $view->with(compact('countries'));
+            });
+        }
     }
 }

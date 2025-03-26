@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Activity;
 use App\Models\Agreement;
 use App\Models\University;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,13 +24,20 @@ class EventManagementServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $activities = Activity::all();
-        $universities = University::all();
-        $agreements = Agreement::all();
+        if (
+            Schema::hasTable('activities') &&
+            Schema::hasTable('universities') &&
+            Schema::hasTable('agreements')
+        ) {
 
-        // Share data with create event modal component
-        View::composer('components.modals.create-event-modal', function ($view) use ($activities, $universities, $agreements) {
-            $view->with(compact('activities', 'universities', 'agreements'));
-        });
+            $activities = Activity::all();
+            $universities = University::all();
+            $agreements = Agreement::all();
+
+            // Share data with create event modal component
+            View::composer('components.modals.create-event-modal', function ($view) use ($activities, $universities, $agreements) {
+                $view->with(compact('activities', 'universities', 'agreements'));
+            });
+        }
     }
 }
