@@ -29,7 +29,8 @@ return new class extends Migration
 
             $table->foreignId('university_id')->constrained('universities');
 
-            $table->enum('genre', ['M', 'F', 'O'])->nullable();
+            // Masculino, Femenino, Otro, Prefiero No Decirlo
+            $table->enum('genre', ['M', 'F', 'O', 'PND'])->default('PND');
             $table->date('birth_date');
 
             $table->enum('minority', ['afrodescendiente', 'indigena', 'gitano', 'LGTBISQ+', 'discapacitado', 'victima de conflicto armado', 'desplazado'])->nullable();

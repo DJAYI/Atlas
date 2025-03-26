@@ -25,6 +25,9 @@ class Person extends Model
 
     protected $casts = [
         'birth_date' => 'date',
+        'document_type' => 'string',
+        'genre' => 'string',
+        'minority' => 'string',
     ];
 
     public function university()
