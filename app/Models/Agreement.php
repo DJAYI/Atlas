@@ -19,8 +19,6 @@ class Agreement extends Model
     ];
 
     protected $casts = [
-        'type' => AgreementTypeEnum::class,
-        'activity' => AgreementActivityEnum::class,
         'start_date' => 'date',
         'end_date' => 'date',
     ];

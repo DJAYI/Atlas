@@ -39,6 +39,8 @@ class SendCertificateEmailJob implements ShouldQueue
             'to'      => [$this->person->email],
             'subject' => 'Certificate for ' . $this->fullname,
             'html'    => '<p>Dear ' . $this->fullname . ',</p><p>Your certificate is attached.</p>',
+        ], [
+            'verify' => storage_path('cacert.pem') // Ruta del certificado
         ]);
     }
 }
