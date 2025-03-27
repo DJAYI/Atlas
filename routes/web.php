@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/es', 301);
+Route::redirect('/login', '/', 301);
 
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'es|en']], function () {
