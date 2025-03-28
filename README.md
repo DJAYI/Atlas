@@ -2,7 +2,8 @@
 
 <p align="center">
 
-```text/plain
+<h3>Estructura del Proyecto</h3>
+<code type=text/plain>
 Directory structure:
 └── djayi-atlas/
     ├── README.md
@@ -256,8 +257,199 @@ Directory structure:
         │       └── RegistrationTest.php
         └── Unit/
             └── ExampleTest.php
+</code>
+
+> Hermes es un Proyecto para Internacionalización de Eventos
+
+<h2>Fundación Universitaria Tecnológico Comfenalco</h2>
+
+# Proyecto Hermes
+
+<table>
+    <thead>
+        <tr>
+            <th>Tecnología</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <img style="width: 100%;" src="https://laravel.com/img/logomark.min.svg" alt="Laravel">
+            </td>
+            <td>
+                <b>Laravel Framework</b>
+                <p>Laravel es un framework de PHP para el desarrollo de aplicaciones web. Proporciona una sintaxis elegante y herramientas poderosas para facilitar el desarrollo.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src="https://getcomposer.org/img/logo-composer-transparent5.png" alt="Composer">
+            </td>
+            <td>
+                <b>Composer</b>
+                <p>Composer es un gestor de dependencias para PHP. Permite gestionar las bibliotecas y paquetes necesarios para el proyecto.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img style="width: 100%;object-fit: cover;" src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="MySQL">
+            </td>
+            <td>
+                <b>MySQL</b>
+                <p>MySQL es un sistema de gestión de bases de datos relacional. Se utiliza para almacenar y gestionar los datos de la aplicación.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src="https://nodejs.org/static/images/logo.svg" alt="Node.js">
+            </td>
+            <td>
+                <b>Node.js</b>
+                <p>Node.js es un entorno de ejecución para JavaScript en el lado del servidor. Se utiliza para gestionar las dependencias del frontend y ejecutar scripts.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Tailwind_CSS_logo.svg" alt="Tailwind CSS">
+            </td>
+            <td>
+                <b>Tailwind CSS</b>
+                <p>Tailwind CSS es un framework de CSS para crear interfaces de usuario personalizables y responsivas.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <!-- Logo de Resend API -->
+                <img src="https://resend.com/static/brand/resend-wordmark-white.svg">
+            </td>
+            <td>
+                <b>Resend API</b>
+                <p>Resend es una API para enviar correos electrónicos. Se utiliza para enviar notificaciones y correos electrónicos desde la aplicación.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src="https://choices-js.github.io/Choices/assets/images/logo.svg" alt="Choices.js">
+            </td>
+            <td>
+                <b>Choices.js</b>
+                <p>Choices.js es una biblioteca de JavaScript para crear selectores personalizados. Se utiliza para mejorar la experiencia del usuario al seleccionar opciones en formularios.</p>
+            </td>
+    </tbody>
+</table>
+
+## Descripción
+
+Este proyecto es una plataforma de Internacionalización de Eventos, la cual permite a los usuarios de la Fundación Universitaria Tecnológico Comfenalco gestionar eventos internacionales, acuerdos y actividades académicas. La aplicación está construida con Laravel y utiliza una arquitectura moderna para facilitar el desarrollo y mantenimiento.
+La aplicación incluye funcionalidades como:
+
+-   Gestión de Eventos y control de asistencia.
+-   Gestión de Convenios y Actividades Académicas multinstitucionales.
+-   Gestión de Universidades, Facultades y Carreras.
+-   Gestión de reportes y estadísticas.
+-   Autenticación y autorización de usuarios.
+-   Envío de certificados por medio de correo electrónico.
+-   Soporte para múltiples idiomas.
+-   Interfaz de usuario responsiva y moderna.
+
+## Requisitos previos
+
+Antes de comenzar, asegúrate de tener instalados los siguientes requisitos:
+
+-   [PHP](https://www.php.net/downloads) (>=8.1)
+-   [Composer](https://getcomposer.org/download/)
+-   [MySQL](https://www.mysql.com/downloads/) o [PostgreSQL](https://www.postgresql.org/download/)
+-   [Node.js](https://nodejs.org/) y NPM/Yarn (si se usan assets frontend)
+
+## Instalación
+
+Clona el repositorio en tu máquina local:
+
+```bash
+git clone https://github.com/DJAYI/Atlas
+cd Atlas
 ```
 
-## License
+Instala las dependencias del backend con Composer:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+composer install
+```
+
+Configura el archivo de entorno:
+
+```bash
+cp .env.example .env # Es indispensable cambiar la variable de entorno RESEND_API_KEY y la configuración de email si el servidor no es local
+```
+
+Genera la clave de la aplicación:
+
+```bash
+php artisan key:generate
+```
+
+Configura las variables de entorno en `.env`:
+
+```env
+DB_CONNECTION=mysql # o pgsql
+DB_HOST=127.0.0.1
+DB_PORT=3306 # o 5432
+DB_DATABASE=nombre_bd
+DB_USERNAME=usuario
+DB_PASSWORD=contraseña
+
+RESEND_API_KEY= tu_api_key_de_resend
+
+MAIL_MAILER=resend
+MAIL_SCHEME=null
+MAIL_HOST=127.0.0.1
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS="onboarding@resend.dev"
+MAIL_FROM_NAME="Acme"
+```
+
+Ejecuta las migraciones y sembradores:
+
+```bash
+php artisan migrate --seed
+```
+
+Instala las dependencias del frontend (si aplica):
+
+```bash
+npm install && npm run dev
+```
+
+## Uso
+
+Inicia el servidor de desarrollo de Laravel:
+
+```bash
+php artisan serve
+```
+
+El proyecto estará disponible en `http://127.0.0.1:8000`.
+
+## Despliegue
+
+Para desplegar en producción:
+
+1. Configura correctamente el entorno de producción en `.env`
+2. Ejecuta migraciones y optimiza la aplicación:
+    ```bash
+    php artisan migrate --force
+    php artisan config:cache
+    php artisan route:cache
+    php artisan view:cache
+    ```
+
+## Contribución
+
+> Abre un Pull Request
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
