@@ -2,6 +2,7 @@
 
 <p align="center">
 
+''' text/plain
 Directory structure:
 └── djayi-atlas/
     ├── README.md
@@ -255,7 +256,7 @@ Directory structure:
         │       └── RegistrationTest.php
         └── Unit/
             └── ExampleTest.php
-
+'''
 
 ## License
 
