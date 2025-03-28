@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/es', 301);
 
-
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'es|en']], function () {
     Route::get('/', function (string $locale) {
         App::setLocale($locale);
