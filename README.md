@@ -361,6 +361,8 @@ Antes de comenzar, asegúrate de tener instalados los siguientes requisitos:
 -   [Composer](https://getcomposer.org/download/)
 -   [MySQL](https://www.mysql.com/downloads/) o [PostgreSQL](https://www.postgresql.org/download/)
 -   [Node.js](https://nodejs.org/) y NPM/Yarn (si se usan assets frontend)
+-   [Cacert.pem](https://curl.se/docs/caextract.html) (para conexiones seguras y certificados SSL, util para el uso de Resend API)
+-   [Resend API](https://resend.com/) (para el envío de correos electrónicos)
 
 ## Instalación
 
