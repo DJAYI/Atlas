@@ -27,5 +27,41 @@
             </li>
         </nav>
 
+        <form action="" class="flex flex-col items-center" method="GET">
+            @csrf
+            @method('GET')
+
+            <div class="flex flex-row items-center justify-center w-full gap-4 p-6">
+                <div class="flex flex-col w-full gap-4 p-6">
+                    <label for="document_type"
+                        class="text-lg font-semibold text-gray-700">{{ __('Tipo de documento') }}</label>
+                    <select name="document_type" id="document_type" required
+                        class="w-full px-4 py-2 placeholder-gray-500 transition bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-green-300">
+                        <option value="" disabled selected>{{ __('Seleccione un tipo de documento') }}</option>
+                        <option value="DNI">{{ __('DNI') }}</option>
+                        <option value="PP">{{ __('Pasaporte') }}</option>
+                        <option value="CC">{{ __('Cédula de Ciudadanía') }}</option>
+                        <option value="CE">{{ __('Cedula de Extranjería') }}</option>
+                        <option value="TI">{{ __('Tarjeta de Identidad') }}</option>
+                        <option value="CA">{{ __('Carnet de Extranjería') }}</option>
+                        <option value="Otro">{{ __('Otro') }}</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col w-full gap-4 p-6">
+                    <label for="document_number"
+                        class="text-lg font-semibold text-gray-700">{{ __('Número de Documento') }}</label>
+                    <input type="text" name="document_number" id="document_number" required
+                        class="w-full px-4 py-2 placeholder-gray-500 transition bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-green-300"
+                        placeholder="{{ __('document_number') }}">
+                </div>
+            </div>
+            <button type="submit"
+                class="self-end px-4 py-2 mx-12 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
+                {{ __('Buscar Asistente') }}
+            </button>
+
+        </form>
+
     </div>
 </x-app-layout>

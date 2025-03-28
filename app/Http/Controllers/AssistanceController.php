@@ -12,7 +12,7 @@ class AssistanceController extends Controller
      */
     public function index()
     {
-        //
+        return view('assistance');
     }
 
     /**
