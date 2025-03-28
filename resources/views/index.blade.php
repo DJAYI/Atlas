@@ -6,10 +6,10 @@
             <h1 class="text-3xl font-black text-center drop-shadow-md ">
                 {{ __('¿Éres un Asistente?') }}</h1>
 
-            <img src="https://cdni.iconscout.com/illustration/premium/thumb/international-expansion-illustration-download-in-svg-png-gif-file-formats--world-logo-market-growth-global-strategy-franchising-pack-business-illustrations-9823188.png?f=webp"
-                class="object-cover w-full aspect-square" alt="">
+            <img src="{{ asset('images/wait.png') }}"
+                class="object-cover brightness-110 mix-blend-multiply w-3/4 mx-auto aspect-square" alt="">
             <a href="{{ route('assistance', ['locale' => app()->getLocale()]) }}"
-                class="inline-block px-4 py-3 font-semibold text-center text-white transition rounded-lg mx-7 bg-gradient-to-tr from-blue-500 to-blue-700 hover:shadow-[1px_1px_20px] hover:shadow-blue-400/65 hover:bg-blend-darken hover:scale-95 ">{{ __('Registra tu Asistencia') }}</a>
+                class="inline-block w-3/5 mx-auto px-4 py-3 font-semibold text-center text-white transition rounded-lg  bg-gradient-to-tr from-blue-500 to-blue-700 hover:shadow-[1px_1px_20px] hover:shadow-blue-400/65 hover:bg-blend-darken hover:scale-95 ">{{ __('Registra tu Asistencia') }}</a>
         </div>
         <div class="flex-col items-center justify-center hidden gap-4 md:flex">
             <hr class="h-56 border-r-2 border-green-300">

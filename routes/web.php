@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AgreementController;
+use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\EventController;
@@ -20,10 +21,18 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'es|en']], functio
 
     Route::get('/assistance', function (string $locale) {
         App::setLocale($locale);
-        return view('assistance', ['locale' => $locale]);
+
+        // use Assistance Controller index method with lang parameter
+        return (new AssistanceController())->index($locale);
     })->name('assistance');
 });
 
+Route::post('/assistance', [AssistanceController::class, 'store'])->name('assistance.store');
+
+Route::post('/assistance/verify', [AssistanceController::class, 'verifyAssistance'])->name('assistance.verify');
+// If the person does not exist, create it
+// If the person exists, create the assistance
+// If the assistance exists, use the existing one
 
 // Rutes for the dashboard
 Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {

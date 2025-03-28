@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assistance;
+use App\Models\Person;
 use Illuminate\Http\Request;
 
 class AssistanceController extends Controller
@@ -10,7 +11,7 @@ class AssistanceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $locale)
     {
         return view('assistance');
     }
@@ -39,13 +40,6 @@ class AssistanceController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Assistance $assistance)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -56,10 +50,29 @@ class AssistanceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Verify if the assistance exists in API or database
      */
-    public function destroy(Assistance $assistance)
+
+    public function verifyAssistance(Request $request)
     {
-        //
+        $person = Person::whereAny(['document_type', 'document_number'], $request->only(['document_type', 'document_number']))->first();
+
+        if (!$person) {
+            return view('assistance', [
+                'document_type' => $request->document_type,
+                'document_number' => $request->document_number,
+                'error' => __('assistance.not_found'),
+                'locale' => $request->locale,
+                'found' => false,
+            ]);
+        }
+
+        return view('assistance', [
+            'document_type' => $request->document_type,
+            'document_number' => $request->document_number,
+            'locale' => $request->locale,
+            'found' => true,
+            'person' => $person,
+        ]);
     }
 }
