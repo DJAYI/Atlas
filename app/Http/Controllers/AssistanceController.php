@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assistance;
+use App\Models\Event;
 use App\Models\Person;
 use Illuminate\Http\Request;
 
@@ -55,24 +56,34 @@ class AssistanceController extends Controller
 
     public function verifyAssistance(Request $request)
     {
-        $person = Person::whereAny(['document_type', 'document_number'], $request->only(['document_type', 'document_number']))->first();
-
-        if (!$person) {
-            return view('assistance', [
-                'document_type' => $request->document_type,
-                'document_number' => $request->document_number,
-                'error' => __('assistance.not_found'),
-                'locale' => $request->locale,
-                'found' => false,
-            ]);
-        }
-
-        return view('assistance', [
+        // Buscar persona (Asegurar que whereAny existe o usar where con un array)
+        $person = Person::where([
             'document_type' => $request->document_type,
             'document_number' => $request->document_number,
-            'locale' => $request->locale,
-            'found' => true,
-            'person' => $person,
-        ]);
+        ])->first();
+
+        // Buscar evento
+        $event = Event::firstWhere('event_code', $request->event_code);
+
+        if (!$event) {
+            session()->flash('error', __('assistance.event_not_found'));
+            return redirect()->route('assistance', ['locale' => $request->locale]);
+        }
+
+        session()->flash('document_type', $request->document_type);
+        session()->flash('document_number', $request->document_number);
+        session()->flash('event_code', $request->event_code);
+        session()->flash('locale', $request->locale);
+
+        if (!$person) {
+            session()->flash('error', __('assistance.not_found'));
+            session()->flash('found', false);
+            return redirect()->route('assistance', ['locale' => $request->locale]);
+        }
+
+        session()->flash('found', true);
+        session()->flash('person', $person);
+
+        return redirect()->route('assistance', ['locale' => $request->locale]);
     }
 }

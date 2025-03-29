@@ -21,6 +21,9 @@ class Person extends Model
         'genre',
         'birth_date',
         'minority',
+        'country_id',
+        'type',
+        'career_id',
     ];
 
     protected $casts = [
@@ -33,5 +36,15 @@ class Person extends Model
     public function university()
     {
         return $this->belongsTo(University::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function career()
+    {
+        return $this->belongsTo(Career::class);
     }
 }

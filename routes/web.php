@@ -22,14 +22,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'es|en']], functio
     Route::get('/assistance', function (string $locale) {
         App::setLocale($locale);
 
-        // use Assistance Controller index method with lang parameter
         return (new AssistanceController())->index($locale);
     })->name('assistance');
 });
 
-Route::post('/assistance', [AssistanceController::class, 'store'])->name('assistance.store');
-
-Route::post('/assistance/verify', [AssistanceController::class, 'verifyAssistance'])->name('assistance.verify');
+Route::post('/{locale}/assistance', [AssistanceController::class, 'store'])->where('locale', 'es|en')->name('assistance.store');
+Route::post('/{locale}/assistance/verify', [AssistanceController::class, 'verifyAssistance'])->where('locale', 'es|en')->name('assistance.verify');
 // If the person does not exist, create it
 // If the person exists, create the assistance
 // If the assistance exists, use the existing one

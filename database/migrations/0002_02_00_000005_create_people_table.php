@@ -34,6 +34,16 @@ return new class extends Migration
             $table->date('birth_date');
 
             $table->enum('minority', ['afrodescendiente', 'indigena', 'gitano', 'LGTBISQ+', 'discapacitado', 'victima de conflicto armado', 'desplazado'])->nullable();
+
+            // Pais
+
+            $table->foreignId('country_id')->constrained('countries');
+
+            $table->enum('type', ['estudiante', 'profesor', 'investigador', 'administrativo', 'egresado', 'otro'])->default('estudiante');
+
+            $table->foreignId('career_id')->nullable()->constrained('careers');
+
+            $table->foreignId('university_id')->nullable()->constrained('universities');
             $table->timestamps();
         });
     }

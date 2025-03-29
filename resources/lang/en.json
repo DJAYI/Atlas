@@ -16,7 +16,6 @@
     "Cedula de Extranjería": "Foreigner ID",
     "Tarjeta de Identidad": "Identity Card",
     "Certificado Cabildo": "Cabildo Certificate",
-    "Otro": "Other",
     "Número de Documento": "Document Number",
     "Ingrese su Número de Documento": "Enter your Document Number",
     "Buscar Coincidencias": "Search Matches",
@@ -44,5 +43,9 @@
     "Discapacitado": "Disabled",
     "Víctima de Conflicto Armado": "Victim of Armed Conflict",
     "Desplazado": "Displaced",
-    "Código del Evento": "Event Code"
+    "Código del Evento": "Event Code",
+    "Información Personal": "Personal Information",
+    "Contacto": "Contact Information",
+    "Información Académica": "Academic Information",
+    "Información Adicional": "Additional Information"
 }
