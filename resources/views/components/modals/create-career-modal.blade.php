@@ -2,7 +2,7 @@
 
 {{-- Create event Modal --}}
 
-<div class="flex-col max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
+<div class="max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
     id="create-career" popover>
     <h3 class="text-4xl font-semibold">Nuevo Programa</h3>
     <br>
@@ -33,7 +33,7 @@
 
                 <div class="flex flex-col gap-2">
                     <label for="description" class="text-gray-500">Descripción</label>
-                    <textarea required name="description" id="description" rows="3"
+                    <textarea name="description" id="description" rows="3"
                         class="py-2 resize-none px-4 w-[400px] bg-white border border-primary-300 rounded-lg shadow-sm  transition"></textarea>
                 </div>
 

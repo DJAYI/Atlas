@@ -51,7 +51,7 @@
         <div class="relative sm:w-1/2">
 
             <input required type="text" placeholder="Buscar evento" id="filter-search"
-                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border rounded-lg shadow-sm border-primary-300">
             <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -72,7 +72,7 @@
                 <th scope="col" class="px-6 py-3">Acciones</th>
             </tr>
         </thead>
-        <tbody id="table-data">
+        <tbody id="table-data" class="[&>tr]:hover:bg-gray-50 [&>tr]:transition">
             @foreach ($eventsPaginated as $event)
                 <tr>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
@@ -98,7 +98,7 @@
                                 class="inline-flex items-center px-2 py-1 text-sm font-semibold text-red-800 bg-red-100 rounded-full">Inactivo</span>
                         @else
                             <span
-                                class="inline-flex items-center px-2 py-1 text-sm font-semibold text-primary-800 bg-primary-100 rounded-full">Activo</span>
+                                class="inline-flex items-center px-2 py-1 text-sm font-semibold rounded-full text-primary-800 bg-primary-100">Activo</span>
                         @endif
                     </td>
                     <td class="px-6 py-4">

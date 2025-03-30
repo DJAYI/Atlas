@@ -27,7 +27,6 @@ return new class extends Migration
 
             $table->string('address')->nullable();
 
-            $table->foreignId('university_id')->constrained('universities');
 
             // Masculino, Femenino, Otro, Prefiero No Decirlo
             $table->enum('genre', ['M', 'F', 'O', 'PND'])->default('PND');

@@ -1,5 +1,5 @@
 {{-- Create event Modal --}}
-<div class="flex-col max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
+<div class="max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
     id="create-agreement" popover>
     <h3 class="text-4xl font-semibold">Nuevo Convenio</h3>
     <br>
@@ -30,12 +30,12 @@
                     <div class="flex flex-col gap-2">
                         <label for="code" class="text-gray-500">Código</label>
                         <input required maxlength="6" type="text" name="code" id="code"
-                            class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                            class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="type" class="text-gray-500">Tipo de Convenio</label>
                         <select required name="type" id="type"
-                            class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                            class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                             <option selected disabled value="">Seleccione un tipo</option>
                             <option value="marco">Marco</option>
                             <option value="especifico">Específico</option>
@@ -44,7 +44,7 @@
                     <div class="flex flex-col gap-2">
                         <label for="activity" class="text-gray-500">Tipo de Actividad</label>
                         <select required name="activity" id="activity"
-                            class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                            class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                             <option selected disabled value="">Seleccione una actividad</option>
                             <option value="formacion">Formacion</option>
                             <option value="investigacion">Investigación</option>
@@ -61,12 +61,12 @@
                     <div class="flex flex-col gap-2">
                         <label for="start_date" class="text-gray-500">Fecha de Inicio</label>
                         <input required type="date" min="{{ date('Y-m-d') }}" name="start_date" id="start_date"
-                            class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                            class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="end_date" class="text-gray-500">Fecha de Fin</label>
                         <input required type="date" min="{{ date('Y-m-d') }}" name="end_date" id="end_date"
-                            class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                            class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                     </div>
                 </div>
             </div>

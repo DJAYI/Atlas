@@ -32,7 +32,7 @@ class ActivityController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
+            'description' => 'nullable|string|max:1000',
         ]);
 
         Activity::create($request->all());

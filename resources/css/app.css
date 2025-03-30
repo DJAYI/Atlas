@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@starting-style {
+    [popover] {
+        opacity: 0;
+        scale: 0.8;
+    }
+}
+
 @view-transition {
     navigation: auto;
 }

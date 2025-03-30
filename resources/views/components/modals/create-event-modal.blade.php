@@ -2,7 +2,7 @@
 
 
 {{-- Create event Modal --}}
-<div class="flex-col max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
+<div class="max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
     id="create-event" popover>
     <h3 class="text-4xl font-semibold">Nuevo Evento</h3>
     <br>
@@ -57,7 +57,7 @@
                 <div class="flex flex-col gap-2">
                     <label for="modality" class="text-gray-500">Modalidad del Evento</label>
                     <select required name="modality" id="modality"
-                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                         <option selected disabled value="">Seleccione una modalidad</option>
                         <option value="presencial">Presencial</option>
                         <option value="virtual">Virtual</option>
@@ -68,7 +68,7 @@
                     <label for="internationalization_at_home" class="text-gray-500 ">Internacionalización en
                         Casa</label>
                     <select name="internationalization_at_home" id="internationalization_at_home"
-                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm ">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300 ">
                         <option selected disabled>Seleccione una opción</option>
                         <option value="si">Si</option>
                         <option value="no">No</option>
@@ -78,7 +78,7 @@
                 <div class="flex flex-col gap-2">
                     <label for="location" class="text-gray-500">Localización del Evento</label>
                     <select required name="location" id="location"
-                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                         <option selected disabled value="">Seleccione una localización</option>
                         <option value="nacional">Nacional</option>
                         <option value="internacional">Internacional</option>
@@ -104,7 +104,7 @@
                 <div class="flex flex-col gap-2">
                     <label for="agreement" class="text-gray-500">¿Tiene Convenio?</label>
                     <select name="has_agreement" required id="has_agreement"
-                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                         <option selected disabled value="">Seleccione una opción</option>
                         <option value="si">Si</option>
                         <option value="no">No</option>
@@ -114,7 +114,7 @@
                 <div class="flex-col hidden gap-2">
                     <label for="agreement_id" class="text-gray-500">Convenio</label>
                     <select name="agreement_id" id="agreement_id"
-                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                         <option selected disabled value="">Seleccione un convenio</option>
                         @foreach ($agreements as $agreement)
                             <option value="{{ $agreement->id }}">{{ $agreement->code }}</option>
@@ -125,7 +125,7 @@
                 <div class="flex flex-col gap-2">
                     <label for="activity_id" class="text-gray-500">Actividad</label>
                     <select name="activity_id" id="activity_id"
-                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                         <option selected disabled value="">Seleccione una Actividad</option>
                         @foreach ($activities as $activity)
                             <option value="{{ $activity->id }}">{{ $activity->name }}</option>

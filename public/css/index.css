@@ -1,0 +1,17 @@
+/* Estilos iniciales para todos los popovers */
+@starting-style {
+    [popover] {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Estilos para todos los popovers cuando están abiertos */
+[popover] {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+[popover]:popover-open {
+    opacity: 1;
+    transform: translateY(0);
+}

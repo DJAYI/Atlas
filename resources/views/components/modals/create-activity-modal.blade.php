@@ -1,4 +1,4 @@
-<div class="flex-col max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
+<div class="max-h-screen gap-4 px-5 py-8 transition bg-white shadow-lg backdrop:backdrop-blur-sm backdrop:backdrop-brightness-75 rounded-xl"
     id="create-activity" popover>
     <h3 class="text-4xl font-semibold">Nueva Actividad</h3>
     <br>
@@ -13,13 +13,13 @@
                 <div class="flex flex-col gap-2">
                     <label for="name" class="text-gray-500">Nombre</label>
                     <input required type="text" name="name" id="name"
-                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm ">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300 ">
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label for="description" class="text-gray-500">Descripción</label>
-                    <textarea required name="description" id="description" rows="3"
-                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm resize-none"></textarea>
+                    <textarea name="description" id="description" rows="3"
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm resize-none border-primary-300"></textarea>
                 </div>
             </div>
         </div>

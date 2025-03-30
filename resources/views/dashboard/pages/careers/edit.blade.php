@@ -34,7 +34,7 @@
 
                 <div class="flex flex-col gap-2">
                     <label for="description" class="text-gray-500">Descripción</label>
-                    <textarea required name="description" id="description" rows="3"
+                    <textarea name="description" id="description" rows="3"
                         class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm resize-none">{{ $career->description }}</textarea>
                 </div>
             </div>

@@ -51,12 +51,19 @@
         </form>
     </header>
 
-    <main class="w-full min-h-screen px-6 py-4 mx-4 bg-white rounded-md max-w-7xl sm:mx-auto">
-        {{-- <div class="my-4">
-            <h2 class="text-2xl font-semibold text-primary-700">
-                {{ $title }}
-            </h2>
-        </div> --}}
-        {{ $slot }}
+    <main
+        class="flex flex-col justify-between w-full min-h-screen px-6 py-4 mx-4 bg-white rounded-md max-w-7xl sm:mx-auto">
+
+        <div>
+            {{ $slot }}
+        </div>
+
+        <footer class="flex flex-col items-center justify-center w-full px-6 py-4 bg-white ">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtxW4Gq4oqpJmqr-vrf2VR-Kjo_lTh7vFtDA&s"
+                class="h-16" alt="">
+            <p class="text-gray-500">2025 &copy; Copyright - Fundación Universitaria Tecnológico Comfenalco</p>
+        </footer>
+
     </main>
+
 </x-app-layout>

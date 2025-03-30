@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('careers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->foreignId('faculty_id')->constrained('faculties')->cascadeOnDelete();
             $table->timestamps();
         });
