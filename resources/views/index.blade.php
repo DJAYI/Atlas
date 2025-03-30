@@ -14,9 +14,9 @@
                 class="block sm:inline-block mx-5 sm:w-3/5 sm:mx-auto px-4 py-3 font-semibold text-center text-white transition rounded-lg  bg-gradient-to-tr from-blue-500 to-blue-700 hover:shadow-[1px_1px_20px] hover:shadow-blue-400/65 hover:bg-blend-darken hover:bg-primary-500 ">{{ __('Registra tu Asistencia') }}</a>
         </div>
         <div class="flex-col items-center justify-center hidden gap-4 md:flex">
-            <hr class="h-56 w-[2px] bg-gradient-to-t from-primary-300 to-transparent">
+            <hr class="h-56 w-[3px] bg-gradient-to-t from-primary-300 to-transparent">
             {{ __('O') }}
-            <hr class="h-56 w-[2px] bg-gradient-to-b from-primary-300 to-transparent">
+            <hr class="h-56 w-[3px] bg-gradient-to-b from-secondary-300 to-transparent">
         </div>
         <div class="flex-col justify-center hidden gap-4 sm:flex">
             <h1 class="text-5xl font-black text-center drop-shadow-md ">{{ __('Bienvenido a') }} <span
