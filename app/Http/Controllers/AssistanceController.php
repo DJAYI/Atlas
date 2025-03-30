@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assistance;
+use App\Models\Career;
+use App\Models\Country;
 use App\Models\Event;
 use App\Models\Person;
 use App\Models\University;
@@ -16,7 +18,9 @@ class AssistanceController extends Controller
     public function index(string $locale)
     {
         $universities = University::all();
-        return view('assistance', compact('universities'));
+        $countries = Country::all();
+        $careers = Career::all();
+        return view('assistance', compact(['universities', 'countries', 'careers']));
     }
 
     /**
@@ -76,6 +80,8 @@ class AssistanceController extends Controller
         session()->flash('document_number', $request->document_number);
         session()->flash('event_code', $request->event_code);
         session()->flash('locale', $request->locale);
+        session()->flash('success', 'event_found');
+        session()->flash('event', $event);
 
         if (!$person) {
             session()->flash('error', __('assistance.not_found'));

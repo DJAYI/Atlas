@@ -16,7 +16,6 @@ class Person extends Model
         'email',
         'institutional_email',
         'phone',
-        'address',
         'university_id',
         'genre',
         'birth_date',

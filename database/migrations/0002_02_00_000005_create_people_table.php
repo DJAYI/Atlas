@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('institutional_email')->unique();
             $table->string('phone')->nullable();
 
-            $table->string('address')->nullable();
 
 
             // Masculino, Femenino, Otro, Prefiero No Decirlo
