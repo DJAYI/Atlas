@@ -5,7 +5,7 @@
         @foreach (config('app.available_locales') as $locale)
             <li>
                 <a href="{{ route($route, ['locale' => $locale]) }}"
-                    class="px-4 py-2 transition duration-300 ease-in-out rounded-md hover:bg-green-500 hover:text-white {{ app()->getLocale() === $locale ? 'bg-green-500 text-white' : '' }}">
+                    class="px-4 py-2 transition duration-300 ease-in-out rounded-md hover:bg-primary-500 hover:text-white {{ app()->getLocale() === $locale ? 'bg-primary-500 text-white' : '' }}">
                     {{ strtoupper($locale) }}
                 </a>
             </li>

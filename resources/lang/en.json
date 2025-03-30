@@ -13,7 +13,7 @@
     "DNI": "DNI",
     "Pasaporte": "Passport",
     "Cédula de Ciudadanía": "Citizenship ID",
-    "Cedula de Extranjería": "Foreigner ID",
+    "Cedula de Extranjería": "Foreigner's Identity Card",
     "Tarjeta de Identidad": "Identity Card",
     "Certificado Cabildo": "Cabildo Certificate",
     "Número de Documento": "Document Number",
@@ -47,5 +47,6 @@
     "Información Personal": "Personal Information",
     "Contacto": "Contact Information",
     "Información Académica": "Academic Information",
-    "Información Adicional": "Additional Information"
+    "Información Adicional": "Additional Information",
+    "Seleccione una Universidad": "Select a University"
 }

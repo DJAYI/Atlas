@@ -4,18 +4,18 @@
 
 <x-layouts.dashboard-layout title="Gestión de Eventos">
     <div class="flex flex-row items-center justify-between my-4">
-        <h2 class="text-2xl font-semibold text-green-700">
+        <h2 class="text-2xl font-semibold text-primary-700">
             Gestión de Eventos | Eventos Recientes
         </h2>
 
         <button
-            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
+            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
             popovertarget="create-event">
             Crear Evento
         </button>
     </div>
     <div
-        class="flex flex-col justify-around px-4 py-4 sm:flex-row bg-gradient-to-b from-green-200/50 to-white rounded-t-xl min-h-52">
+        class="flex flex-col justify-around px-4 py-4 sm:flex-row bg-gradient-to-b from-primary-200/50 to-white rounded-t-xl min-h-52">
         @foreach ($events->take(2) as $event)
             <div
                 class="flex flex-row items-center justify-between gap-5 px-4 py-2 mb-1 rounded-lg bg-gradient-to-b from-white to-transparent">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="flex flex-row gap-2">
                     <a href="{{ route('events.edit', $event->id) }}"
-                        class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
+                        class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                         popovertarget="edit-event" popoverdata="{{ $event->id }}">Ver más</a>
                     <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
                         @csrf
@@ -51,7 +51,7 @@
         <div class="relative sm:w-1/2">
 
             <input required type="text" placeholder="Buscar evento" id="filter-search"
-                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border border-green-300 rounded-lg shadow-sm">
+                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border border-primary-300 rounded-lg shadow-sm">
             <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -98,12 +98,12 @@
                                 class="inline-flex items-center px-2 py-1 text-sm font-semibold text-red-800 bg-red-100 rounded-full">Inactivo</span>
                         @else
                             <span
-                                class="inline-flex items-center px-2 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded-full">Activo</span>
+                                class="inline-flex items-center px-2 py-1 text-sm font-semibold text-primary-800 bg-primary-100 rounded-full">Activo</span>
                         @endif
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('events.edit', $event->id) }}"
-                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
+                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                             popovertarget="edit-event" popoverdata="{{ $event->id }}">Ver más</a>
                         <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
                             @csrf

@@ -25,7 +25,13 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen">
-        <div class="fixed w-full h-screen bg-gradient-to-bl from-white to-green-200 -z-50"></div>
+        <div class="fixed w-full h-screen bg-gradient-to-br from-white to-primary-200 -z-50">
+            {{-- Sphere gadient in the background with secondary color positionated down and left --}}
+
+            <div
+                class="absolute rounded-full size-[700px] bg-gradient-to-bl from-secondary-400 to-secondary-600 filter blur-[100px] opacity-20 -left-60 -top-20">
+            </div>
+        </div>
         <!-- Page Content -->
         <main class="">
             {{ $slot }}

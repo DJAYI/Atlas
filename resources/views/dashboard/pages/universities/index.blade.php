@@ -1,11 +1,11 @@
 <x-layouts.dashboard-layout>
     <div class="flex flex-row items-center justify-between my-4">
-        <h2 class="text-2xl font-semibold text-green-700">
+        <h2 class="text-2xl font-semibold text-primary-700">
             Gestión de Universidades
         </h2>
 
         <button
-            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
+            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
             popovertarget="create-university">
             Crear Universidad
         </button>
@@ -17,7 +17,7 @@
 
         <div class="relative sm:w-1/2">
             <input required type="text" placeholder="Buscar universidad" id="filter-search"
-                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border border-green-300 rounded-lg shadow-sm">
+                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border border-primary-300 rounded-lg shadow-sm">
             <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -58,7 +58,7 @@
 
                     <td class="px-6 py-4">
                         <a href="{{ route('universities.edit', $university->id) }}"
-                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95"
+                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                             popovertarget="edit-university" popoverdata="{{ $university->id }}">Ver más</a>
                         <form action="{{ route('universities.destroy', $university->id) }}" method="POST"
                             class="inline">

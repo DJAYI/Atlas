@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Assistance;
 use App\Models\Event;
 use App\Models\Person;
+use App\Models\University;
 use Illuminate\Http\Request;
 
 class AssistanceController extends Controller
@@ -14,7 +15,8 @@ class AssistanceController extends Controller
      */
     public function index(string $locale)
     {
-        return view('assistance');
+        $universities = University::all();
+        return view('assistance', compact('universities'));
     }
 
     /**

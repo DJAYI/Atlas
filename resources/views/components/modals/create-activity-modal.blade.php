@@ -13,13 +13,13 @@
                 <div class="flex flex-col gap-2">
                     <label for="name" class="text-gray-500">Nombre</label>
                     <input required type="text" name="name" id="name"
-                        class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm ">
+                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm ">
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label for="description" class="text-gray-500">Descripción</label>
                     <textarea required name="description" id="description" rows="3"
-                        class="px-4 py-2 transition bg-white border border-green-300 rounded-lg shadow-sm resize-none"></textarea>
+                        class="px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm resize-none"></textarea>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
         <div class="grid grid-cols-1">
             <div class="flex flex-row items-center justify-end gap-2">
                 <button type="submit"
-                    class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
+                    class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95">
                     Crear Actividad
                 </button>
                 <button type="button" popovertarget="create-activity"
