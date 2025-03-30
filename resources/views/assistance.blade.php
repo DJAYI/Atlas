@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-utils.language-selector route="assistance" />
 
-    <div
+    <div style="view-transition-name: assistance-view"
         class="grid mt-2 w-auto min-h-screen grid-cols-1 grid-rows-[100px_1fr] gap-5 mx-auto bg-white sm:max-w-5xl rounded-t-xl md:grid-cols-1 ">
 
         <nav class="flex flex-row items-center gap-4 p-6">
@@ -37,7 +37,7 @@
                         {{ __('Tipo de documento') }}
                     </label>
                     <select name="document_type" id="document_type" required
-                        class="w-full px-4 py-2 transition bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-secondary-300">
+                        class="w-full px-4 py-2 transition bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-primary-300">
                         <option value="" disabled
                             {{ old('document_type', session('document_type')) ? '' : 'selected' }}>
                             {{ __('Seleccione un tipo de documento') }}
@@ -68,7 +68,7 @@
                         {{ __('Número de Documento') }}
                     </label>
                     <input type="text" name="document_number" id="document_number" required
-                        class="w-full px-4 py-2 transition bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-secondary-300"
+                        class="w-full px-4 py-2 transition bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-primary-300"
                         placeholder="{{ __('Ingrese su Número de Documento') }}"
                         value="{{ old('document_number', session('document_number')) }}">
                 </div>
@@ -79,7 +79,7 @@
                         {{ __('Código del Evento') }}
                     </label>
                     <input type="text" id="event_code" name="event_code" required
-                        class="w-full px-4 py-2 transition bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-secondary-300"
+                        class="w-full px-4 py-2 transition bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-primary-300"
                         placeholder="{{ __('Ingrese el código del evento') }}"
                         value="{{ old('event_code', session('event_code')) }}">
                 </div>
@@ -119,25 +119,25 @@
                         <div class="flex flex-col gap-2">
                             <label for="firstname" class="text-gray-500">{{ __('Nombre') }}</label>
                             <input type="text" id="firstname" name="firstname"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su nombre') }}">
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="middlename" class="text-gray-500">{{ __('Segundo Nombre') }}</label>
                             <input type="text" id="middlename" name="middlename"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su segundo nombre') }}">
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="lastname" class="text-gray-500">{{ __('Apellido') }}</label>
                             <input type="text" id="lastname" name="lastname"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su apellido') }}">
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="second_lastname" class="text-gray-500">{{ __('Segundo Apellido') }}</label>
                             <input type="text" id="second_lastname" name="second_lastname"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su segundo apellido') }}">
                         </div>
                     </div>
@@ -149,26 +149,26 @@
                         <div class="flex flex-col gap-2">
                             <label for="email" class="text-gray-500">{{ __('Correo Electrónico') }}</label>
                             <input type="email" id="email" name="email"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su correo electrónico') }}">
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="institutional_email"
                                 class="text-gray-500">{{ __('Correo Institucional') }}</label>
                             <input type="email" id="institutional_email" name="institutional_email"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su correo institucional') }}">
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="phone" class="text-gray-500">{{ __('Teléfono') }}</label>
                             <input type="tel" id="phone" name="phone"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su teléfono') }}">
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="address" class="text-gray-500">{{ __('Dirección') }}</label>
                             <input type="text" id="address" name="address"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su dirección') }}">
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                         <div class="flex flex-col gap-2">
                             <label for="university_id" class="text-gray-500">{{ __('Universidad') }}</label>
                             <select id="university_id" name="university_id"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="" disabled selected>{{ __('Seleccione una universidad') }}
                                 </option>
                                 @foreach ($universities as $university)
@@ -191,7 +191,7 @@
                         <div class="flex flex-col gap-2">
                             <label for="genre" class="text-gray-500">{{ __('Género') }}</label>
                             <select id="genre" name="genre"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="M">{{ __('Masculino') }}</option>
                                 <option value="F">{{ __('Femenino') }}</option>
                                 <option value="O">{{ __('Otro') }}</option>
@@ -201,12 +201,12 @@
                         <div class="flex flex-col gap-2">
                             <label for="birth_date" class="text-gray-500">{{ __('Fecha de Nacimiento') }}</label>
                             <input type="date" id="birth_date" name="birth_date"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="minority" class="text-gray-500">{{ __('Pertenencia a Minoría') }}</label>
                             <select id="minority" name="minority"
-                                class="w-full px-4 py-2 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="">{{ __('Ninguna') }}</option>
                                 <option value="afrodescendiente">{{ __('Afrodescendiente') }}</option>
                                 <option value="indigena">{{ __('Indígena') }}</option>

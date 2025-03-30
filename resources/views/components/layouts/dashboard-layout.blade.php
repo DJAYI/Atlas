@@ -6,7 +6,7 @@
         <div class="flex items-center justify-between gap-6">
             <h1 class="text-3xl font-black text-primary-700">Hermes</h1>
             <button
-                class="p-2 transition sm:hidden outline outline-primary-300 hover:outline-4 hover:outline-primary-400 hover:shadow-md hover:shadow-primary-200 rounded-xl hover:ring-8 hover:ring-secondary-200 "
+                class="p-2 transition sm:hidden outline outline-primary-300 hover:outline-4 hover:outline-primary-400 hover:shadow-md hover:shadow-primary-200 rounded-xl hover:ring-8 hover:ring-primary-200 "
                 id="menu-btn">
                 @php
                     $menuIcon = public_path('icons/bars-menu.svg');
@@ -16,25 +16,28 @@
         </div>
 
         <nav id="menu" class="flex flex-col md:flex-row [&>*]:list-none items-center gap-5 rounded-xl p-4">
-            <li class="transition hover:scale-95"><a
-                    class="text-black hover:shadow-[1px_1px_20px_2px_#80b1ff]  bg-primary-50 font-semibold px-4 py-2 transition ring ring-secondary-200/20 rounded-xl"
-                    href="{{ route('dashboard') }}">Reportes</a></li>
-            <li class="transition hover:scale-95"><a
-                    class="text-black hover:shadow-[1px_1px_20px_2px_#80b1ff]  bg-primary-50 font-semibold px-4 py-2 transition ring ring-secondary-200/20 rounded-xl"
+            <li class="transition hover:scale-95">
+                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('dashboard') ? 'shadow-[1px_1px_20px_2px_#80b1ff] scale-95' : '' }}"
+                    href="{{ route('dashboard') }}">Reportes</a>
+            </li>
+            <li class="transition hover:scale-95">
+                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('events') ? 'shadow-[1px_1px_20px_2px_#80b1ff] scale-95' : '' }}"
                     href="{{ route('events') }}">Eventos</a>
             </li>
-            <li class="transition hover:scale-95"><a
-                    class="text-black hover:shadow-[1px_1px_20px_2px_#80b1ff]  bg-primary-50 font-semibold px-4 py-2 transition ring ring-secondary-200/20 rounded-xl"
+            <li class="transition hover:scale-95">
+                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('universities') ? 'shadow-[1px_1px_20px_2px_#80b1ff] scale-95' : '' }}"
                     href="{{ route('universities') }}">Universidades</a>
             </li>
-            <li class="transition hover:scale-95"><a
-                    class="text-black hover:shadow-[1px_1px_20px_2px_#80b1ff]  bg-primary-50 font-semibold px-4 py-2 transition ring ring-secondary-200/20 rounded-xl"
-                    href="{{ route('agreements') }}">Convenios</a></li>
-            <li class="transition hover:scale-95"><a
-                    class="text-black hover:shadow-[1px_1px_20px_2px_#80b1ff]  bg-primary-50 font-semibold px-4 py-2 transition ring ring-secondary-200/20 rounded-xl"
-                    href="{{ route('careers') }}">Programas</a></li>
-            <li class="transition hover:scale-95"><a
-                    class="text-black hover:shadow-[1px_1px_20px_2px_#80b1ff]  bg-primary-50 font-semibold px-4 py-2 transition ring ring-secondary-200/20 rounded-xl"
+            <li class="transition hover:scale-95">
+                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('agreements') ? 'shadow-[1px_1px_20px_2px_#80b1ff] scale-95' : '' }}"
+                    href="{{ route('agreements') }}">Convenios</a>
+            </li>
+            <li class="transition hover:scale-95">
+                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('careers') ? 'shadow-[1px_1px_20px_2px_#80b1ff] scale-95' : '' }}"
+                    href="{{ route('careers') }}">Programas</a>
+            </li>
+            <li class="transition hover:scale-95">
+                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('activities') ? 'shadow-[1px_1px_20px_2px_#80b1ff] scale-95' : '' }}"
                     href="{{ route('activities') }}">Actividades</a>
             </li>
         </nav>
