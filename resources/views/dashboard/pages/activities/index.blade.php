@@ -16,7 +16,7 @@
         <div class="relative sm:w-1/2">
 
             <input required type="text" placeholder="Buscar evento" id="filter-search"
-                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border rounded-lg shadow-sm border-primary-300">
             <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -24,6 +24,7 @@
             </svg>
         </div>
     </div>
+    <br>
     <table class="w-full text-sm text-center text-gray-500 rtl:text-right">
         <thead class="text-gray-700 uppercase">
             <tr>

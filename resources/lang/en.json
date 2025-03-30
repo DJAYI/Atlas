@@ -1,5 +1,5 @@
 {
-    "Bienvenido a Hermes": "Welcome to Hermes",
+    "Bienvenido a": "Welcome to",
     "¿Éres un Asistente?": "Are you an Assistant?",
     "¿Vas a gestionar tu internacionalización?": "Are you going to manage your internationalization?",
     "Correo electrónico": "Email",
@@ -48,5 +48,6 @@
     "Contacto": "Contact Information",
     "Información Académica": "Academic Information",
     "Información Adicional": "Additional Information",
-    "Seleccione una Universidad": "Select a University"
+    "Seleccione una Universidad": "Select a University",
+    "O": "Or"
 }
