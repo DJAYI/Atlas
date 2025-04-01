@@ -19,12 +19,11 @@
     </div>
 
     <div class="flex w-full flex-col gap-2">
-        <label for="mobility" wire:model="mobility" class="text-gray-500">{{ __('¿A qué vienes?') }}<span
+        <label for="mobility" class="text-gray-500">{{ __('¿A qué vienes?') }}<span
                 class="text-secondary-400">*</span></label>
-        <select id="mobility" name="mobility"
+        <select id="mobility" wire:model="mobility" name="mobility"
             class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
-            <option value="" disabled selected>{{ __('Seleccione una opción') }}
-            </option>
+            <option value="" disabled selected>{{ __('Seleccione una opción') }}</option>
             @foreach ($this->mobilities as $mobility)
                 <option value="{{ $mobility->id }}">{{ $mobility->name }}</option>
             @endforeach

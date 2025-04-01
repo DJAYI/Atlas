@@ -221,13 +221,13 @@
                             </select>
                         </div>
 
-                        <div class="flex flex-col gap-2">
+                        <div class="flex-col gap-2 hidden">
                             <label for="identity_document_file"
                                 class="text-gray-500">{{ __('Fotocopia de Documento de Identidad') }}<span
                                     class="text-secondary-400">*</span></label>
                             <input type="file" id="identity_document_file" name="identity_document_file"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
-                                accept="image/jpeg, image/png, image/jpg, image/webp" required>
+                                accept="image/jpeg, image/png, image/jpg, image/webp">
                             <p class="text-sm text-gray-500">
                                 {{ __('Formato permitido: JPG, JPEG, PNG, WEBP. Tamaño máximo: 2MB.') }}
                             </p>
@@ -246,11 +246,4 @@
     </div>
 </x-app-layout>
 
-<script defer>
-    // If type of assistance change the mobility select option, about the type of mobility and the assistance
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => document.querySelectorAll(selector);
-    const typeSelect = $('#type');
-
-    // Once change the type of assistance, pass the type to the select of mobility component
-</script>
+@vite('resources/js/modules/utils/countryOriginValidation.js')

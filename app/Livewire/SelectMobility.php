@@ -3,18 +3,21 @@
 namespace App\Livewire;
 
 use App\Models\Mobility;
-use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class SelectMobility extends Component
 {
-
     public $selectedAssistanceType;
     public $mobility;
+    public $mobilities = [];
 
-    public function getMobilitiesProperty()
+    public function updatedSelectedAssistanceType()
     {
-        return Mobility::where('type', $this->selectedAssistanceType)->get();
+        // Cargar las opciones de movilidad según el tipo seleccionado
+        $this->mobilities = Mobility::where('type', $this->selectedAssistanceType)->get();
+
+        // Reiniciar la selección de movilidad cuando cambia el tipo de asistencia
+        $this->mobility = null;
     }
 
     public function render()
