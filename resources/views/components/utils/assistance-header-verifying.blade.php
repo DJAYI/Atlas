@@ -23,7 +23,7 @@
     @csrf
     @method('POST')
 
-    <div class="flex flex-row items-center justify-center w-full px-6">
+    <div class="flex flex-row items-center justify-center w-full">
 
         {{-- Tipo de documento --}}
         <div class="flex flex-col w-full gap-4 p-6">
