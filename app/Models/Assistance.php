@@ -11,6 +11,7 @@ class Assistance extends Model
         'person_id',
         'university_destiny_id',
         'mobility_id',
+        'identity_document_file'
     ];
 
     public function event()

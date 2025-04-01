@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mobilities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->enum('type', ['estudiante', 'profesor', 'egresado', 'administrativo'])->default('estudiante');
             $table->timestamps();
         });
     }

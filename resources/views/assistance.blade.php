@@ -22,6 +22,7 @@
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información Personal') }}</h3>
                     <div class="grid grid-cols-2 gap-4">
+
                         <div class="flex flex-col gap-2">
                             <label for="firstname" class="text-gray-500">{{ __('Nombre') }}<span
                                     class="text-secondary-400">*</span></label>
@@ -52,6 +53,11 @@
                                 placeholder="{{ __('Ingrese su segundo apellido') }}"
                                 value="{{ session('found') ? session('person')->second_lastname : '' }}">
                         </div>
+
+                        <div class="col-span-2">
+                            <livewire:select-mobility />
+                        </div>
+
                     </div>
                 </div>
 
@@ -105,7 +111,7 @@
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información Adicional') }}</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="flex flex-col gap-2">
-                            <label for="university_id" class="text-gray-500">{{ __('Universidad') }}<span
+                            <label for="university_id" class="text-gray-500">{{ __('Universidad de Origen') }}<span
                                     class="text-secondary-400">*</span></label>
                             <select id="university_id" name="university_id"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
@@ -135,27 +141,7 @@
                             </select>
                         </div>
 
-                        <div class="flex flex-col gap-2">
-                            <label for="type" class="text-gray-500">{{ __('¿Quién eres?') }}<span
-                                    class="text-secondary-400">*</span></label>
-                            <select id="type" name="type"
-                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
-                                <option value="" disabled selected>{{ __('Seleccione una opción') }}
-                                </option>
-                                <option value="estudiante"
-                                    {{ session('found') && session('person')->type == 'estudiante' ? 'selected' : '' }}>
-                                    {{ __('Estudiante') }}</option>
-                                <option value="egresado"
-                                    {{ session('found') && session('person')->type == 'egresado' ? 'selected' : '' }}>
-                                    {{ __('Egresado') }}</option>
-                                <option value="profesor"
-                                    {{ session('found') && session('person')->type == 'profesor' ? 'selected' : '' }}>
-                                    {{ __('Profesor') }}</option>
-                                <option value="administrativo"
-                                    {{ session('found') && session('person')->type == 'administrativo' ? 'selected' : '' }}>
-                                    {{ __('Administrativo') }}</option>
-                            </select>
-                        </div>
+
 
                         <div class="flex flex-col gap-2">
                             <label for="genre" class="text-gray-500">{{ __('Género') }}<span
@@ -235,35 +221,17 @@
                             </select>
                         </div>
 
-
                         <div class="flex flex-col gap-2">
-                            <label for="type" class="text-gray-500">{{ __('¿Quién eres?') }}<span
+                            <label for="identity_document_file"
+                                class="text-gray-500">{{ __('Fotocopia de Documento de Identidad') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <select id="type" name="type"
-                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
-                                <option value="" disabled selected>{{ __('Seleccione una opción') }}
-                                </option>
-
-                            </select>
+                            <input type="file" id="identity_document_file" name="identity_document_file"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                                accept="image/jpeg, image/png, image/jpg, image/webp" required>
+                            <p class="text-sm text-gray-500">
+                                {{ __('Formato permitido: JPG, JPEG, PNG, WEBP. Tamaño máximo: 2MB.') }}
+                            </p>
                         </div>
-
-                        <div class="flex flex-col gap-2">
-                            <label for="genre" class="text-gray-500">{{ __('Género') }}<span
-                                    class="text-secondary-400">*</span></label>
-                            <select id="genre" name="genre"
-                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
-
-                            </select>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label for="genre" class="text-gray-500">{{ __('Género') }}<span
-                                    class="text-secondary-400">*</span></label>
-                            <select id="genre" name="genre"
-                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
-
-                            </select>
-                        </div>
-
                     </div>
                 </div>
             </form>
@@ -277,3 +245,12 @@
 
     </div>
 </x-app-layout>
+
+<script defer>
+    // If type of assistance change the mobility select option, about the type of mobility and the assistance
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => document.querySelectorAll(selector);
+    const typeSelect = $('#type');
+
+    // Once change the type of assistance, pass the type to the select of mobility component
+</script>

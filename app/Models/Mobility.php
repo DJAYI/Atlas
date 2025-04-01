@@ -6,5 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mobility extends Model
 {
-    //
+
+    protected $fillable = [
+        'name',
+        'type',
+    ];
+    protected $casts = [
+        'type' => 'string',
+    ];
+    public function assistances()
+    {
+        return $this->hasMany(Assistance::class);
+    }
 }

@@ -22,6 +22,9 @@ return new class extends Migration
 
             // tipo de movilidad
             $table->foreignId('mobility_id')->constrained('mobilities')->cascadeOnDelete();
+
+            // Archivo de Documento de Identidad
+            $table->string('identity_document_file')->nullable();
         });
     }
 
