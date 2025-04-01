@@ -6,8 +6,10 @@ use App\Models\Assistance;
 use App\Models\Career;
 use App\Models\Country;
 use App\Models\Event;
+use App\Models\Mobility;
 use App\Models\Person;
 use App\Models\University;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AssistanceController extends Controller
@@ -20,7 +22,8 @@ class AssistanceController extends Controller
         $universities = University::all();
         $countries = Country::all();
         $careers = Career::all();
-        return view('assistance', compact(['universities', 'countries', 'careers']));
+        $mobilities = Mobility::all();
+        return view('assistance', compact(['universities', 'countries', 'careers', 'mobilities']));
     }
 
     /**
@@ -71,10 +74,27 @@ class AssistanceController extends Controller
         // Buscar evento
         $event = Event::firstWhere('event_code', $request->event_code);
 
+        // Verificar si el evento existe
         if (!$event) {
             session()->flash('error', __('assistance.event_not_found'));
             return redirect()->route('assistance', ['locale' => $request->locale]);
         }
+
+        // Verificar si el evento ya ha pasado
+        /**
+         * 
+         */
+
+        if (Carbon::parse($event->end_date)->isPast()) {
+            session()->flash('error', __('assistance.event_expired'));
+            return redirect()->route('assistance', ['locale' => $request->locale]);
+        }
+
+        if (Carbon::parse($event->start_date)->isFuture()) {
+            session()->flash('error', __('assistance.event_not_started'));
+            return redirect()->route('assistance', ['locale' => $request->locale]);
+        }
+
 
         session()->flash('document_type', $request->document_type);
         session()->flash('document_number', $request->document_number);
@@ -83,6 +103,7 @@ class AssistanceController extends Controller
         session()->flash('success', 'event_found');
         session()->flash('event', $event);
 
+        // Verificar si la persona existe
         if (!$person) {
             session()->flash('error', __('assistance.not_found'));
             session()->flash('found', false);

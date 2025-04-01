@@ -72,9 +72,9 @@
                 <th scope="col" class="px-6 py-3">Acciones</th>
             </tr>
         </thead>
-        <tbody id="table-data" class="[&>tr]:hover:bg-gray-50 [&>tr]:transition">
-            @foreach ($eventsPaginated as $event)
-                <tr>
+        <tbody id="table-data" class="">
+            @foreach ($eventsPaginated->sortByDesc('created_at') as $event)
+                <tr class="hover:bg-primary-50/50 transition">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{ $event->name }}
                     </td>
@@ -93,13 +93,11 @@
                         {{ $event->responsable }}
                     </td>
                     <td class="px-6 py-4">
-                        @if (\Carbon\Carbon::parse($event->end_date)->isPast())
-                            <span
-                                class="inline-flex items-center px-2 py-1 text-sm font-semibold text-red-800 bg-red-100 rounded-full">Inactivo</span>
-                        @else
-                            <span
-                                class="inline-flex items-center px-2 py-1 text-sm font-semibold rounded-full text-primary-800 bg-primary-100">Activo</span>
-                        @endif
+                        <span
+                            class="inline-flex items-center px-2 py-1 text-sm font-semibold rounded-full 
+           {{ $event->isActive() ? 'text-primary-800 bg-primary-100' : 'text-red-800 bg-red-100' }}">
+                            {{ $event->isActive() ? 'Activo' : 'Inactivo' }}
+                        </span>
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('events.edit', $event->id) }}"

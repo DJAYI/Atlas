@@ -82,7 +82,7 @@
                                 value="{{ session('found') ? session('person')->phone : '' }}">
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="country_id" class="text-gray-500">{{ __('País de Orígen') }}<span
+                            <label for="country_id" class="text-gray-500">{{ __('País de Origen') }}<span
                                     class="text-secondary-400">*</span></label>
                             <select id="country_id" name="country_id"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
@@ -214,6 +214,56 @@
                                     {{ __('Desplazado') }}</option>
                             </select>
                         </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <h3 class="text-xl font-semibold text-gray-600">{{ __('Información de Asistencia') }}</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-2">
+                            <label for="university_id" class="text-gray-500">{{ __('Universidad de Destino') }}<span
+                                    class="text-secondary-400">*</span></label>
+                            <select id="university_id" name="university_id"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                                <option value="" disabled selected>{{ __('Seleccione una universidad') }}
+                                </option>
+                                @foreach (session('event')->universities as $university)
+                                    <option value="{{ $university->id }}">
+                                        {{ $university->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                        <div class="flex flex-col gap-2">
+                            <label for="type" class="text-gray-500">{{ __('¿Quién eres?') }}<span
+                                    class="text-secondary-400">*</span></label>
+                            <select id="type" name="type"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                                <option value="" disabled selected>{{ __('Seleccione una opción') }}
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label for="genre" class="text-gray-500">{{ __('Género') }}<span
+                                    class="text-secondary-400">*</span></label>
+                            <select id="genre" name="genre"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label for="genre" class="text-gray-500">{{ __('Género') }}<span
+                                    class="text-secondary-400">*</span></label>
+                            <select id="genre" name="genre"
+                                class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+
+                            </select>
+                        </div>
+
                     </div>
                 </div>
             </form>

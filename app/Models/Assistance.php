@@ -10,7 +10,6 @@ class Assistance extends Model
         'event_id',
         'person_id',
         'university_destiny_id',
-        'career_id',
         'mobility_id',
     ];
 
@@ -29,13 +28,10 @@ class Assistance extends Model
         return $this->belongsTo(University::class, 'university_destiny_id');
     }
 
-    public function career()
-    {
-        return $this->belongsTo(Career::class);
-    }
+
 
     public function mobility()
     {
-        return $this->belongsTo(Movility::class);
+        return $this->belongsTo(Mobility::class);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
@@ -55,5 +55,12 @@ class Event extends Model
     public function assistances()
     {
         return $this->hasMany(Assistance::class);
+    }
+
+    public function isActive(): bool
+    {
+        $now = Carbon::now();
+
+        return Carbon::parse($this->start_date)->lte($now) && Carbon::parse($this->end_date)->gte($now);
     }
 }
