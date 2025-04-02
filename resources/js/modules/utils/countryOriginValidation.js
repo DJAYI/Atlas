@@ -1,8 +1,8 @@
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
-const countryOrigin = $("#country_id");
-const identityDocumentFile = $("#identity_document_file");
+const countryOrigin = $("#country_of_origin");
+const identityDocumentFile = $("#identity_document");
 
 countryOrigin.addEventListener("change", (e) => {
     const selectedValue = e.target.value;
@@ -18,3 +18,13 @@ countryOrigin.addEventListener("change", (e) => {
         identityDocumentFile.removeAttribute("required"); // Hacer que el campo no sea requerido
     }
 });
+
+if (countryOrigin.value !== "2") {
+    identityDocumentFile.parentElement.classList.remove("hidden");
+    identityDocumentFile.parentElement.classList.add("flex");
+    identityDocumentFile.setAttribute("required", "required"); // Hacer que el campo sea requerido
+} else {
+    identityDocumentFile.parentElement.classList.add("hidden");
+    identityDocumentFile.parentElement.classList.remove("flex");
+    identityDocumentFile.removeAttribute("required"); // Hacer que el campo no sea requerido
+}

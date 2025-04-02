@@ -39,7 +39,38 @@ class AssistanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Retrieve data from session
+        $documentType = session('document_type');
+        $documentNumber = session('document_number');
+        $eventCode = session('event_code');
+
+        // Find or create the person
+        $person = Person::updateOrCreate(
+            [
+                'document_type' => $documentType,
+                'document_number' => $documentNumber,
+            ],
+            [
+                'firstname' => $request->input('first_name'),
+                'middlename' => $request->input('middle_name'),
+                'lastname' => $request->input('last_name'),
+                'second_lastname' => $request->input('second_last_name'),
+                'email' => $request->input('personal_email'),
+                'institutional_email' => $request->input('institutional_email'),
+                'phone' => $request->input('phone_number'),
+                'country_id' => $request->input('country_of_origin'),
+                'university_id' => $request->input('origin_university'),
+                'career_id' => $request->input('academic_program'),
+                'genre' => $request->input('biological_sex'),
+                'birth_date' => $request->input('birth_date'),
+                'minority' => $request->input('minority_group'),
+            ]
+        );
+
+        // Store the person in the session
+        session()->put('person', $person);
+
+        dd($request->all());
     }
 
     /**
@@ -81,10 +112,6 @@ class AssistanceController extends Controller
         }
 
         // Verificar si el evento ya ha pasado
-        /**
-         * 
-         */
-
         if (Carbon::parse($event->end_date)->isPast()) {
             session()->flash('error', __('assistance.event_expired'));
             return redirect()->route('assistance', ['locale' => $request->locale]);
@@ -95,10 +122,9 @@ class AssistanceController extends Controller
             return redirect()->route('assistance', ['locale' => $request->locale]);
         }
 
-
-        session()->flash('document_type', $request->document_type);
-        session()->flash('document_number', $request->document_number);
-        session()->flash('event_code', $request->event_code);
+        session()->put('document_type', $request->document_type);
+        session()->put('document_number', $request->document_number);
+        session()->put('event_code', $request->event_code);
         session()->flash('locale', $request->locale);
         session()->flash('success', 'event_found');
         session()->flash('event', $event);

@@ -6,15 +6,14 @@
 
         <x-utils.assistance-header-verifying />
 
-
-        @if (session()->has('found') && !session('found'))
+        @if (session()->has('found'))
 
             <form action="{{ route('assistance.store', ['locale' => app()->getLocale()]) }}"
                 class="flex flex-col gap-6 px-6 py-4 mx-4 bg-white rounded-md" method="POST">
                 @csrf
                 @method('POST')
 
-                {{-- Encabezado de formulario --}}
+                {{-- Form Header --}}
                 <h2 class="text-3xl font-semibold">
                     {{ __('Registro de Asistencia') }}
                 </h2>
@@ -24,39 +23,37 @@
                     <div class="grid grid-cols-2 gap-4">
 
                         <div class="flex flex-col gap-2">
-                            <label for="firstname" class="text-gray-500">{{ __('Nombre') }}<span
+                            <label for="first_name" class="text-gray-500">{{ __('Nombre') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <input type="text" id="firstname" name="firstname"
+                            <input type="text" id="first_name" name="first_name"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su nombre') }}"
                                 value="{{ session('found') ? session('person')->firstname : '' }}">
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="middlename" class="text-gray-500">{{ __('Segundo Nombre') }}</label>
-                            <input type="text" id="middlename" name="middlename"
+                            <label for="middle_name" class="text-gray-500">{{ __('Segundo Nombre') }}</label>
+                            <input type="text" id="middle_name" name="middle_name"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su segundo nombre') }}"
                                 value="{{ session('found') ? session('person')->middlename : '' }}">
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="lastname" class="text-gray-500">{{ __('Apellido') }}<span
+                            <label for="last_name" class="text-gray-500">{{ __('Apellido') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <input type="text" id="lastname" name="lastname"
+                            <input type="text" id="last_name" name="last_name"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su apellido') }}"
                                 value="{{ session('found') ? session('person')->lastname : '' }}">
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="second_lastname" class="text-gray-500">{{ __('Segundo Apellido') }}</label>
-                            <input type="text" id="second_lastname" name="second_lastname"
+                            <label for="second_last_name" class="text-gray-500">{{ __('Segundo Apellido') }}</label>
+                            <input type="text" id="second_last_name" name="second_last_name"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su segundo apellido') }}"
                                 value="{{ session('found') ? session('person')->second_lastname : '' }}">
                         </div>
 
-                        <div class="col-span-2">
-                            <livewire:select-mobility />
-                        </div>
+
 
                     </div>
                 </div>
@@ -65,9 +62,9 @@
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Contacto') }}</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="flex flex-col gap-2">
-                            <label for="email" class="text-gray-500">{{ __('Correo Electrónico') }}<span
+                            <label for="personal_email" class="text-gray-500">{{ __('Correo Electrónico') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <input type="email" id="email" name="email"
+                            <input type="email" id="personal_email" name="personal_email"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su correo electrónico') }}"
                                 value="{{ session('found') ? session('person')->email : '' }}">
@@ -81,19 +78,19 @@
                                 value="{{ session('found') ? session('person')->institutional_email : '' }}">
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="phone" class="text-gray-500">{{ __('Teléfono') }}</label>
-                            <input type="tel" id="phone" name="phone"
+                            <label for="phone_number" class="text-gray-500">{{ __('Teléfono') }}</label>
+                            <input type="tel" id="phone_number" name="phone_number"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 placeholder="{{ __('Ingrese su teléfono') }}"
                                 value="{{ session('found') ? session('person')->phone : '' }}">
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="country_id" class="text-gray-500">{{ __('País de Origen') }}<span
+                            <label for="country_of_origin" class="text-gray-500">{{ __('País de Origen') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <select id="country_id" name="country_id"
+                            <select id="country_of_origin" name="country_of_origin"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="" disabled
-                                    {{ old('country_id', session('country_id')) ? '' : 'selected' }}>
+                                    {{ old('country_of_origin', session('country_id')) ? '' : 'selected' }}>
                                     {{ __('Seleccione un país') }}
                                 </option>
                                 @foreach ($countries as $country)
@@ -111,9 +108,9 @@
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información Adicional') }}</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="flex flex-col gap-2">
-                            <label for="university_id" class="text-gray-500">{{ __('Universidad de Origen') }}<span
+                            <label for="origin_university" class="text-gray-500">{{ __('Universidad de Origen') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <select id="university_id" name="university_id"
+                            <select id="origin_university" name="origin_university"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="" disabled selected>{{ __('Seleccione una universidad') }}
                                 </option>
@@ -126,9 +123,9 @@
                             </select>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="career_id" class="text-gray-500">{{ __('Programa') }}<span
+                            <label for="academic_program" class="text-gray-500">{{ __('Programa') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <select id="career_id" name="career_id"
+                            <select id="academic_program" name="academic_program"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="" disabled selected>{{ __('Seleccione un Programa') }}
                                 </option>
@@ -141,13 +138,15 @@
                             </select>
                         </div>
 
-
-
                         <div class="flex flex-col gap-2">
-                            <label for="genre" class="text-gray-500">{{ __('Género') }}<span
+                            <label for="biological_sex" class="text-gray-500">{{ __('Sexo Biológico') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <select id="genre" name="genre"
+                            <select id="biological_sex" name="biological_sex"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                                <option value="" disabled
+                                    {{ old('biological_sex', session('genre')) ? '' : 'selected' }}>
+                                    {{ __('Seleccione una opción') }}
+                                </option>
                                 <option value="M"
                                     {{ session('found') && session('person')->genre == 'M' ? 'selected' : '' }}>
                                     {{ __('Masculino') }}</option>
@@ -170,9 +169,9 @@
                                 value="{{ old('birth_date', session('found') ? session('person')->birth_date->format('Y-m-d') : '') }}">
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="minority" class="text-gray-500">{{ __('Pertenencia a Minoría') }}<span
+                            <label for="minority_group" class="text-gray-500">{{ __('Pertenencia a Minoría') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <select id="minority" name="minority"
+                            <select id="minority_group" name="minority_group"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value=""
                                     {{ session('found') && !session('person')->minority ? 'selected' : '' }}>
@@ -206,10 +205,15 @@
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información de Asistencia') }}</h3>
                     <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2">
+                            @livewire('select-mobility', ['type' => session('found') ? session('person')->type : ''])
+
+                        </div>
                         <div class="flex flex-col gap-2">
-                            <label for="university_id" class="text-gray-500">{{ __('Universidad de Destino') }}<span
+                            <label for="destination_university"
+                                class="text-gray-500">{{ __('Universidad de Destino') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <select id="university_id" name="university_id"
+                            <select id="destination_university" name="destination_university"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="" disabled selected>{{ __('Seleccione una universidad') }}
                                 </option>
@@ -222,17 +226,29 @@
                         </div>
 
                         <div class="flex-col hidden gap-2">
-                            <label for="identity_document_file"
+                            <label for="identity_document"
                                 class="text-gray-500">{{ __('Fotocopia de Documento de Identidad') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <input type="file" id="identity_document_file" name="identity_document_file"
+                            <input type="file" id="identity_document" name="identity_document"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 accept="image/jpeg, image/png, image/jpg, image/webp">
                             <p class="text-sm text-gray-500">
                                 {{ __('Formato permitido: JPG, JPEG, PNG, WEBP. Tamaño máximo: 2MB.') }}
                             </p>
+
+                            <div id="preview" class="flex flex-col items-center justify-center w-full mt-2">
+                                <img id="preview-image" onload="this.style.opacity='1'" src=""
+                                    class="object-cover opacity-0 transition hidden w-full h-full rounded-lg shadow-sm border-primary-300"
+                                    alt="{{ __('Vista previa del documento de identidad') }}">
+                            </div>
+                        </div>
+                        {{-- Submit Button --}}
+                        <div class="flex col-span-2 items-center justify-between mt-4">
+                            <button type="submit"
+                                class="px-4 w-1/2 mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Registrar Asistencia') }}</button>
                         </div>
                     </div>
+
                 </div>
             </form>
         @endif
@@ -247,3 +263,4 @@
 </x-app-layout>
 
 @vite('resources/js/modules/utils/countryOriginValidation.js')
+@vite('resources/js/modules/utils/loadPreviewDocumentFile.js')

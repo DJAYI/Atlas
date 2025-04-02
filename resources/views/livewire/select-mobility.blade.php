@@ -4,11 +4,13 @@
                 class="text-secondary-400">*</span></label>
         <select wire:model.live="selectedAssistanceType" id="assistanceType" name="type"
             class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
-            <option value="" disabled selected>{{ __('Seleccione una opción') }}</option>
-            <option value="estudiante">{{ __('Estudiante') }}</option>
-            <option value="egresado">{{ __('Egresado') }}</option>
-            <option value="profesor">{{ __('Profesor') }}</option>
-            <option value="administrativo">{{ __('Administrativo') }}</option>
+            <option value="" disabled {{ empty($type) ? 'selected' : '' }}>{{ __('Seleccione una opción') }}
+            </option>
+            <option value="estudiante" {{ $type === 'estudiante' ? 'selected' : '' }}>{{ __('Estudiante') }}</option>
+            <option value="egresado" {{ $type === 'egresado' ? 'selected' : '' }}>{{ __('Egresado') }}</option>
+            <option value="profesor" {{ $type === 'profesor' ? 'selected' : '' }}>{{ __('Profesor') }}</option>
+            <option value="administrativo" {{ $type === 'administrativo' ? 'selected' : '' }}>
+                {{ __('Administrativo') }}</option>
         </select>
     </div>
 

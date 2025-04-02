@@ -11,6 +11,7 @@ class SelectMobility extends Component
     public $selectedAssistanceType = '';
     public $mobility = '';
     public $mobilities = [];
+    public $type;
 
     // Use the proper lifecycle hook name
     public function updatedSelectedAssistanceType($value)
@@ -22,9 +23,10 @@ class SelectMobility extends Component
         $this->mobility = '';
     }
 
-    public function mount()
+    public function mount($type = null)
     {
-        // Initialize mobilities if there's a pre-selected value
+        $this->selectedAssistanceType = $type ?? '';
+
         if ($this->selectedAssistanceType) {
             $this->mobilities = Mobility::where('type', $this->selectedAssistanceType)
                 ->orderBy('name')
