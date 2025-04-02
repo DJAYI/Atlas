@@ -7,17 +7,29 @@ use Livewire\Component;
 
 class SelectMobility extends Component
 {
-    public $selectedAssistanceType;
-    public $mobility;
+    // Define public properties for Livewire binding
+    public $selectedAssistanceType = '';
+    public $mobility = '';
     public $mobilities = [];
 
-    public function updatedSelectedAssistanceType()
+    // Use the proper lifecycle hook name
+    public function updatedSelectedAssistanceType($value)
     {
-        // Cargar las opciones de movilidad según el tipo seleccionado
-        $this->mobilities = Mobility::where('type', $this->selectedAssistanceType)->get();
+        // Load mobilities based on the selected type
+        $this->mobilities = Mobility::where('type', $value)->orderBy('name')->get();
 
-        // Reiniciar la selección de movilidad cuando cambia el tipo de asistencia
-        $this->mobility = null;
+        // Reset the mobility selection
+        $this->mobility = '';
+    }
+
+    public function mount()
+    {
+        // Initialize mobilities if there's a pre-selected value
+        if ($this->selectedAssistanceType) {
+            $this->mobilities = Mobility::where('type', $this->selectedAssistanceType)
+                ->orderBy('name')
+                ->get();
+        }
     }
 
     public function render()

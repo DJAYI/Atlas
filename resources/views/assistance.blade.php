@@ -221,7 +221,7 @@
                             </select>
                         </div>
 
-                        <div class="flex-col gap-2 hidden">
+                        <div class="flex-col hidden gap-2">
                             <label for="identity_document_file"
                                 class="text-gray-500">{{ __('Fotocopia de Documento de Identidad') }}<span
                                     class="text-secondary-400">*</span></label>

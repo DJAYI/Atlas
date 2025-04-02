@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Movility;
+use App\Models\Mobility;
 use Illuminate\Http\Request;
 
-class MovilityController extends Controller
+class MobilityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class MovilityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Movility $movility)
+    public function show(Mobility $movility)
     {
         //
     }
@@ -42,7 +42,7 @@ class MovilityController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Movility $movility)
+    public function edit(Mobility $movility)
     {
         //
     }
@@ -50,7 +50,7 @@ class MovilityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Movility $movility)
+    public function update(Request $request, Mobility $movility)
     {
         //
     }
@@ -58,7 +58,7 @@ class MovilityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Movility $movility)
+    public function destroy(Mobility $movility)
     {
         //
     }

@@ -23,6 +23,7 @@
 
     <!-- Agregar el archivo JS de Choices.js -->
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased">
@@ -39,6 +40,7 @@
             {{ $slot }}
         </main>
     </div>
+    @livewireScripts
 </body>
 
 </html>
