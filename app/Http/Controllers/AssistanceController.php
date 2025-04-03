@@ -44,7 +44,7 @@ class AssistanceController extends Controller
         $documentNumber = session('document_number');
         $eventCode = session('event_code');
 
-        // Find or create the person
+
         $person = Person::updateOrCreate(
             [
                 'document_type' => $documentType,
@@ -70,7 +70,29 @@ class AssistanceController extends Controller
         // Store the person in the session
         session()->put('person', $person);
 
-        dd($request->all());
+        // Find the event
+        $event = Event::firstWhere('event_code', $eventCode);
+
+        if (!$event) {
+            session()->flash('error', __('assistance.event_not_found'));
+            return redirect()->route('assistance', ['locale' => $request->locale]);
+        }
+
+
+        // Create the assistance record
+        $assistance = Assistance::create([
+            'event_id' => $event->id,
+            'person_id' => $person->id,
+            'university_destiny_id' => $request->input('destination_university'),
+            'mobility_id' => $request->input('mobility_id'),
+            'identity_document_file' => null
+
+        ]);
+
+
+
+        session()->flash('success', __('assistance.saved_successfully'));
+        return redirect()->route('assistance', ['locale' => $request->locale]);
     }
 
     /**
@@ -134,6 +156,16 @@ class AssistanceController extends Controller
             session()->flash('error', __('assistance.not_found'));
             session()->flash('found', false);
             return redirect()->route('assistance', ['locale' => $request->locale]);
+        }
+
+        // Recuperar el archivo de documento de identidad si existe
+        $assistance = Assistance::where([
+            'person_id' => $person->id,
+            'event_id' => $event->id,
+        ])->first();
+
+        if ($assistance && $assistance->identity_document_file) {
+            session()->flash('identity_document_file', $assistance->identity_document_file);
         }
 
         session()->flash('found', true);
