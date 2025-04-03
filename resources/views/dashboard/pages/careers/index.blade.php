@@ -45,13 +45,19 @@
                         {{ $career->description }}
                     </td>
 
-                    <td class="px-6 py-4">
-                        {{ $career->faculty->name }}
-                    </td>
+                    @if ($career->faculty)
+                        <td class="px-6 py-4 text-ellipsis max-w-[100px] overflow-hidden whitespace-nowrap">
+                            {{ $career->faculty->name }}
+                        </td>
+                    @else
+                        <td class="px-6 py-4 text-ellipsis max-w-[100px] overflow-hidden whitespace-nowrap">
+                            Sin facultad
+                        </td>
+                    @endif
 
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 flex gap-2">
                         <a href="{{ route('careers.edit', $career->id) }}"
-                            class="inline-block inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                            class="inline-block  px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                             popovertarget="edit-career" popoverdata="{{ $career->id }}">Ver más</a>
                         <form action="{{ route('careers.destroy', $career->id) }}" method="POST" class="inline">
                             @csrf
