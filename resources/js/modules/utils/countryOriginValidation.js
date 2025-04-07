@@ -8,7 +8,7 @@ countryOrigin.addEventListener("change", (e) => {
     const selectedValue = e.target.value;
 
     // Si el país no es Colombia, se muestra el campo de archivo de documento de identidad con un display flex
-    if (selectedValue !== "2") {
+    if (selectedValue !== "1") {
         identityDocumentFile.parentElement.classList.remove("hidden");
         identityDocumentFile.parentElement.classList.add("flex");
         identityDocumentFile.setAttribute("required", "required"); // Hacer que el campo sea requerido
@@ -19,7 +19,7 @@ countryOrigin.addEventListener("change", (e) => {
     }
 });
 
-if (countryOrigin.value !== "2") {
+if (countryOrigin.value !== "1") {
     identityDocumentFile.parentElement.classList.remove("hidden");
     identityDocumentFile.parentElement.classList.add("flex");
     identityDocumentFile.setAttribute("required", "required"); // Hacer que el campo sea requerido

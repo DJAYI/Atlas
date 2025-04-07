@@ -20,9 +20,9 @@ class CertificateController extends Controller
 
         foreach ($assistances as $assistance) {
             $person = $assistance->person;
-            $fullname = $person->firstname . ' ' . $person->lastname;
+            $fullname = $person->firstname . ' ' . $person->middlename . ' ' . $person->lastname . ' ' . $person->second_lastname;
 
-            dispatch((new SendCertificateEmailJob($person, $fullname))->delay(now()));
+            dispatch((new SendCertificateEmailJob($person, $fullname, $event, $assistance))->delay(now()));
         }
         return redirect()->route('events.edit', $id)->with('success', 'Certificados enviados exitosamente.');
     }
@@ -37,10 +37,14 @@ class CertificateController extends Controller
         $person = $assistance->person;
 
 
-        $fullname = $person->firstname . ' ' . $person->lastname;
+        $fullname = $person->firstname . ' ' . $person->middlename . ' ' . $person->lastname . ' ' . $person->second_lastname;
+
+        // fullname = upper case full name
+
+        $fullname = strtoupper($fullname);
 
         // Usa el Job para enviar el correo
-        dispatch((new SendCertificateEmailJob($person, $fullname))->delay(now()));
+        dispatch((new SendCertificateEmailJob($person, $fullname, $event, $assistance))->delay(now()));
 
 
         // Redirigir a la página de edición del evento con un mensaje de éxito
