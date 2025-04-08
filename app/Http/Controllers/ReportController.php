@@ -8,8 +8,20 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+
+    /**
+     * Generate a report based on the event ID and optional filters.
+     * 
+     * This method retrieves assistance records filtered by event ID, 
+     * type of person, and whether the person is Colombian or not.
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function generateReport(Request $request)
     {
+        // Validar que el evento existe
         $eventId = $request->query('event_id');
         $type = $request->query('type');
         $filterByColombia = $request->query('is_colombian');
@@ -20,6 +32,11 @@ class ReportController extends Controller
         // Filtrar por si es colombiano o no
         if (!is_null($filterByColombia)) {
             $query->whereHas('person', function ($q) use ($filterByColombia, $colombiaId) {
+                // FILTER_VALIDATE_BOOLEAN convierte el valor a booleano
+                // Si es verdadero, solo colombianos
+                // Si es falso, todos menos los colombianos
+                // Si es null, no se aplica filtro
+                // Si el valor es un string, lo convertimos a booleano
                 if (filter_var($filterByColombia, FILTER_VALIDATE_BOOLEAN)) {
                     // Solo colombianos
                     $q->where('country_id', $colombiaId);
