@@ -194,7 +194,7 @@
                 <th scope="col" class="px-6 py-3">Nombre Completo</th>
                 <th scope="col" class="px-6 py-3">Típo de Documento</th>
                 <th scope="col" class="px-6 py-3">Num. de Documento</th>
-                <th scope="col" class="px-6 py-3">Email</th>
+                <th scope="col" class="px-6 py-3">Tipo</th>
                 <th scope="col" class="px-6 py-3">Universidad</th>
                 <th scope="col" class="px-6 py-3">Acciones</th>
             </tr>
@@ -212,7 +212,7 @@
                         {{ $assistance->person->document_number }}
                     </td>
                     <td colspan="1" class="px-6 py-4">
-                        {{ $assistance->person->email }}
+                        {{ $assistance->person->type }}
                     </td>
                     <td colspan="1" class="px-6 py-4">
                         {{ $assistance->person->university->name }}

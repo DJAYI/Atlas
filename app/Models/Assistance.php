@@ -29,8 +29,6 @@ class Assistance extends Model
         return $this->belongsTo(University::class, 'university_destiny_id');
     }
 
-
-
     public function mobility()
     {
         return $this->belongsTo(Mobility::class);

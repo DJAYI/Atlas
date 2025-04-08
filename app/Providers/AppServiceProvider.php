@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Country;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,8 +19,5 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        // Paginator::useTailwind();
-    }
+    public function boot(): void {}
 }

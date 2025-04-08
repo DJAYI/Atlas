@@ -6,6 +6,7 @@ use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UniversityController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'es|en']], functio
         App::setLocale($locale);
         return view('index', ['locale' => $locale]);
     })->name('home');
+
 
     Route::get('/assistance', function (string $locale) {
         App::setLocale($locale);
@@ -39,7 +41,9 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     })->name('dashboard');
 
     Route::prefix('events')->group(function () {
+
         Route::get('/', [EventController::class, 'index'])->name('events');
+        Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report');
         Route::get('/edit/{id}', [EventController::class, 'edit'])->name('events.edit');
         Route::post('/', [EventController::class, 'store'])->name('events.store');
         Route::put('/{id}', [EventController::class, 'update'])->name('events.update');
@@ -81,6 +85,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::delete('/{id}', [CareerController::class, 'destroy'])->name('careers.destroy');
     });
 });
+
 
 
 require __DIR__ . '/auth.php';

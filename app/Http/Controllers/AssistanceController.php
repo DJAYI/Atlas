@@ -64,6 +64,7 @@ class AssistanceController extends Controller
                 'genre' => $request->input('biological_sex'),
                 'birth_date' => $request->input('birth_date'),
                 'minority' => $request->input('minority_group'),
+                'type' => $request->input('type'),
             ]
         );
 
