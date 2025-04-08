@@ -13,7 +13,7 @@
                     <div
                         class="absolute top-0  w-1/2 h-1/2 blur-2xl opacity-15 rounded-full -z-[0] left-0 bg-gradient-to-r from-secondary-500 to-transparent">
                     </div>
-                    <h2 class="text-2xl font-semibold my-3 text-primary-800 px-2 text-center">Reportes de Movilidad
+                    <h2 class="text-2xl font-semibold my-3 text-secondary-400 px-2 text-center">Reportes de Movilidad
                         Foranea
                     </h2>
 
@@ -125,7 +125,7 @@
                     <div
                         class="absolute top-0  w-1/2 h-1/2 blur-2xl opacity-15 rounded-full -z-[0] right-0 bg-gradient-to-r from-secondary-500 to-transparent">
                     </div>
-                    <h2 class="text-2xl text-center font-semibold my-3 text-primary-800 px-2">Reportes de Movilidad
+                    <h2 class="text-2xl text-center font-semibold my-3 text-secondary-400 px-2">Reportes de Movilidad
                         Local
                     </h2>
                     <details class="col-span-1 max-h-32 overflow-y-auto">
