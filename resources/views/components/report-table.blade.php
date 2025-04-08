@@ -1,4 +1,4 @@
-<details class="col-span-1 ">
+<details class="col-span-1 max-h-48 overflow-y-auto">
     <summary
         class="text-lg text-pretty flex items-center text-primary-700 px-3 py-2 border rounded-lg font-semibold hover:bg-primary-400 hover:text-white transition duration-75 cursor-pointer">
         Reportes de Movilidad de Eventos de {{ $title }}
@@ -6,11 +6,11 @@
 
 
     <table
-        class="w-full max-h-12 overflow-y-auto text-sm text-left text-gray-500 rtl:text-center border-b border-l border-r border-gray-300 rounded-b-lg border-separate">
+        class="w-full   text-sm text-left text-gray-500 rtl:text-center border-b border-l border-r border-gray-300 rounded-b-lg border-separate">
         <thead>
             <tr>
                 <th class="px-4 py-2 text-center">Evento</th>
-                <th class="px-4 py-2 text-center">Num. Asistentes</th>
+                <th class="px-4 py-2 text-center">Total Asistentes</th>
                 <th class="px-4 py-2 text-center">Fecha</th>
                 <th class="px-4 py-2 text-center">Acciones</th>
             </tr>

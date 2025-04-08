@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ReportsExport;
 use App\Models\Assistance;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -58,6 +60,6 @@ class ReportController extends Controller
 
         $result = $query->get();
 
-        dd($result->toArray());
+        return Excel::download(new ReportsExport($result, $eventId, $filterByColombia), 'report.xlsx');
     }
 }
