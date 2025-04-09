@@ -5,21 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\User;
-use Database\Factories\CityFactory;
-use Database\Factories\CountryFactory;
-use Database\Factories\StateFactory;
-use Database\Factories\UniversityFactory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
-use App\Models\State;
 use App\Models\University;
-use App\Models\Activity;
-use App\Models\Agreement;
-use App\Models\City;
 use App\Models\Country;
-use App\Models\Faculty;
-use App\Models\Mobility;
 
 class DatabaseSeeder extends Seeder
 {
@@ -39,8 +27,15 @@ class DatabaseSeeder extends Seeder
         Country::create([
             'id' => 1,
             'name' => 'COLOMBIA',
-            'iso_code_alpha_3' => '170',
-            'iso_code' => 'COL',
+            'iso_code_alpha_3' => 'COL',
+            'iso_code' => '170',
+        ]);
+
+        Country::create([
+            'id' => 2,
+            'name' => 'PERU',
+            'iso_code_alpha_3' => 'PER',
+            'iso_code' => '604',
         ]);
 
         University::create([
