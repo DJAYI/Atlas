@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
         Country::create([
             'id' => 1,
             'name' => 'COLOMBIA',
-            'iso_code_alpha-3' => '170',
+            'iso_code_alpha_3' => '170',
             'iso_code' => 'COL',
         ]);
 
