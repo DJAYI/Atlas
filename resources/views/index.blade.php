@@ -51,9 +51,9 @@
         </div>
     </div>
     <div class="flex flex-col items-center justify-between w-full gap-4 px-6 py-4 bg-transparent sm:flex-row ">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtxW4Gq4oqpJmqr-vrf2VR-Kjo_lTh7vFtDA&s"
-            class="h-16" alt="">
-        <p class="font-semibold text-center text-black sm:text-start">2025 &copy; Copyright - Fundación Universitaria
+        <img src="{{ asset('images/logo_tecno_comfenalco.png') }}" class="h-24" alt="">
+        <p class="font-semibold self-end text-center text-black sm:text-start">2025 &copy; Copyright - Fundación
+            Universitaria
             Tecnológico Comfenalco</p>
     </div>
 </x-app-layout>
