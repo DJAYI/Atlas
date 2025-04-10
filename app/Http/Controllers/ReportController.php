@@ -60,6 +60,6 @@ class ReportController extends Controller
 
         $result = $query->get();
 
-        return Excel::download(new ReportsExport($result, $eventId, $filterByColombia), 'report.xlsx');
+        return Excel::download(new ReportsExport($result, $type, $filterByColombia), 'report.xlsx');
     }
 }

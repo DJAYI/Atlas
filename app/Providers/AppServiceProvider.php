@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Assistance;
 use App\Models\Country;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;

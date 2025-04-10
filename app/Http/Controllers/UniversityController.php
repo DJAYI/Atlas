@@ -21,14 +21,6 @@ class UniversityController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -56,14 +48,6 @@ class UniversityController extends Controller
 
         return redirect()->route('universities')
             ->with('success', 'University created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(University $university)
-    {
-        //
     }
 
     /**

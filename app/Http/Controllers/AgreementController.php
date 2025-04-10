@@ -49,15 +49,6 @@ class AgreementController extends Controller
         return redirect()->route('agreements')
             ->with('success', 'Agreement created successfully.');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Agreement $agreement)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      */

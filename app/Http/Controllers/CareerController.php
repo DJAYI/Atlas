@@ -18,13 +18,7 @@ class CareerController extends Controller
         return view('dashboard.pages.careers.index', compact('careers', 'careersPaginated'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -42,13 +36,6 @@ class CareerController extends Controller
         return redirect()->route('careers')->with('success', 'Career created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Career $career)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

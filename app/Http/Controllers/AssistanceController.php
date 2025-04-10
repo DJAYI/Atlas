@@ -27,14 +27,6 @@ class AssistanceController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -90,32 +82,10 @@ class AssistanceController extends Controller
 
         ]);
 
-
-
         session()->flash('success', __('assistance.saved_successfully'));
         return redirect()->route('assistance', ['locale' => $request->locale]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Assistance $assistance)
-    {
-        //
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Assistance $assistance)
-    {
-        //
-    }
-
-    /**
-     * Verify if the assistance exists in API or database
-     */
 
     public function verifyAssistance(Request $request)
     {

@@ -13,7 +13,8 @@
             @endif
             <th>ID_PAIS_EXTRANJERO</th>
             <th>INSTITUCION_EXTRANJERA</th>
-            <th>ID_TIPO_MOV_EXTRANJ</th>
+            <th>ID_TIPO_MOV_{{ $ReportType == 'estudiante' ? 'EST' : ($ReportType == 'profesor' ? 'DOC' : ($ReportType == 'administrativo' ? 'ADM' : '')) }}_{{ $IsColombian == 'true' ? 'EXTERIOR' : 'EXTRANJ' }}
+            </th>
             <th>NUM_DIAS_MOVILIDAD</th>
             <th>MOVILIDAD_POR_CONVENIO</th>
             <th>CODIGO_CONVENIO</th>
