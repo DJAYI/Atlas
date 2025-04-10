@@ -26,8 +26,8 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen">
+<body class="font-sans antialiased overflow-y-auto">
+    <div class="min-h-screen flex flex-col">
         <div class="fixed w-full h-screen bg-gradient-to-br from-white to-primary-200 -z-50">
             {{-- Sphere gadient in the background with secondary color positionated down and left --}}
 
@@ -36,11 +36,14 @@
             </div>
         </div>
         <!-- Page Content -->
-        <main class="">
+        <main class=" flex-grow ">
             {{ $slot }}
         </main>
+
     </div>
+
     @livewireScripts
+
 </body>
 
 </html>

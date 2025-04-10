@@ -1,4 +1,4 @@
-<nav class="flex flex-row items-center gap-4 p-6">
+<nav class="flex flex-col md:flex-row md:items-center gap-4 mb-3 p-6">
     <li class="list-none w-fit">
         <a class="flex flex-row items-center gap-1 px-4 py-2 text-lg font-semibold transition rounded-md shadow-xl group shadow-transparent hover:shadow-red-300 ring-1 hover:ring-4 ring-red-300 hover:text-white w-fit hover:bg-red-500"
             href="{{ route('home', ['locale' => 'es']) }}">
@@ -9,9 +9,9 @@
         </a>
     </li>
 
-    <li class="w-2/5 mx-3 list-none">
+    <li class="md:w-2/5 w-full md:mx-3 list-none">
         <span>
-            <h1 class="text-3xl font-black drop-shadow-md ">
+            <h1 class="text-2xl sm:text-3xl font-black drop-shadow-md ">
                 {{ __('Verifíca tu Asistencia') }}
             </h1>
         </span>
@@ -23,10 +23,10 @@
     @csrf
     @method('POST')
 
-    <div class="flex flex-row items-center justify-center w-full">
+    <div class="flex flex-col md:flex-row items-center justify-center w-full">
 
         {{-- Tipo de documento --}}
-        <div class="flex flex-col w-full gap-4 p-6">
+        <div class="flex flex-col w-full gap-4 md:py-4 px-6">
             <label for="document_type" class="text-lg font-semibold text-gray-700">
                 {{ __('Tipo de documento') }} <span class="text-secondary-400">*</span>
             </label>

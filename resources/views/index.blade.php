@@ -2,8 +2,10 @@
     <x-utils.language-selector route="home" />
 
     <div
-        class="grid w-full h-dvh grid-cols-1 gap-5 mx-auto md:grid-cols-[1fr_4px_1fr] max-w-7xl sm:place-items-center items-start">
+        class="grid w-full mb-6 h-dvh grid-cols-1 gap-5 mx-auto md:grid-cols-[1fr_4px_1fr] max-w-7xl sm:place-items-center items-start">
         <div class="flex flex-col justify-center gap-4 mt-8">
+            <h1 class="text-5xl sm:hidden font-black text-center drop-shadow-md ">{{ __('Bienvenido a') }} <span
+                    class="text-secondary-400">Hermes</span></h1>
             <h1 class="text-3xl font-black text-center drop-shadow-md ">
                 {{ __('¿Éres un Asistente?') }}</h1>
 
@@ -18,18 +20,22 @@
             {{ __('O') }}
             <hr class="h-56 w-[3px] bg-gradient-to-b from-secondary-300 to-transparent">
         </div>
-        <div class="flex-col justify-center hidden gap-4 sm:flex">
-            <h1 class="text-5xl font-black text-center drop-shadow-md ">{{ __('Bienvenido a') }} <span
+        <div class="flex-col justify-center mx-4 gap-4 sm:flex">
+            <h1 class="text-5xl hidden sm:block font-black text-center drop-shadow-md ">{{ __('Bienvenido a') }} <span
                     class="text-secondary-400">Hermes</span></h1>
+
+            <h1 class="text-3xl font-black text-center sm:hidden drop-shadow-md ">
+                {{ __('¿Éres un Gestor?') }} <br> {{ __('Inicia Sesión') }}</h1>
 
             <form action="{{ route('login') }}" class="flex flex-col gap-6" method="POST">
                 @csrf
                 @method('POST')
 
-                <h3 class="text-2xl text-pretty max-w-[450px]">{{ __('¿Vas a gestionar tu internacionalización?') }}
+                <h3 class="text-2xl mb-4 hidden md:block text-pretty max-w-[450px]">
+                    {{ __('¿Vas a gestionar tu internacionalización?') }}
                 </h3>
 
-                <div class="flex flex-col gap-4">
+                <div class="flex flex-col mt-4 gap-4">
 
                     <div class="flex flex-col gap-2">
                         <label for="email" class="text-lg">{{ __('Correo electrónico') }}</label>
@@ -50,10 +56,12 @@
 
         </div>
     </div>
-    <div class="flex flex-col items-center justify-between w-full gap-4 px-6 py-4 bg-transparent sm:flex-row ">
-        <img src="{{ asset('images/logo_tecno_comfenalco.png') }}" class="h-24" alt="">
-        <p class="font-semibold self-end text-center text-black sm:text-start">2025 &copy; Copyright - Fundación
-            Universitaria
-            Tecnológico Comfenalco</p>
-    </div>
+
+    <footer
+        class="md:flex sticky hidden flex-col items-center justify-between w-full gap-4 px-6 py-4 bg-transparent sm:flex-row">
+        <img src="{{ asset('images/logo_tecno_comfenalco.png') }}" class="max-h-24 aspect-video" alt="">
+        <p class="font-semibold self-end text-center text-black sm:text-start">
+            2025 &copy; Copyright - Fundación Universitaria Tecnológico Comfenalco
+        </p>
+    </footer>
 </x-app-layout>

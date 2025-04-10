@@ -1,5 +1,5 @@
-<div class="flex gap-4">
-    <div class="flex flex-col w-full gap-2">
+<div class="gap-4 grid grid-cols-1 md:grid-cols-2">
+    <div class="flex flex-col w-full gap-2 col-span-1">
         <label for="assistanceType" class="text-gray-500">{{ __('¿Quién eres?') }}<span
                 class="text-secondary-400">*</span></label>
         <select wire:model.live="selectedAssistanceType" id="assistanceType" name="type"
@@ -12,7 +12,7 @@
         </select>
     </div>
 
-    <div class="flex flex-col w-full gap-2">
+    <div class="flex flex-col w-full gap-2 col-span-1">
         <label for="mobility" class="text-gray-500">{{ __('¿A qué vienes?') }}<span
                 class="text-secondary-400">*</span></label>
         <select id="mobility" wire:model.live="mobility" name="mobility_id"

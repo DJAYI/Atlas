@@ -20,7 +20,7 @@
 
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información Personal') }}</h3>
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                         <div class="flex flex-col gap-2">
                             <label for="first_name" class="text-gray-500">{{ __('Nombre') }}<span
@@ -60,7 +60,7 @@
 
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Contacto') }}</h3>
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="flex flex-col gap-2">
                             <label for="personal_email" class="text-gray-500">{{ __('Correo Electrónico') }}<span
                                     class="text-secondary-400">*</span></label>
@@ -106,7 +106,7 @@
 
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información Adicional') }}</h3>
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="flex flex-col gap-2">
                             <label for="origin_university" class="text-gray-500">{{ __('Universidad de Origen') }}<span
                                     class="text-secondary-400">*</span></label>
@@ -204,12 +204,12 @@
 
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información de Asistencia') }}</h3>
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="col-span-2">
                             @livewire('select-mobility', ['type' => session('found') ? session('person')->type : ''])
 
                         </div>
-                        <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2 col-span-2 md:col-span-1">
                             <label for="destination_university"
                                 class="text-gray-500">{{ __('Universidad de Destino') }}<span
                                     class="text-secondary-400">*</span></label>
@@ -225,7 +225,7 @@
                             </select>
                         </div>
 
-                        <div class="flex-col hidden gap-2">
+                        <div class="flex-col hidden gap-2 col-span-2 md:col-span-1">
                             <label for="identity_document"
                                 class="text-gray-500">{{ __('Fotocopia de Documento de Identidad') }}<span
                                     class="text-secondary-400">*</span></label>
@@ -243,10 +243,8 @@
                             </div>
                         </div>
                         {{-- Submit Button --}}
-                        <div class="flex col-span-2 items-center justify-between mt-4">
-                            <button type="submit"
-                                class="px-4 w-1/2 mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Registrar Asistencia') }}</button>
-                        </div>
+                        <button type="submit"
+                            class="px-4 w-full ms-4 col-span-1 items-center mx-auto mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Registrar Asistencia') }}</button>
                     </div>
 
                 </div>
