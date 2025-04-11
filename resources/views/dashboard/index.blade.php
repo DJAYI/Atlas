@@ -5,18 +5,19 @@
         </h2>
     </div>
     <div class="flex flex-col gap-4 mt-4 h-full">
-        <h2 class="text-xl font-semibold my-3 text-primary-700 px-2">Reportes de Movilidad</h2>
+        <h2 class="text-xl font-semibold my-3 text-primary-700 px-2">Reportes de SNIES</h2>
         <div class="grid grid-cols-[1fr_20px_1fr] p-8 border rounded-md items-center gap-8">
             <div class="grid grid-cols-1 col-span-1 self-start gap-4 px-3 relative">
 
-                <h2 class="text-lg font-semibold my-3 text-secondary-400 px-2 text-center">Reportes de Movilidad Foránea
+                <h2 class="text-lg font-semibold my-3 text-secondary-400 px-2 text-center">Reportes de SNIES Movilidad
+                    del Exterior hacia Colombia
                 </h2>
 
                 @php
                     $localTypes = [
-                        'profesor' => 'Docentes Foráneos',
-                        'estudiante' => 'Estudiantes Foráneos',
-                        'administrativo' => 'Administrativos Foráneos',
+                        'profesor' => 'Movilidad de Docentes del Exterior hacia Colombia',
+                        'estudiante' => 'Movilidad de Estudiantes del Exterior hacia Colombia',
+                        'administrativo' => 'Movilidad de Administrativos del Exterior hacia Colombia',
                     ];
                 @endphp
 
@@ -31,14 +32,15 @@
 
             <div class="grid grid-cols-1 col-span-1 self-start gap-4 px-3 relative">
 
-                <h2 class="text-lg text-center font-semibold my-3 text-secondary-400 px-2">Reportes de Movilidad Local
+                <h2 class="text-lg text-center font-semibold my-3 text-secondary-400 px-2">Reportes de SNIES Movilidad
+                    hacia el Exterior
                 </h2>
 
                 @php
                     $localTypes = [
-                        'profesor' => 'Docentes Locales',
-                        'estudiante' => 'Estudiantes Locales',
-                        'administrativo' => 'Administrativos Locales',
+                        'profesor' => 'Movilidad de Docentes hacia el Exterior',
+                        'estudiante' => 'Movilidad de Estudiantes hacia el Exterior',
+                        'administrativo' => 'Movilidad de Administrativos hacia el Exterior',
                     ];
                 @endphp
 

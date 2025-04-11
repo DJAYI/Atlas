@@ -10,8 +10,10 @@
                 {{ __('¿Éres un Asistente?') }}</h1>
 
             <img src="{{ asset('images/map-destination.png') }}"
-                class="object-cover sm:mx-auto transition-opacity duration-500 ease-in-out bg-transparent opacity-0 brightness-110 aspect-[3/2] mx-4 sm:h-[400px] sm:w-[500px]"
-                alt="" loading="lazy" onload="this.style.opacity='1'">
+                class="object-cover sm:mx-auto transition-opacity duration-500 ease-in-out bg-transparent opacity-0 brightness-110 aspect-square mx-4 sm:w-[500px] "
+                alt="" loading="lazy"
+                style="clip-path: polygon(47% 3%, 90% 4%, 100% 43%, 100% 70%, 98% 96%, 7% 100%, 0 58%, 12% 40%, 8% 31%, 11% 23%); mask-image: linear-gradient(to top, transparent 2%, black 60%);"
+                onload="this.style.opacity='1'">
             <a href="{{ route('assistance', ['locale' => app()->getLocale()]) }}"
                 class="block sm:inline-block mx-5 sm:w-3/5 sm:mx-auto px-4 py-3 font-semibold text-center text-white transition rounded-lg  bg-gradient-to-tr from-blue-500 to-blue-700 hover:shadow-[1px_1px_20px] hover:shadow-blue-400/65 hover:bg-blend-darken hover:bg-primary-500 ">{{ __('Registra tu Asistencia') }}</a>
         </div>

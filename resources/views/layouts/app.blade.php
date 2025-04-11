@@ -28,11 +28,18 @@
 
 <body class="font-sans antialiased overflow-y-auto">
     <div class="min-h-screen flex flex-col">
-        <div class="fixed w-full h-screen bg-gradient-to-br from-white to-primary-200 -z-50">
+        <div class="fixed w-full h-screen bg-white -z-50">
             {{-- Sphere gadient in the background with secondary color positionated down and left --}}
 
             <div
-                class="absolute rounded-full size-[700px] bg-gradient-to-bl from-secondary-400 to-secondary-600 filter blur-[100px] opacity-20 -left-60 -top-20">
+                class="absolute rounded-full size-[700px] bg-gradient-to-bl from-primary-400 to-primary-600 filter blur-[100px] opacity-20 -left-60 -top-20">
+            </div>
+
+            <div class="absolute rounded-full h-full w-full opacity-60">
+
+                <img class="w-full h-full opacity-0 transition-opacity duration-500 ease-in-out brightness-110 object-cover"
+                    src="{{ asset('images/background_layout.jpg') }}" alt="" loading="lazy"
+                    onload="this.style.opacity='1'">
             </div>
         </div>
         <!-- Page Content -->

@@ -31,6 +31,30 @@ class AssistanceController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the request
+
+        try {
+            $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'personal_email' => 'required|email|max:255',
+                'institutional_email' => 'nullable|email|max:255',
+                'phone_number' => 'nullable|string|max:20',
+                'country_of_origin' => 'required|exists:countries,id',
+                'origin_university' => 'required|exists:universities,id',
+                'academic_program' => 'required|exists:careers,id',
+                'biological_sex' => 'required|string|max:10',
+                'birth_date' => 'required|date',
+                'minority_group' => 'nullable|string|max:255',
+                'type' => 'required|string|max:50',
+                'destination_university' => 'required|exists:universities,id',
+                'mobility_id' => 'required|exists:mobilities,id',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            session()->flash('errors', $e->validator->errors());
+            return redirect()->back()->withInput();
+        }
+
         // Retrieve data from session
         $documentType = session('document_type');
         $documentNumber = session('document_number');
@@ -71,6 +95,15 @@ class AssistanceController extends Controller
             return redirect()->route('assistance', ['locale' => $request->locale]);
         }
 
+        // Validar que el asistente no haya sido registrado previamente
+        $existingAssistance = Assistance::where('event_id', $event->id)
+            ->where('person_id', $person->id)
+            ->first();
+        if ($existingAssistance) {
+            session()->flash('error', __('assistance.already_registered'));
+            return redirect()->route('assistance', ['locale' => $request->locale]);
+        }
+
 
         // Create the assistance record
         $assistance = Assistance::create([
@@ -89,6 +122,13 @@ class AssistanceController extends Controller
 
     public function verifyAssistance(Request $request)
     {
+        // Validar los datos de entrada
+        $request->validate([
+            'document_type' => 'required|string|max:255',
+            'document_number' => 'required|string|max:255',
+            'event_code' => 'required|string|max:255',
+        ]);
+
         // Buscar persona (Asegurar que whereAny existe o usar where con un array)
         $person = Person::where([
             'document_type' => $request->document_type,
