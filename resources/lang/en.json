@@ -77,5 +77,12 @@
     "Administrativo": "Administrative",
     "Programa": "Career",
     "Ingrese su correo institucional": "Enter your institutional email",
-    "País de Origen": "Country of Origin"
+    "País de Origen": "Country of Origin",
+    "Universidad de Origen": "University of Origin",
+    "Sexo Biológico": "Biological Sex",
+    "Propósito de Asistencia": "Purpose of Attendance",
+    "Universidad de Destino": "Destination University",
+    "Fotocopia de Documento de Identidad": "Copy of Identity Document",
+    "Información de Asistencia": "Attendance Information",
+    "Formato permitido: JPG, JPEG, PNG, WEBP. Tamaño máximo: 2MB.": "Allowed format: JPG, JPEG, PNG, WEBP. Maximum size: 2MB."
 }
