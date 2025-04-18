@@ -41,6 +41,15 @@ class MobilitiesSeeder extends Seeder
             ['name' => 'Profesor Programa Maestría', 'type' => 'profesor'],
             ['name' => 'Profesor Programa Doctorado', 'type' => 'profesor'],
             ['name' => 'Profesor Programa Posdoctorado', 'type' => 'profesor'],
+
+            // Egresados
+            ['name' => 'Asistencia a eventos', 'type' => 'egresado'],
+            ['name' => 'Misión', 'type' => 'egresado'],
+            ['name' => 'Curso Corto', 'type' => 'egresado'],
+            ['name' => 'Gestión de convenios', 'type' => 'egresado'],
+            ['name' => 'Doble Titulación', 'type' => 'egresado'],
+            ['name' => 'Conversatorio', 'type' => 'egresado'],
+
         ];
 
         DB::table('mobilities')->insert($mobilities);

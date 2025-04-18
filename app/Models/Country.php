@@ -6,12 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
+    // code alpha 3. Example: "COL" for Colombia and iso code "170"
     protected $fillable = ['name', 'iso_code_alpha_3', 'iso_code'];
-
-    public function states()
-    {
-        return $this->hasMany(State::class);
-    }
 
     public function universities()
     {
