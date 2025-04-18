@@ -1,15 +1,19 @@
 <x-layouts.dashboard-layout title="Estadísticas">
     <div class="flex flex-row items-center justify-between my-4">
-        <h2 class="text-2xl text-pretty h-full  flex items-center font-semibold text-primary-700">
+        <h2 class="flex items-center h-full text-2xl font-semibold text-pretty text-primary-700">
             Gestión de Estadísticas y Reportes
         </h2>
     </div>
-    <div class="flex flex-col gap-4 mt-4 h-full">
-        <h2 class="text-xl font-semibold my-3 text-primary-700 px-2">Reportes de SNIES</h2>
-        <div class="grid grid-cols-[1fr_20px_1fr] p-8 border rounded-md items-center gap-8">
-            <div class="grid grid-cols-1 col-span-1 self-start gap-4 px-3 relative">
+    <details class="flex flex-col open:[&>summary]:bg-primary-400 open:[&>summary]:text-white h-full gap-4 mt-4">
+        <summary
+            class="flex items-center px-3 py-2 text-lg font-semibold transition duration-75 border rounded-lg cursor-pointer text-pretty text-primary-700 hover:bg-primary-400 hover:text-white">
+            <h2 class="text-2xl font-semibold text-pretty">
+                Reportes de SNIES</h2>
+        </summary>
+        <div class="grid grid-cols-[1fr_20px_1fr] p-8 -mt-6 border-x border-b rounded-md items-center gap-8">
+            <div class="relative grid self-start grid-cols-1 col-span-1 gap-4 px-3">
 
-                <h2 class="text-lg font-semibold my-3 text-secondary-400 px-2 text-center">Reportes de SNIES Movilidad
+                <h2 class="px-2 my-3 text-lg font-semibold text-center text-secondary-400">Reportes de SNIES Movilidad
                     del Exterior hacia Colombia
                 </h2>
 
@@ -22,17 +26,17 @@
                 @endphp
 
                 @foreach ($localTypes as $type => $title)
-                    <x-report-table :filtered-events="$events->filter(fn($event) => $event->assistances->contains(fn($assistance) => $assistance->person->country->name !== 'COLOMBIA' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="false" />
+                    <x-report-table :filtered-events="$events->filter(fn($event) => $event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name !== 'COLOMBIA' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="false" />
                 @endforeach
             </div>
 
-            <div class="flex-col col-span-1 items-center justify-center hidden md:flex">
+            <div class="flex-col items-center justify-center hidden col-span-1 md:flex">
                 <hr class="min-h-96 w-[1px] bg-gray-300/60">
             </div>
 
-            <div class="grid grid-cols-1 col-span-1 self-start gap-4 px-3 relative">
+            <div class="relative grid self-start grid-cols-1 col-span-1 gap-4 px-3">
 
-                <h2 class="text-lg text-center font-semibold my-3 text-secondary-400 px-2">Reportes de SNIES Movilidad
+                <h2 class="px-2 my-3 text-lg font-semibold text-center text-secondary-400">Reportes de SNIES Movilidad
                     hacia el Exterior
                 </h2>
 
@@ -45,9 +49,9 @@
                 @endphp
 
                 @foreach ($localTypes as $type => $title)
-                    <x-report-table :filtered-events="$events->filter(fn($event) => $event->assistances->contains(fn($assistance) => $assistance->person->country->name === 'COLOMBIA' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="true" />
+                    <x-report-table :filtered-events="$events->filter(fn($event) =>  $event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name === 'COLOMBIA' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="true" />
                 @endforeach
             </div>
         </div>
-    </div>
+    </details>
 </x-layouts.dashboard-layout>
