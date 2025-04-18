@@ -35,7 +35,7 @@
                 @endphp
 
                 @foreach ($localTypes as $type => $title)
-                    <x-report-table :filtered-events="$events->filter(fn($event) => $event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name !== 'COLOMBIA' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="false" />
+                    <x-report-table :filtered-events="$events->filter(fn($event) => $event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name !== 'Colombia' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="false" />
                 @endforeach
             </div>
 
@@ -58,7 +58,7 @@
                 @endphp
 
                 @foreach ($localTypes as $type => $title)
-                    <x-report-table :filtered-events="$events->filter(fn($event) =>  $event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name === 'COLOMBIA' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="true" />
+                    <x-report-table :filtered-events="$events->filter(fn($event) =>  $event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name === 'Colombia' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="true" />
                 @endforeach
             </div>
         </div>

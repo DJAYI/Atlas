@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\ReportsExport;
 use App\Models\Assistance;
+use App\Models\Country;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -27,7 +28,7 @@ class ReportController extends Controller
         $eventId = $request->query('event_id');
         $type = $request->query('type');
         $filterByColombia = $request->query('is_colombian');
-        $colombiaId = 1;
+        $colombiaId = Country::where('name', 'Colombia')->first()->id;
 
         $query = Assistance::with('person')->where('event_id', $eventId);
 
