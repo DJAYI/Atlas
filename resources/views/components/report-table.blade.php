@@ -1,12 +1,12 @@
-<details class="col-span-1 max-h-48 overflow-y-auto">
+<details open class="col-span-1 overflow-y-auto max-h-48">
     <summary
-        class="text-lg text-pretty flex items-center text-primary-700 px-3 py-2 border rounded-lg font-semibold hover:bg-primary-400 hover:text-white transition duration-75 cursor-pointer">
+        class="flex items-center px-3 py-2 text-lg font-semibold transition duration-75 border rounded-lg cursor-pointer text-pretty text-primary-700 hover:bg-primary-400 hover:text-white">
         Reportes de Movilidad de Eventos de {{ $title }}
     </summary>
 
 
     <table
-        class="w-full   text-sm text-left text-gray-500 rtl:text-center border-b border-l border-r border-gray-300 rounded-b-lg border-separate">
+        class="w-full text-sm text-left text-gray-500 border-b border-l border-r border-separate border-gray-300 rounded-b-lg rtl:text-center">
         <thead>
             <tr>
                 <th class="px-4 py-2 text-center">Evento</th>
