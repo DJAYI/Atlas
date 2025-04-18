@@ -23,11 +23,22 @@
 
     <!-- Agregar el archivo JS de Choices.js -->
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    {{-- Singlemaps --}}
+    @if (file_exists(resource_path('js/mapdata.js')))
+        <script type="text/javascript" src="{{ Vite::asset('resources/js/mapdata.js') }}"></script>
+    @endif
+    @if (file_exists(resource_path('js/worldmap.js')))
+        <script type="text/javascript" src="{{ Vite::asset('resources/js/worldmap.js') }}"></script>
+    @endif
+
+    {{-- Livewire --}}
+
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased overflow-y-auto">
-    <div class="min-h-screen flex flex-col">
+<body class="overflow-y-auto font-sans antialiased">
+    <div class="flex flex-col min-h-screen">
         <div class="fixed w-full h-screen bg-white -z-50">
             {{-- Sphere gadient in the background with secondary color positionated down and left --}}
 
@@ -35,15 +46,15 @@
                 class="absolute rounded-full size-[700px] bg-gradient-to-bl from-primary-400 to-primary-600 filter blur-[100px] opacity-20 -left-60 -top-20">
             </div>
 
-            <div class="absolute rounded-full h-full w-full opacity-60">
+            <div class="absolute w-full h-full rounded-full opacity-60">
 
-                <img class="w-full h-full opacity-0 transition-opacity duration-500 ease-in-out brightness-110 object-cover"
+                <img class="object-cover w-full h-full transition-opacity duration-500 ease-in-out opacity-0 brightness-110"
                     src="{{ asset('images/background_layout.jpg') }}" alt="" loading="lazy"
                     onload="this.style.opacity='1'">
             </div>
         </div>
         <!-- Page Content -->
-        <main class=" flex-grow ">
+        <main class="flex-grow ">
             {{ $slot }}
         </main>
 

@@ -4,7 +4,16 @@
             Gestión de Estadísticas y Reportes
         </h2>
     </div>
-    <details class="flex flex-col open:[&>summary]:bg-primary-400 open:[&>summary]:text-white h-full gap-4 mt-4">
+
+    <div class="border rounded-t">
+        <h1 class="px-2 py-3 text-2xl font-semibold text-center text-primary-400">Mapa de Asistencias</h1>
+    </div>
+    <div class="w-full px-4 py-8 -mt-4 border-b rounded-md border-x">
+        <div id="map"></div>
+    </div>
+
+
+    <details open class="flex flex-col open:[&>summary]:bg-primary-400 open:[&>summary]:text-white h-full gap-4 mt-4">
         <summary
             class="flex items-center px-3 py-2 text-lg font-semibold transition duration-75 border rounded-lg cursor-pointer text-pretty text-primary-700 hover:bg-primary-400 hover:text-white">
             <h2 class="text-2xl font-semibold text-pretty">
@@ -54,4 +63,5 @@
             </div>
         </div>
     </details>
+
 </x-layouts.dashboard-layout>

@@ -6,6 +6,7 @@ use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\MapDataController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UniversityController;
 use Illuminate\Support\Facades\App;
@@ -86,6 +87,5 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     });
 });
 
-
-
+Route::get('/map-locations', [MapDataController::class, 'locations']);
 require __DIR__ . '/auth.php';
