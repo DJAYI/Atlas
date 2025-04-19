@@ -1,0 +1,84 @@
+<div class="flex items-center justify-between mt-3 mb-5 gap-11">
+    @foreach ([['title' => 'N° Eventos', 'id' => 'spark-events', 'count' => $totalEvents], ['title' => 'N° Participantes', 'id' => 'spark-assistances', 'count' => $totalAssistances], ['title' => 'N° Programas Participantes', 'id' => 'spark-careers', 'count' => $totalCareers]] as $stat)
+        <div
+            class="grid w-full grid-cols-2 gap-4 px-4 py-3 rounded-xl bg-gradient-to-tl from-primary-200 to-primary-400">
+            <div>
+                <h2 class="text-2xl font-semibold text-white">{{ $stat['title'] }}</h2>
+                <div class="flex mt-2">
+                    <h2 class="text-4xl font-semibold text-white">{{ $stat['count'] }}</h2>
+                </div>
+            </div>
+            <div class="w-full" id="{{ $stat['id'] }}"></div>
+        </div>
+    @endforeach
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+    const sparkData = [{
+            id: 'spark-events',
+            name: 'Eventos',
+            data: @json($lastYearEventsCounts)
+        },
+        {
+            id: 'spark-assistances',
+            name: 'Asistencias',
+            data: @json($lastYearAssistancesCounts)
+        },
+        {
+            id: 'spark-careers',
+            name: 'Programas Participantes',
+            data: @json($lastYearCareersCounts)
+        }
+    ];
+
+    sparkData.forEach(({
+        id,
+        name,
+        data
+    }) => {
+        console.log(data);
+    })
+
+    sparkData.forEach(({
+        id,
+        name,
+        data
+    }) => {
+        const options = {
+            chart: {
+                id,
+                type: 'line',
+                height: 140,
+                sparkline: {
+                    enabled: true
+                },
+                group: 'sparklines',
+            },
+            series: [{
+                name,
+                data
+            }],
+            stroke: {
+                curve: 'smooth'
+            },
+            markers: {
+                size: 0
+            },
+            tooltip: {
+                fixed: {
+                    enabled: true,
+                    position: 'right'
+                },
+                x: {
+                    show: false
+                },
+            },
+            colors: ['#fff'],
+        };
+
+        const chart = new ApexCharts(document.querySelector(`#${id}`), options);
+        chart.render();
+    });
+</script>

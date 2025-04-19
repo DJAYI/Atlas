@@ -5,10 +5,10 @@ const countryOrigin = $("#country_of_origin");
 const identityDocumentFile = $("#identity_document");
 
 countryOrigin.addEventListener("change", (e) => {
-    const selectedValue = e.target.value;
+    const selectedText = e.target.options[e.target.selectedIndex].text;
 
     // Si el país no es Colombia, se muestra el campo de archivo de documento de identidad con un display flex
-    if (selectedValue !== "1") {
+    if (selectedText !== "Colombia") {
         identityDocumentFile.parentElement.classList.remove("hidden");
         identityDocumentFile.parentElement.classList.add("flex");
         identityDocumentFile.setAttribute("required", "required"); // Hacer que el campo sea requerido
@@ -19,7 +19,7 @@ countryOrigin.addEventListener("change", (e) => {
     }
 });
 
-if (countryOrigin.value !== "1") {
+if (countryOrigin.options[countryOrigin.selectedIndex].text !== "Colombia") {
     identityDocumentFile.parentElement.classList.remove("hidden");
     identityDocumentFile.parentElement.classList.add("flex");
     identityDocumentFile.setAttribute("required", "required"); // Hacer que el campo sea requerido

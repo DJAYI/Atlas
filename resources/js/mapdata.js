@@ -947,7 +947,7 @@ var simplemaps_worldmap_mapdata = {
     },
 };
 
-fetch("map-locations")
+fetch("api/map-locations")
     .then((res) => res.json())
     .then((data) => {
         const locations = data.locations;
@@ -962,4 +962,7 @@ fetch("map-locations")
         });
 
         simplemaps_worldmap.refresh();
+    })
+    .catch((err) => {
+        console.error("Error fetching map locations:", err);
     });

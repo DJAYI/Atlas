@@ -5,6 +5,14 @@
         </h2>
     </div>
 
+    <br>
+
+    <livewire:dashboard-sparks :events="$events" />
+
+    <br>
+    <x-partials.dashboard-chart />
+
+    <br>
     <div class="border rounded-t">
         <h1 class="px-2 py-3 text-2xl font-semibold text-center text-primary-400">Mapa de Asistencias</h1>
     </div>
@@ -12,6 +20,7 @@
         <div id="map"></div>
     </div>
 
+    <br>
 
     <details open class="flex flex-col open:[&>summary]:bg-primary-400 open:[&>summary]:text-white h-full gap-4 mt-4">
         <summary
@@ -65,3 +74,5 @@
     </details>
 
 </x-layouts.dashboard-layout>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

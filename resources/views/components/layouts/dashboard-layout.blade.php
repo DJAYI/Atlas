@@ -52,7 +52,7 @@
     </header>
 
     <main
-        class="flex flex-col justify-between w-full min-h-screen px-6 py-4 mx-4 bg-white rounded-md max-w-7xl sm:mx-auto">
+        class="flex flex-col justify-between w-full min-h-screen gap-4 px-6 py-4 mx-4 bg-white rounded-md max-w-7xl sm:mx-auto">
 
         <div>
             {{ $slot }}
