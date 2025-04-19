@@ -68,9 +68,9 @@ class MapDataController extends Controller
         }
 
         // 3. Devolvemos la respuesta con las ubicaciones y cuáles se actualizaron
-        return response()->json([
+        return [
             'locations' => $results,
             'updated' => $updated,
-        ]);
+        ];
     }
 }

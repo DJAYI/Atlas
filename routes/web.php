@@ -87,36 +87,4 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     });
 });
 
-Route::prefix('api')->middleware('auth')->group(function () {
-    Route::get('/map-locations', [MapDataController::class, 'locations']);
-    Route::get('/events/last-year-count/{months?}', function (int $months = 0) {
-        $events = \App\Models\Event::all();
-        return response()->json([
-            'last_year_count' => $events->where('created_at', '>=', now()->subYear()->addMonths($months))->count(),
-        ]);
-    })->name('events.lastYearCount');
-
-    Route::get('/events/last-year-unique-persons', function () {
-        $events = \App\Models\Event::all();
-        return response()->json([
-            'data' => [
-                $events->filter(fn($event) => $event->created_at->isLastYear())
-                    ->flatMap(fn($event) => $event->assistances)
-                    ->count()
-            ],
-        ]);
-    })->name('events.lastYearAssistances');
-
-    Route::get('/events/last-year-unique-careers', function () {
-        $events = \App\Models\Event::all();
-        return response()->json([
-            'data' => $events->filter(fn($event) => $event->created_at->isLastYear())
-                ->flatMap(fn($event) => $event->assistances)
-                ->pluck('person.career')
-                ->unique()
-                ->count(),
-        ]);
-    })->name('events.lastYearUniqueCareers');
-});
-
 require __DIR__ . '/auth.php';

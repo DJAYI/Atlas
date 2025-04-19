@@ -946,23 +946,3 @@ var simplemaps_worldmap_mapdata = {
         },
     },
 };
-
-fetch("api/map-locations")
-    .then((res) => res.json())
-    .then((data) => {
-        const locations = data.locations;
-
-        locations.forEach((loc, i) => {
-            simplemaps_worldmap_mapdata.locations[i] = {
-                name: loc.university,
-                lat: loc.lat,
-                lng: loc.lng,
-                description: `De la universidad ${loc.university} hay ${loc.total_assistants} asistentes`,
-            };
-        });
-
-        simplemaps_worldmap.refresh();
-    })
-    .catch((err) => {
-        console.error("Error fetching map locations:", err);
-    });

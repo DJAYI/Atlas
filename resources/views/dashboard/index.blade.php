@@ -5,20 +5,12 @@
         </h2>
     </div>
 
-    <br>
 
-    <livewire:dashboard-sparks :events="$events" />
+    <livewire:dashboard-sparks />
 
-    <br>
-    <x-partials.dashboard-chart />
+    <livewire:dashboard-charts />
 
-    <br>
-    <div class="border rounded-t">
-        <h1 class="px-2 py-3 text-2xl font-semibold text-center text-primary-400">Mapa de Asistencias</h1>
-    </div>
-    <div class="w-full px-4 py-8 -mt-4 border-b rounded-md border-x aspect-video">
-        <div id="map"></div>
-    </div>
+    <livewire:dashboard-map />
 
     <br>
 
