@@ -29,7 +29,7 @@ class CountrySeeder extends Seeder
         $data = $response->json();
 
         foreach ($data as $country) {
-            Country::createOrUpdate([
+            Country::create([
                 'name' => $country['name']['common'] ?? 'Unknown',
                 'iso_code' => $country['ccn3'] ?? '',
                 'iso_code_alpha_3' => $country['cca3'] ?? '',

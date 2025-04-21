@@ -16,18 +16,32 @@ class DashboardSparks extends Component
     public $totalAssistances;
     public $totalCareers;
 
-    public function getLastYearEventsCounts()
+    public function getCounts($type, $months = 10, $indexOffset = 9)
     {
-        $months = 10;
         $counts = array_fill(0, $months, 0);
 
         foreach ($this->events as $event) {
             $monthDiff = now()->diffInMonths($event->created_at, false);
-            if ($monthDiff >= -10 && $monthDiff <= 0) {
-                $counts[10 + $monthDiff]++;
+            if ($monthDiff >= -$indexOffset && $monthDiff <= 0) {
+                $count = match ($type) {
+                    'events' => 1,
+                    'assistances' => $event->assistances->count(),
+                    'careers' => $event->assistances
+                        ->pluck('person.career')
+                        ->unique()
+                        ->count(),
+                    default => 0,
+                };
+                $counts[$indexOffset + $monthDiff] += $count;
             }
         }
 
+        return $counts;
+    }
+
+    public function getLastYearEventsCounts()
+    {
+        $counts = $this->getCounts('events', 10, 10);
         $this->totalEvents = array_sum($counts);
 
         return $counts;
@@ -35,17 +49,7 @@ class DashboardSparks extends Component
 
     public function getLastYearAssistancesCounts()
     {
-        $months = 12;
-        $counts = array_fill(0, $months, 0);
-
-        foreach ($this->events as $event) {
-            $monthDiff = now()->diffInMonths($event->created_at, false);
-            if ($monthDiff >= -11 && $monthDiff <= 0) {
-                $assistancesCount = $event->assistances->count();
-                $counts[11 + $monthDiff] += $assistancesCount;
-            }
-        }
-
+        $counts = $this->getCounts('assistances', 10, 10);
         $this->totalAssistances = array_sum($counts);
 
         return $counts;
@@ -53,19 +57,7 @@ class DashboardSparks extends Component
 
     public function getLastYearCareersCounts()
     {
-        $months = 12;
-        $counts = array_fill(0, $months, 0);
-
-        foreach ($this->events as $event) {
-            $monthDiff = now()->diffInMonths($event->created_at, false);
-            if ($monthDiff >= -11 && $monthDiff <= 0) {
-                $careersCount = $event->assistances
-                    ->pluck('person.career')
-                    ->unique()
-                    ->count();
-                $counts[11 + $monthDiff] += $careersCount;
-            }
-        }
+        $counts = $this->getCounts('careers', 10, 10);
         $this->totalCareers = array_sum($counts);
 
         return $counts;

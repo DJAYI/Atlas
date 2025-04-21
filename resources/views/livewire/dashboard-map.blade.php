@@ -12,6 +12,10 @@
     console.log(cords);
 
     cords.forEach((cord, i) => {
+        if (cord.university_total == 0) {
+            return;
+        }
+
         simplemaps_worldmap_mapdata.locations[i] = {
             name: cord.university_name,
             lat: cord.lat,

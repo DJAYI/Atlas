@@ -33,9 +33,20 @@
                 type: "bar",
             },
             series: [{
-                name: "sales",
-                data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-            }, ],
+                    name: "sales",
+                    data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+                    group: "lastYear",
+                },
+                {
+                    name: "sales",
+                    data: [20, 30, 25, 40, 44, 55, 60, 70, 80],
+                    group: "thisYear",
+                }, {
+                    name: "sales",
+                    data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+                    group: "lastYear",
+                },
+            ],
             xaxis: {
                 categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
             },
