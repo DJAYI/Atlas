@@ -3,22 +3,29 @@
 namespace App\Livewire;
 
 use App\Http\Controllers\MapDataController;
+use App\Models\Assistance;
+use App\Models\University;
 use Livewire\Component;
 
 class DashboardMap extends Component
 {
-    public $mapLocations;
-
-    public function getMapLocations()
-    {
-        $mapDataController = new MapDataController();
-        $data = $mapDataController->locations(); // ya es un array plano
-        return $data['locations'];
-    }
+    public $lat;
+    public $lng;
+    public $cords = [];
 
     public function mount()
     {
-        $this->mapLocations = $this->getMapLocations();
+        $universities = University::all();
+        $this->cords = $universities->map(function ($university) {
+            return [
+                'lat' => $university->lat,
+                'lng' => $university->lng,
+                'university_name' => $university->name,
+                'university_total' => Assistance::whereHas('person', function ($query) use ($university) {
+                    $query->where('university_id', $university->id);
+                })->count(),
+            ];
+        })->toArray();
     }
 
     public function render()

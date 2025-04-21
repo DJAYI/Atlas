@@ -18,17 +18,24 @@ class CountrySeeder extends Seeder
 
         if ($response->failed()) {
             $this->command->error('Error fetching countries from API.');
+            Country::create([
+                'name' => 'Colombia',
+                'iso_code' => '170',
+                'iso_code_alpha_3' => 'COL',
+            ]);
             return;
         }
 
         $data = $response->json();
 
         foreach ($data as $country) {
-            Country::create([
+            Country::createOrUpdate([
                 'name' => $country['name']['common'] ?? 'Unknown',
                 'iso_code' => $country['ccn3'] ?? '',
                 'iso_code_alpha_3' => $country['cca3'] ?? '',
             ]);
         }
+
+        $this->command->info('Countries seeded successfully.');
     }
 }

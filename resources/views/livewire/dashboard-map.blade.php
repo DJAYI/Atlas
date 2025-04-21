@@ -8,14 +8,15 @@
 </div>
 
 <script>
-    const locations = @json($mapLocations);
+    const cords = @json($cords);
+    console.log(cords);
 
-    locations.forEach((loc, i) => {
+    cords.forEach((cord, i) => {
         simplemaps_worldmap_mapdata.locations[i] = {
-            name: loc.university,
-            lat: loc.lat,
-            lng: loc.lng,
-            description: `De la universidad ${loc.university} hay ${loc.total_assistants} asistentes`,
+            name: cord.university_name,
+            lat: cord.lat,
+            lng: cord.lng,
+            description: `De la universidad ${cord.university_name} hay ${cord.university_total} asistentes`,
         };
     });
 

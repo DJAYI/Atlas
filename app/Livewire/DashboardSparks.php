@@ -18,13 +18,13 @@ class DashboardSparks extends Component
 
     public function getLastYearEventsCounts()
     {
-        $months = 12;
+        $months = 10;
         $counts = array_fill(0, $months, 0);
 
         foreach ($this->events as $event) {
             $monthDiff = now()->diffInMonths($event->created_at, false);
-            if ($monthDiff >= -11 && $monthDiff <= 0) {
-                $counts[11 + $monthDiff]++;
+            if ($monthDiff >= -10 && $monthDiff <= 0) {
+                $counts[10 + $monthDiff]++;
             }
         }
 

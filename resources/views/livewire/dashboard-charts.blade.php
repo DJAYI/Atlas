@@ -2,8 +2,8 @@
 
     <div class="grid grid-cols-3 grid-rows-2 gap-4 mt-4" id="chart-container">
         <div class="col-span-2 row-span-2 border-r">
-            <label for="chart-0" class="text-xl font-semibold text-gray-500">
-                Gráfica de Barras
+            <label for="chart-0" class="text-xl font-semibold text-primary">
+                Estadisticas de Asistencias
             </label>
             <div id="chart-0"></div>
         </div>
