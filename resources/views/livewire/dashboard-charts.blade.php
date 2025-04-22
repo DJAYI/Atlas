@@ -1,21 +1,36 @@
-<div class="">
-
+<div>
+    <br>
     <div class="grid grid-cols-3 grid-rows-2 gap-4 mt-4" id="chart-container">
         <div class="col-span-2 row-span-2 border-r">
-            <label for="chart-0" class="text-xl font-semibold text-primary">
-                Estadisticas de Asistencias
-            </label>
+            <div class="flex flex-row justify-between pe-4 py-2 border-b">
+                <label for="chart-0" class="text-xl font-semibold text-primary">
+                    Estadísticas de Asistencias
+                </label>
+                <div class="flex flex-row gap-4 mb-2">
+                    <select wire:model="movilitySelected" class="rounded-lg font-semibold" name="movility"
+                        id="movility-select">
+                        <option value="profesor">Docentes</option>
+                        <option value="estudiante">Estudiantes</option>
+                        <option value="egresado">Egresados</option>
+                    </select>
+                    <select wire:model="modalitySelected" class="rounded-lg font-semibold" name="modality"
+                        id="modality-select">
+                        <option value="virtual">Virtual</option>
+                        <option value="presencial">Presencial</option>
+                    </select>
+                </div>
+            </div>
             <div id="chart-0"></div>
         </div>
         <div class="col-span-1 row-span-1">
             <label for="chart-1" class="text-gray-500">
-                Grafica <span class="text-secondary-400">*</span>
+                Gráfica <span class="text-secondary-400">*</span>
             </label>
             <div id="chart-1"></div>
         </div>
         <div class="col-span-1 row-span-1">
             <label for="chart-2" class="text-gray-500">
-                Grafica <span class="text-secondary-400">*</span>
+                Gráfica <span class="text-secondary-400">*</span>
             </label>
             <div id="chart-2"></div>
         </div>
@@ -25,65 +40,46 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <script>
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => document.querySelectorAll(selector);
+    const renderCharts = (counts) => {
+        console.log(counts);
 
-    let optionsArray = [{
+        const years = Object.keys(counts);
+        const outgoingNational = years.map(year => counts[year].outgoing_national);
+        const incomingNational = years.map(year => counts[year].incoming_national);
+        const outgoingInternational = years.map(year => counts[year].outgoing_international);
+        const incomingInternational = years.map(year => counts[year].incoming_international);
+
+        const options = {
             chart: {
-                type: "bar",
+                type: 'bar',
+                group: 'Asistencias'
             },
             series: [{
-                    name: "sales",
-                    data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-                    group: "lastYear",
+                    name: 'Salientes Nacional',
+                    data: outgoingNational,
                 },
                 {
-                    name: "sales",
-                    data: [20, 30, 25, 40, 44, 55, 60, 70, 80],
-                    group: "thisYear",
-                }, {
-                    name: "sales",
-                    data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-                    group: "lastYear",
+                    name: 'Entrantes Nacional',
+                    data: incomingNational,
+                },
+                {
+                    name: 'Salientes Internacional',
+                    data: outgoingInternational,
+                },
+                {
+                    name: 'Entrantes Internacional',
+                    data: incomingInternational,
                 },
             ],
             xaxis: {
-                categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+                categories: years,
             },
-        },
-        {
-            chart: {
-                type: "line",
-            },
-            series: [{
-                name: "revenue",
-                data: [10, 20, 15, 25, 24, 30, 40, 50, 60],
-            }, ],
-            xaxis: {
-                categories: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008],
-            },
-        },
-        {
-            chart: {
-                type: "bar",
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: true,
-                },
-            },
-            series: [{
-                name: "revenue",
-                data: [10, 20, 15, 25, 24, 30, 40, 50, 60],
-            }, ],
-            xaxis: {
-                categories: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008],
-            },
-        },
-    ];
+        };
 
-    optionsArray.forEach((options, index) => {
-        let chart = new ApexCharts($(`#chart-${index}`), options);
+        const chart = new ApexCharts(document.querySelector("#chart-0"), options);
         chart.render();
-    });
+    };
+
+    // Initial render
+    renderCharts(@json($counts));
 </script>
