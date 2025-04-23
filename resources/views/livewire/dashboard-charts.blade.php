@@ -7,14 +7,12 @@
                     Estadísticas de Asistencias
                 </label>
                 <div class="flex flex-row gap-4 mb-2">
-                    <select wire:model="movilitySelected" class="rounded-lg font-semibold" name="movility"
-                        id="movility-select">
+                    <select class="rounded-lg font-semibold" name="movility" id="movility-select">
                         <option value="profesor">Docentes</option>
                         <option value="estudiante">Estudiantes</option>
                         <option value="egresado">Egresados</option>
                     </select>
-                    <select wire:model="modalitySelected" class="rounded-lg font-semibold" name="modality"
-                        id="modality-select">
+                    <select class="rounded-lg font-semibold" name="modality" id="modality-select">
                         <option value="virtual">Virtual</option>
                         <option value="presencial">Presencial</option>
                     </select>
@@ -40,46 +38,62 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <script>
-    const renderCharts = (counts) => {
-        console.log(counts);
+    const statistics = @json($statistics);
+    console.log(statistics);
 
-        const years = Object.keys(counts);
-        const outgoingNational = years.map(year => counts[year].outgoing_national);
-        const incomingNational = years.map(year => counts[year].incoming_national);
-        const outgoingInternational = years.map(year => counts[year].outgoing_international);
-        const incomingInternational = years.map(year => counts[year].incoming_international);
+    const years = Object.keys(statistics);
+    console.log(years);
 
-        const options = {
-            chart: {
-                type: 'bar',
-                group: 'Asistencias'
-            },
-            series: [{
-                    name: 'Salientes Nacional',
-                    data: outgoingNational,
-                },
-                {
-                    name: 'Entrantes Nacional',
-                    data: incomingNational,
-                },
-                {
-                    name: 'Salientes Internacional',
-                    data: outgoingInternational,
-                },
-                {
-                    name: 'Entrantes Internacional',
-                    data: incomingInternational,
-                },
-            ],
-            xaxis: {
-                categories: years,
-            },
+    const nameSeries = [
+        "N° de Estudiantes Entrante (Nacional)", // presencial → nacional
+        "N° de Estudiantes Entrante (Internacional)", // presencial → internacional
+        "N° de Estudiantes Saliente (Nacional)", // presencial → nacional
+        "N° de Estudiantes Saliente (Internacional)", // presencial → internacional
+    ];
+
+    // Prepare series data
+    const series = nameSeries.map((name, index) => {
+        const data = years.map(year => {
+            const yearData = statistics[year];
+            if (index === 0) {
+                return yearData.nacional.estudiantes.presencial.entrantes;
+            } else if (index === 1) {
+                return yearData.internacional.estudiantes.presencial.entrantes;
+            } else if (index === 2) {
+                return yearData.nacional.estudiantes.presencial.salientes;
+            } else if (index === 3) {
+                return yearData.internacional.estudiantes.presencial.salientes;
+            }
+            return 0;
+        });
+        return {
+            name,
+            data
         };
+    });
 
-        const chart = new ApexCharts(document.querySelector("#chart-0"), options);
-        chart.render();
+    console.log(series);
+
+    const options = {
+        chart: {
+            type: 'bar',
+            stacked: false,
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+            },
+        },
+        dataLabels: {
+            enabled: true,
+        },
+        xaxis: {
+            categories: years,
+        },
+        series: series,
     };
 
-    // Initial render
-    renderCharts(@json($counts));
+    const chart = new ApexCharts(document.querySelector("#chart-0"), options);
+    chart.render();
 </script>

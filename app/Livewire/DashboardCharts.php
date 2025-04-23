@@ -3,88 +3,96 @@
 namespace App\Livewire;
 
 use App\Models\Assistance;
+use App\Models\Event;
+use App\Models\University;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class DashboardCharts extends Component
 {
-    public string $movilitySelected = 'estudiante';
-    public string $modalitySelected = 'presencial';
-    public Collection $counts;
-
-    public function handleMovilitySelected(string $movility): void
-    {
-        $this->movilitySelected = $movility;
-        $this->updateAssistances();
-    }
-
-    public function handleModalitySelected(string $modality): void
-    {
-        $this->modalitySelected = $modality;
-        $this->updateAssistances();
-    }
-
-    private function fetchAssistancesByYear(): Collection
+    public function getEventStatistics()
     {
         $currentYear = now()->year;
-        $counts = collect();
+        $years = [$currentYear - 2, $currentYear - 1, $currentYear];
 
-        for ($i = 0; $i < 3; $i++) {
-            $year = $currentYear - $i;
+        $statistics = [];
 
-            $data = Assistance::whereHas('mobility', function ($query) {
-                $query->where('type', $this->movilitySelected);
-            })
-                ->whereHas('event', function ($query) {
-                    $query->where('modality', $this->modalitySelected);
-                })
-                ->whereYear('created_at', $year)
-                ->whereMonth('created_at', now()->month)
-                ->with(['event', 'person.university']) // Eager load event and person->university relationships
+        foreach ($years as $year) {
+            // Eager load assistances and their related person data
+            $events = Event::whereYear('created_at', $year)
+                ->with(['assistances.person.university'])
                 ->get();
 
-            // Classify as outgoing or incoming
-            $outgoingNational = $data->where('event.location', 'nacional')
-                ->where('person.university.name', 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO')
-                ->count();
+            $yearData = [
+                'internacional' => [
+                    'estudiantes' => [
+                        'virtual' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                        'presencial' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                    ]
+                ],
 
-            $incomingNational = $data->where('event.location', 'nacional')
-                ->where('person.university.name', '!=', 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO')
-                ->count();
+                'nacional' => [
+                    'estudiantes' => [
+                        'virtual' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                        'presencial' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                    ]
+                ],
+            ];
 
-            $outgoingInternational = $data->where('event.location', 'internacional')
-                ->where('person.university.name', 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO')
-                ->count();
 
-            $incomingInternational = $data->where('event.location', 'internacional')
-                ->where('person.university.name', '!=', 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO')
-                ->count();
+            foreach ($events as $event) {
+                foreach ($event->assistances as $assistance) {
+                    $person = $assistance->person;
 
-            $counts->put($year, [
-                'outgoing_national' => $outgoingNational,
-                'incoming_national' => $incomingNational,
-                'outgoing_international' => $outgoingInternational,
-                'incoming_international' => $incomingInternational,
-            ]);
+                    // Determinar modalidad (presencial o virtual)
+                    $modality = $event->modality; // 'presencial' o 'virtual'
+
+                    // Determinar tipo de persona (estudiante o profesor)
+                    $personType = $person->type; // 'estudiantes' o 'profesores'
+
+                    // Determinar ubicación (nacional o internacional)
+                    $location = $event->location; // 'nacional' o 'internacional'
+
+                    // Incrementar el conteo según modalidad, tipo de persona y ubicación
+
+                    if ($personType === 'profesor') {
+                        if ($person->university->name !== 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO') {
+                            $yearData[$location]['profesores'][$modality]['entrantes']++;
+                        } else {
+                            $yearData[$location]['profesores'][$modality]['salientes']++;
+                        }
+                    } elseif ($personType === 'estudiante') {
+                        if ($person->university->name !== 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO') {
+                            $yearData[$location]['estudiantes'][$modality]['entrantes']++;
+                        } else {
+                            $yearData[$location]['estudiantes'][$modality]['salientes']++;
+                        }
+                    }
+                }
+            }
+
+            $statistics[$year] = $yearData;
         }
 
-        return $counts;
-    }
-
-    private function updateAssistances(): void
-    {
-        $this->counts = $this->fetchAssistancesByYear();
-    }
-
-    public function mount(): void
-    {
-        $this->updateAssistances();
+        return $statistics;
     }
 
     public function render()
     {
-        return view('livewire.dashboard-charts', [
-            'counts' => $this->counts,
-        ]);
+        $statistics = $this->getEventStatistics();
+
+        return view('livewire.dashboard-charts', compact('statistics'));
     }
 }

@@ -42,14 +42,6 @@
         name,
         data
     }) => {
-        console.log(data);
-    })
-
-    sparkData.forEach(({
-        id,
-        name,
-        data
-    }) => {
         const options = {
             chart: {
                 id,

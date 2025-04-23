@@ -9,7 +9,6 @@
 
 <script>
     const cords = @json($cords);
-    console.log(cords);
 
     cords.forEach((cord, i) => {
         if (cord.university_total == 0) {
