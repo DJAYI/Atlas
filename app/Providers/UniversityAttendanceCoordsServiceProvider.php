@@ -23,26 +23,22 @@ class UniversityAttendanceCoordsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // 1. Consultamos los datos agregados por universidad
+        // 1. Consultamos los datos agregados por universidad sin usar joins
         $results = DB::table('assistances')
-            ->join('people', 'assistances.person_id', '=', 'people.id')
-            ->join('universities', 'people.university_id', '=', 'universities.id')
-            ->join('countries', 'universities.country_id', '=', 'countries.id')
+            ->join('people', 'people.id', '=', 'assistances.person_id')
+            ->join('universities', 'universities.id', '=', 'people.university_id')
+            ->join('countries', 'countries.id', '=', 'universities.country_id')
             ->select(
                 'universities.id as university_id',
                 'universities.name as university',
                 'countries.name as country',
                 'universities.lat',
                 'universities.lng',
-                DB::raw('count(*) as total_assistants')
+                DB::raw('COUNT(assistances.id) as total_assistants')
             )
-            ->groupBy(
-                'universities.id',
-                'universities.name',
-                'countries.name',
-                'universities.lat',
-                'universities.lng'
-            )
+            ->whereNotNull('assistances.person_id')
+            ->groupBy('universities.id', 'universities.name', 'countries.name', 'universities.lat', 'universities.lng')
+            ->havingRaw('COUNT(assistances.id) > 0')
             ->get();
 
         if ($results->isEmpty()) {

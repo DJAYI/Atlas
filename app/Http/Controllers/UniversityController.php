@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Person;
 use App\Models\University;
 use Illuminate\Http\Request;
 
@@ -99,6 +100,12 @@ class UniversityController extends Controller
     {
         // Find the university by ID
         $university = University::findOrFail($id);
+
+        $people = Person::where('university_id', $university->id)->get();
+        // Delete each person associated with this university
+        foreach ($people as $person) {
+            $person->delete();
+        }
 
         // Delete the university
         $university->delete();

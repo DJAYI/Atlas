@@ -3,14 +3,16 @@
 namespace App\Livewire\Charts;
 
 use App\Models\Event;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class AssistancesBarChart extends Component
 {
-    public $movility = 'estudiante';
+    public $movility   = 'estudiante';
+    public $modality   = 'presencial';
     public $statistics = [];
 
-    public function getEventStatistics()
+    public function getStatistics()
     {
         $currentYear = now()->year;
         $years = [$currentYear - 2, $currentYear - 1, $currentYear];
@@ -38,6 +40,19 @@ class AssistancesBarChart extends Component
                 ],
 
                 'nacional' => [
+                    $this->movility => [ // Fixed typo to use $this->movility
+                        'virtual' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                        'presencial' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                    ]
+                ],
+
+                'local' => [
                     $this->movility => [ // Fixed typo to use $this->movility
                         'virtual' => [
                             'entrantes' => 0,
@@ -84,20 +99,19 @@ class AssistancesBarChart extends Component
         return $this->statistics;
     }
 
-    public function handleMovilityChange($movility)
+    public function updatedStatistics()
     {
-        $this->movility = $movility;
-    }
-
-    public function handleUpdateEventStatistics()
-    {
-        $this->getEventStatistics();
+        $this->getStatistics();
+        $this->emit('statisticsUpdated', [
+            'movility'  => $this->movility,
+            'modality'  => $this->modality,
+            'statistics' => json_decode(json_encode($this->statistics), true),
+        ]);
     }
 
     public function mount()
     {
-        $this->movility = 'estudiante';
-        $this->getEventStatistics();
+        $this->getStatistics();
     }
 
     public function render()

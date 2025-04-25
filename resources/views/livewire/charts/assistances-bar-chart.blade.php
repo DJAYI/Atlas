@@ -4,80 +4,113 @@
             Estadísticas de Asistencias
         </label>
         <div class="flex flex-row gap-4 mb-2">
-            <select class="rounded-lg font-semibold" name="movility" id="movility-select">
-                <option value="profesor">Docentes</option>
+            <select wire:model="movility" class="rounded-lg font-semibold" name="movility" id="movility-select">
+                <option value="profesor" selected>Docentes</option>
                 <option value="estudiante">Estudiantes</option>
-                <option value="egresado">Egresados</option>
             </select>
-            <select class="rounded-lg font-semibold" name="modality" id="modality-select">
+            <select wire:model="modality" class="rounded-lg font-semibold" name="modality" id="modality-select">
+                <option value="presencial" selected>Presencial</option>
                 <option value="virtual">Virtual</option>
-                <option value="presencial">Presencial</option>
             </select>
         </div>
     </div>
     <div id="chart-0"></div>
+
+    <p>@json($movility)</p>
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<script>
-    const statistics = @json($statistics);
-    console.log(statistics);
+@push('scripts')
+    <script>
+        let movility = @json($movility);
+        let modality = @json($modality);
+        let statistics = @json($statistics);
 
-    const years = Object.keys(statistics);
-    console.log(years);
 
-    const nameSeries = [
-        "N° de Estudiantes Entrante (Nacional)", // presencial → nacional
-        "N° de Estudiantes Entrante (Internacional)", // presencial → internacional
-        "N° de Estudiantes Saliente (Nacional)", // presencial → nacional
-        "N° de Estudiantes Saliente (Internacional)", // presencial → internacional
-    ];
+        const updateChart = () => {
+            const labels = [
+                movility === 'estudiante' ? "Estudiantes Entrantes (Nacional)" :
+                "Profesores Entrantes (Nacional)",
+                movility === 'estudiante' ? "Estudiantes Entrantes (Internacional)" :
+                "Profesores Entrantes (Internacional)",
+                movility === 'estudiante' ? "Estudiantes Salientes (Nacional)" :
+                "Profesores Salientes (Nacional)",
+                movility === 'estudiante' ? "Estudiantes Salientes (Internacional)" :
+                "Profesores Salientes (Internacional)",
+                movility === 'estudiante' ? "Estudiantes Entrantes (Local)" :
+                "Profesores Entrantes (Local)",
+                movility === 'estudiante' ? "Estudiantes Salientes (Local)" :
+                "Profesores Salientes (Local)"
+            ];
 
-    // Prepare series data
-    const series = nameSeries.map((name, index) => {
-        const data = years.map(year => {
-            const yearData = statistics[year];
-            return index === 0 ? yearData.nacional.estudiante.presencial.entrantes :
+            const series = labels.map((name, index) => {
+                const region = ['nacional', 'internacional', 'nacional', 'internacional', 'local', 'local'][
+                    index
+                ];
+                const direction = ['entrantes', 'entrantes', 'salientes', 'salientes', 'entrantes', 'salientes']
+                    [index];
 
-                index === 1 ? yearData.internacional.estudiante.presencial
-                .entrantes :
 
-                index === 2 ? yearData.nacional.estudiante.presencial
-                .salientes :
+                const data = Object.keys(statistics).map(year => {
+                    return (((statistics[year] || {})[region] || {})[movility] || {})[
+                        modality]?.[direction] || 0; // Added default value of 0
+                });
 
-                index === 3 ? yearData.internacional.estudiante.presencial
-                .salientes : 0;
-        });
-        return {
-            name,
-            data
+
+                return {
+                    name,
+                    data
+                };
+            });
+
+            const options = {
+                chart: {
+                    type: 'bar',
+                    stacked: false
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%'
+                    }
+                },
+                dataLabels: {
+                    enabled: true
+                },
+                xaxis: {
+                    categories: Object.keys(statistics),
+                    title: {
+                        text: 'Años' // Added title for x-axis
+                    }
+                },
+                series
+            };
+
+            const chartElement = document.querySelector("#chart-0");
+            if (chartElement) {
+                chartElement.innerHTML = "";
+                new ApexCharts(chartElement, options).render();
+            }
         };
-    });
 
-    console.log(series);
+        Livewire.on('statisticsUpdated', (payload) => {
+            movility = payload.movility;
+            modality = payload.modality;
+            updateChart();
+        });
 
-    const options = {
-        chart: {
-            type: 'bar',
-            stacked: false,
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-            },
-        },
-        dataLabels: {
-            enabled: true,
-        },
-        xaxis: {
-            categories: years,
-        },
-        series: series,
-    };
+        document.getElementById('modality-select').addEventListener('change', (event) => {
+            modality = event.target.value;
+            updateChart();
+        });
 
-    const chart = new ApexCharts(document.querySelector("#chart-0"), options);
-    chart.render();
-</script>
+        document.getElementById('movility-select').addEventListener('change', (event) => {
+            movility = event.target.value;
+            updateChart();
+        });
+
+        updateChart();
+    </script>
+@endpush
