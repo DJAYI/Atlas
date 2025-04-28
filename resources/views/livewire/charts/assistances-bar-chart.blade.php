@@ -16,7 +16,6 @@
     </div>
     <div id="chart-0"></div>
 
-    <p>@json($movility)</p>
 </div>
 
 
@@ -73,7 +72,8 @@
                 plotOptions: {
                     bar: {
                         horizontal: false,
-                        columnWidth: '55%'
+                        columnWidth: '55%',
+                        borderRadius: 5 // Added border radius for bars
                     }
                 },
                 dataLabels: {

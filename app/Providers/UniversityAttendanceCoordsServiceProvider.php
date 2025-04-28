@@ -23,6 +23,21 @@ class UniversityAttendanceCoordsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Verificamos si los esquemas requeridos existen antes de ejecutar el código
+        $requiredTables = ['assistances', 'people', 'universities', 'countries'];
+        $missingTables = [];
+
+        foreach ($requiredTables as $table) {
+            if (!DB::getSchemaBuilder()->hasTable($table)) {
+                $missingTables[] = $table;
+            }
+        }
+
+        if (!empty($missingTables)) {
+            Log::warning('Missing required tables: ' . implode(', ', $missingTables));
+            return;
+        }
+
         // 1. Consultamos los datos agregados por universidad sin usar joins
         $results = DB::table('assistances')
             ->join('people', 'people.id', '=', 'assistances.person_id')
