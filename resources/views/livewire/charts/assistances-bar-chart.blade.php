@@ -15,102 +15,61 @@
         </div>
     </div>
     <div id="chart-0"></div>
-
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-@push('scripts')
-    <script>
-        let movility = @json($movility);
-        let modality = @json($modality);
-        let statistics = @json($statistics);
+<script>
+    console.log(@json($statistics));
 
-
-        const updateChart = () => {
-            const labels = [
-                movility === 'estudiante' ? "Estudiantes Entrantes (Nacional)" :
-                "Profesores Entrantes (Nacional)",
-                movility === 'estudiante' ? "Estudiantes Entrantes (Internacional)" :
-                "Profesores Entrantes (Internacional)",
-                movility === 'estudiante' ? "Estudiantes Salientes (Nacional)" :
-                "Profesores Salientes (Nacional)",
-                movility === 'estudiante' ? "Estudiantes Salientes (Internacional)" :
-                "Profesores Salientes (Internacional)",
-                movility === 'estudiante' ? "Estudiantes Entrantes (Local)" :
-                "Profesores Entrantes (Local)",
-                movility === 'estudiante' ? "Estudiantes Salientes (Local)" :
-                "Profesores Salientes (Local)"
-            ];
-
-            const series = labels.map((name, index) => {
-                const region = ['nacional', 'internacional', 'nacional', 'internacional', 'local', 'local'][
-                    index
-                ];
-                const direction = ['entrantes', 'entrantes', 'salientes', 'salientes', 'entrantes', 'salientes']
-                    [index];
-
-
-                const data = Object.keys(statistics).map(year => {
-                    return (((statistics[year] || {})[region] || {})[movility] || {})[
-                        modality]?.[direction] || 0; // Added default value of 0
-                });
-
-
-                return {
-                    name,
-                    data
-                };
-            });
-
-            const options = {
-                chart: {
-                    type: 'bar',
-                    stacked: false
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        columnWidth: '55%',
-                        borderRadius: 5 // Added border radius for bars
-                    }
-                },
-                dataLabels: {
-                    enabled: true
-                },
-                xaxis: {
-                    categories: Object.keys(statistics),
-                    title: {
-                        text: 'Años' // Added title for x-axis
-                    }
-                },
-                series
-            };
-
-            const chartElement = document.querySelector("#chart-0");
-            if (chartElement) {
-                chartElement.innerHTML = "";
-                new ApexCharts(chartElement, options).render();
+    const chartColumnOptions = {
+        chart: {
+            type: 'bar',
+            height: 350,
+            toolbar: {
+                show: false
             }
-        };
+        },
+        series: [{
+                name: 'Estudiantes Entrantes (Nacional)',
+                data: [1, 2, 3]
+            },
+            {
+                name: 'Estudiantes Entrantes (Internacional)',
+                data: [1, 2, 3]
+            },
+            {
+                name: 'Estudiantes Entrantes (Local)',
+                data: [1, 2, 3]
+            },
+            {
+                name: 'Estudiantes Salientes (Nacional)',
+                data: [1, 2, 3]
+            },
+            {
+                name: 'Estudiantes Salientes (Internacional)',
+                data: [1, 2, 3]
+            },
+            {
+                name: 'Estudiantes Salientes (Local)',
+                data: [3, 2, 1]
+            }
+        ],
+        xaxis: {
+            categories: [2023, 2024, 2025],
+            title: {
+                text: 'Años'
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        position: 'bottom',
+        horizontalAlign: 'center',
 
-        Livewire.on('statisticsUpdated', (payload) => {
-            movility = payload.movility;
-            modality = payload.modality;
-            updateChart();
-        });
+    }
 
-        document.getElementById('modality-select').addEventListener('change', (event) => {
-            modality = event.target.value;
-            updateChart();
-        });
 
-        document.getElementById('movility-select').addEventListener('change', (event) => {
-            movility = event.target.value;
-            updateChart();
-        });
-
-        updateChart();
-    </script>
-@endpush
+    const chartColumn = new ApexCharts(document.querySelector("#chart-0"), chartColumnOptions);
+    chartColumn.render();
+</script>

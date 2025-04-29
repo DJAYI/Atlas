@@ -3,13 +3,11 @@
 namespace App\Livewire\Charts;
 
 use App\Models\Event;
-use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class AssistancesBarChart extends Component
 {
-    public $movility   = 'estudiante';
-    public $modality   = 'presencial';
     public $statistics = [];
 
     public function getStatistics()
@@ -27,7 +25,18 @@ class AssistancesBarChart extends Component
 
             $yearData = [
                 'internacional' => [
-                    $this->movility => [ // Updated to use $this->movility
+                    'estudiante' => [ // Updated to use $this->movility
+                        'virtual' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                        'presencial' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                    ],
+
+                    'profesor' => [ // Updated to use $this->movility
                         'virtual' => [
                             'entrantes' => 0,
                             'salientes' => 0,
@@ -40,7 +49,17 @@ class AssistancesBarChart extends Component
                 ],
 
                 'nacional' => [
-                    $this->movility => [ // Fixed typo to use $this->movility
+                    'estudiante' => [ // Fixed typo to use $this->movility
+                        'virtual' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                        'presencial' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                    ],
+                    'profesor' => [ // Updated to use $this->movility
                         'virtual' => [
                             'entrantes' => 0,
                             'salientes' => 0,
@@ -53,7 +72,7 @@ class AssistancesBarChart extends Component
                 ],
 
                 'local' => [
-                    $this->movility => [ // Fixed typo to use $this->movility
+                    'estudiante' => [ // Fixed typo to use $this->movility
                         'virtual' => [
                             'entrantes' => 0,
                             'salientes' => 0,
@@ -62,7 +81,17 @@ class AssistancesBarChart extends Component
                             'entrantes' => 0,
                             'salientes' => 0,
                         ],
-                    ]
+                    ],
+                    'profesor' => [ // Updated to use $this->movility
+                        'virtual' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                        'presencial' => [
+                            'entrantes' => 0,
+                            'salientes' => 0,
+                        ],
+                    ],
                 ],
             ];
 
@@ -71,22 +100,21 @@ class AssistancesBarChart extends Component
                 foreach ($event->assistances as $assistance) {
                     $person = $assistance->person;
 
-                    // Determinar modalidad (presencial o virtual)
-                    $modality = $event->modality; // 'presencial' o 'virtual'
+                    // Determine modality (presencial or virtual)
+                    $modality = $event->modality; // 'presencial' or 'virtual'
 
-                    // Determinar tipo de persona (estudiante o profesor)
-                    $personType = $person->type; // $movility o 'profesores'
+                    // Determine person type (estudiante or profesor)
+                    $personType = $person->type; // 'estudiante' or 'profesor'
 
-                    // Determinar ubicación (nacional o internacional)
-                    $location = $event->location; // 'nacional' o 'internacional'
+                    // Determine location (local, nacional, or internacional)
+                    $location = $event->location; // 'local', 'nacional', or 'internacional'
 
-                    // Incrementar el conteo según modalidad, tipo de persona y ubicación
-
-                    if ($personType === $this->movility) {
+                    // Increment the count based on modality, person type, and location
+                    if ($personType === 'estudiante' || $personType === 'profesor') {
                         if ($person->university->name !== 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO') {
-                            $yearData[$location][$this->movility][$modality]['entrantes']++;
+                            $yearData[$location][$personType][$modality]['entrantes']++;
                         } else {
-                            $yearData[$location][$this->movility][$modality]['salientes']++;
+                            $yearData[$location][$personType][$modality]['salientes']++;
                         }
                     }
                 }
@@ -99,15 +127,7 @@ class AssistancesBarChart extends Component
         return $this->statistics;
     }
 
-    public function updatedStatistics()
-    {
-        $this->getStatistics();
-        $this->emit('statisticsUpdated', [
-            'movility'  => $this->movility,
-            'modality'  => $this->modality,
-            'statistics' => json_decode(json_encode($this->statistics), true),
-        ]);
-    }
+
 
     public function mount()
     {
