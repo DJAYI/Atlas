@@ -69,12 +69,15 @@
 
 
 
-    let chartColumnOptions = {
+    const chartColumnOptions = {
         chart: {
             type: 'bar',
             height: 550,
             toolbar: {
-                show: false
+                show: true
+            },
+            selection: {
+                enabled: true
             }
         },
         series: [],

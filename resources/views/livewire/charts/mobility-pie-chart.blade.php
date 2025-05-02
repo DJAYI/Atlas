@@ -1,5 +1,5 @@
-<div class="col-span-1 row-span-1">
-    <label for="chart-1" class="text-gray-500 font-semibold">
+<div class="col-span-1 row-span-1 py-4">
+    <label for="chart-1" class="text-gray-500 mb-4 font-semibold">
         Movilidades del Ultimo Año
     </label>
     <div id="chart-1"></div>
@@ -7,14 +7,72 @@
 
 <script>
     const mobilitiesSeries = Object.values(@json($statistics));
+
+    const totalMobilities = mobilitiesSeries.reduce((total, value) => total + value, 0);
+
+
     const pieChartOptions = {
         chart: {
-            type: 'pie',
-            height: 350
+            type: 'donut',
+            height: 350,
+            toolbar: {
+                show: true,
+                tools: {
+                    download: true,
+                    selection: true,
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: true,
+                }
+            },
         },
+
+        plotOptions: {
+            pie: {
+                donut: {
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontSize: '22px',
+                            fontFamily: 'Helvetica, Arial, sans-serif',
+                            color: undefined,
+                            offsetY: -10,
+                            formatter: function(val) {
+                                return val;
+                            }
+                        },
+                        value: {
+                            show: true,
+                            fontSize: '16px',
+                            fontFamily: 'Helvetica, Arial, sans-serif',
+                            color: undefined,
+                            offsetY: 10,
+                            formatter: function(val) {
+                                return val;
+                            }
+                        },
+                        total: {
+                            show: true,
+                            label: 'Total',
+                            fontSize: '22px',
+                            fontFamily: 'Helvetica, Arial, sans-serif',
+                            color: '#373d3f',
+                            formatter: function(w) {
+                                return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
         series: mobilitiesSeries,
         labels: ['Entrantes', 'Salientes', 'En Casa']
     }
+
+
 
     const pieChart = new ApexCharts(document.querySelector("#chart-1"), pieChartOptions);
     pieChart.render();
