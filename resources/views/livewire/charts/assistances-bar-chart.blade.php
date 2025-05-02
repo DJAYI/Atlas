@@ -67,8 +67,6 @@
         });
     }
 
-
-
     const chartColumnOptions = {
         chart: {
             type: 'bar',

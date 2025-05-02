@@ -13,37 +13,7 @@ class ActivitiesSeeder extends Seeder
      */
     public function run(): void
     {
-        /**
-         * 
-         * ACTIVIDAD MULTICULTURAL
-CATEDRA ABIERTA
-CATEDRA MULTICULTURAL
-CLASE ESPEJO
-COIL
-CONFERENCIA
-CURSO CORTO
-DOCENTE INVITADO
-OLIMPIADAS
-PARTICIPACION EN RED
-PASANTIA DE INVESTIGACION
-PONENCIA
-RETO 
-REUNION
-REUNION 
-RUTA ACADEMICA 
-ASIGNATURA
 
-class Activity extends Model
-{
-    protected $fillable = ['name', 'description'];
-
-    public function events()
-    {
-        return $this->hasMany(Event::class);
-    }
-}
-
-         */
 
         DB::table('activities')->insert([
             [

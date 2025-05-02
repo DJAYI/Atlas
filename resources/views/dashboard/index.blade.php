@@ -10,7 +10,11 @@
 
     <livewire:dashboard-charts />
 
+    
+
     <livewire:dashboard-map />
+
+
 
     <br>
 
