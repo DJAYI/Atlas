@@ -22,41 +22,64 @@
 <script>
     console.log(@json($statistics));
 
-    const chartColumnOptions = {
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => document.querySelectorAll(selector);
+
+    const movilitySelect = $('#movility-select');
+    const modalitySelect = $('#modality-select');
+
+    const chartContainer = $('#chart-0');
+
+    const statistics = @json($statistics);
+
+    const getStatisticsSeries = (statistics, movility, modality) => {
+        let series = [];
+
+        let names = [
+            movility == 'profesor' ? 'Docentes Entrantes (Nacional)' : 'Estudiantes Entrantes (Nacional)',
+            movility == 'profesor' ? 'Docentes Entrantes (Internacional)' :
+            'Estudiantes Entrantes (Internacional)',
+            movility == 'profesor' ? 'Docentes Entrantes (Local)' : 'Estudiantes Entrantes (Local)',
+            movility == 'profesor' ? 'Docentes Salientes (Nacional)' : 'Estudiantes Salientes (Nacional)',
+            movility == 'profesor' ? 'Docentes Salientes (Internacional)' :
+            'Estudiantes Salientes (Internacional)',
+            movility == 'profesor' ? 'Docentes Salientes (Local)' : 'Estudiantes Salientes (Local)',
+        ]
+
+        let data = Object.values(statistics).map((years) => {
+            return [
+                years['nacional'][movility][modality]['entrantes'],
+                years['internacional'][movility][modality]['entrantes'],
+                years['local'][movility][modality]['entrantes'],
+                years['nacional'][movility][modality]['salientes'],
+                years['internacional'][movility][modality]['salientes'],
+                years['local'][movility][modality]['salientes']
+            ]
+        });
+
+        return names.map((name, index) => {
+            return {
+                name: name,
+                data: data.map((locality) => {
+                    return locality[index]
+                })
+            }
+        });
+    }
+
+
+
+    let chartColumnOptions = {
         chart: {
             type: 'bar',
-            height: 350,
+            height: 550,
             toolbar: {
                 show: false
             }
         },
-        series: [{
-                name: 'Estudiantes Entrantes (Nacional)',
-                data: [1, 2, 3]
-            },
-            {
-                name: 'Estudiantes Entrantes (Internacional)',
-                data: [1, 2, 3]
-            },
-            {
-                name: 'Estudiantes Entrantes (Local)',
-                data: [1, 2, 3]
-            },
-            {
-                name: 'Estudiantes Salientes (Nacional)',
-                data: [1, 2, 3]
-            },
-            {
-                name: 'Estudiantes Salientes (Internacional)',
-                data: [1, 2, 3]
-            },
-            {
-                name: 'Estudiantes Salientes (Local)',
-                data: [3, 2, 1]
-            }
-        ],
+        series: [],
         xaxis: {
-            categories: [2023, 2024, 2025],
+            categories: Object.keys(statistics),
             title: {
                 text: 'Años'
             }
@@ -69,7 +92,17 @@
 
     }
 
+    const chartColumn = new ApexCharts(chartContainer, chartColumnOptions);
 
-    const chartColumn = new ApexCharts(document.querySelector("#chart-0"), chartColumnOptions);
+    const updateChartSeries = () => {
+        const series = getStatisticsSeries(statistics, movilitySelect.value, modalitySelect.value);
+        chartColumn.updateSeries(series);
+
+    }
+
+    movilitySelect.addEventListener('change', updateChartSeries);
+    modalitySelect.addEventListener('change', updateChartSeries);
+
     chartColumn.render();
+    updateChartSeries();
 </script>
