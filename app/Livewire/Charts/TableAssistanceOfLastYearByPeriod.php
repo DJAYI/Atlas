@@ -13,9 +13,9 @@ class TableAssistanceOfLastYearByPeriod extends Component
     {
         $currentDate = now();
         $periods = [
-            ['start' => $currentDate->copy()->subMonths(12)->startOfMonth()->toDateString(), 'end' => $currentDate->copy()->subMonths(9)->endOfMonth()->toDateString()],
-            ['start' => $currentDate->copy()->subMonths(8)->startOfMonth()->toDateString(), 'end' => $currentDate->copy()->subMonths(5)->endOfMonth()->toDateString()],
-            ['start' => $currentDate->copy()->subMonths(4)->startOfMonth()->toDateString(), 'end' => $currentDate->copy()->subMonths(1)->endOfMonth()->toDateString()],
+            ['start' => $currentDate->copy()->subMonths(24)->startOfMonth()->toDateString(), 'end' => $currentDate->copy()->subMonths(13)->endOfMonth()->toDateString()],
+            ['start' => $currentDate->copy()->subMonths(12)->startOfMonth()->toDateString(), 'end' => $currentDate->copy()->subMonths(7)->endOfMonth()->toDateString()],
+            ['start' => $currentDate->copy()->subMonths(6)->startOfMonth()->toDateString(), 'end' => $currentDate->copy()->subMonths(1)->endOfMonth()->toDateString()],
         ];
 
         $statistics = [];
