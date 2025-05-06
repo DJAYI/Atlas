@@ -12,61 +12,97 @@ class TableAssistanceOfLastYearByPeriod extends Component
     public function getStatistics()
     {
         $currentDate = now();
-        $periods = [
-            ['start' => $currentDate->copy()->subMonths(24)->startOfMonth()->toDateString(), 'end' => $currentDate->copy()->subMonths(13)->endOfMonth()->toDateString()],
-            ['start' => $currentDate->copy()->subMonths(12)->startOfMonth()->toDateString(), 'end' => $currentDate->copy()->subMonths(7)->endOfMonth()->toDateString()],
-            ['start' => $currentDate->copy()->subMonths(6)->startOfMonth()->toDateString(), 'end' => $currentDate->copy()->subMonths(1)->endOfMonth()->toDateString()],
+        $periods = $this->getLastThreeSemesters($currentDate);
+
+        $periodos = [];
+        $data = [
+            'Entrante Internacional Presencial' => [],
+            'Entrante Nacional Presencial' => [],
+            'Entrante Internacional Virtual' => [],
+            'Entrante Nacional Virtual' => [],
+            'total' => [],
         ];
 
-        $statistics = [];
+        foreach ($periods as $period) {
+            $periodKey = $period['key'];
+            $periodos[] = $periodKey;
 
-        foreach ($periods as $index => $period) {
-            $periodKey = $period['start'] . ' - ' . $period['end'];
+            // Inicializar contadores
+            foreach (array_keys($data) as $key) {
+                $data[$key][$periodKey] = 0;
+            }
 
-            // Eager load assistances and their related person data for the period
-            $events = Event::whereBetween('created_at', [$period['start'], $period['end']])
-                ->with(['assistances.person.university'])
-                ->get();
-
-            $statistics[$periodKey] = [
-                'internacional' => [
-                    'entrantes' => 0,
-                    'salientes' => 0,
-                ],
-
-                'nacional' => [
-                    'entrantes' => 0,
-                    'salientes' => 0,
-                ],
-            ];
+            // Consultar eventos del periodo
+            $events = Event::whereBetween('created_at', [$period['start'], $period['end']])->get();
 
             foreach ($events as $event) {
-                foreach ($event->assistances as $assistance) {
-                    $person = $assistance->person;
-
-                    // Increment the count based on modality, person type, and location
-                    if ($event->location === 'internacional') {
-                        if ($person->university->name !== 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO') {
-                            $statistics[$periodKey]['internacional']['entrantes']++;
-                        } else {
-                            $statistics[$periodKey]['internacional']['salientes']++;
-                        }
-                    } elseif ($event->location === 'nacional') {
-                        if ($person->university->name !== 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO') {
-                            $statistics[$periodKey]['nacional']['entrantes']++;
-                        } else {
-                            $statistics[$periodKey]['nacional']['salientes']++;
-                        }
-                    }
+                if ($event->university_id == 1) {
+                    continue;
                 }
+                $count = $event->assistances()->count();
+
+                $this->addAssistanceCount($data, $event, $periodKey, $count);
             }
+
+            // Calcular total por periodo
+            $data['total'][$periodKey] =
+                $data['Entrante Internacional Presencial'][$periodKey] +
+                $data['Entrante Nacional Presencial'][$periodKey] +
+                $data['Entrante Internacional Virtual'][$periodKey] +
+                $data['Entrante Nacional Virtual'][$periodKey];
         }
 
-        $this->statistics = $statistics;
+        $this->statistics = [
+            'periodos' => $periodos,
+            'data' => $data,
+        ];
+
         return $this->statistics;
     }
 
+    private function getLastThreeSemesters($currentDate)
+    {
+        $periods = [];
+        for ($i = 2; $i >= 0; $i--) {
+            $date = $currentDate->copy()->subMonths($i * 6);
+            $year = $date->format('Y');
+            $month = (int)$date->format('n');
+            if ($month >= 7) {
+                $key = $year . '-2';
+                $start = $date->copy()->startOfYear()->addMonths(6)->startOfMonth()->toDateString(); // Jul 1
+                $end = $date->copy()->endOfYear()->toDateString(); // Dec 31
+            } else {
+                $key = $year . '-1';
+                $start = $date->copy()->startOfYear()->toDateString(); // Jan 1
+                $end = $date->copy()->startOfYear()->addMonths(5)->endOfMonth()->toDateString(); // Jun 30
+            }
+            $periods[] = [
+                'key' => $key,
+                'start' => $start,
+                'end' => $end,
+            ];
+        }
+        usort($periods, function ($a, $b) {
+            return strcmp($a['start'], $b['start']);
+        });
+        return $periods;
+    }
 
+    private function addAssistanceCount(&$data, $event, $periodKey, $count)
+    {
+        if ($event->location === 'internacional' && $event->modality === 'presencial') {
+            $data['Entrante Internacional Presencial'][$periodKey] += $count;
+        }
+        if ($event->location === 'nacional' && $event->modality === 'presencial') {
+            $data['Entrante Nacional Presencial'][$periodKey] += $count;
+        }
+        if ($event->location === 'internacional' && $event->modality === 'virtual') {
+            $data['Entrante Internacional Virtual'][$periodKey] += $count;
+        }
+        if ($event->location === 'nacional' && $event->modality === 'virtual') {
+            $data['Entrante Nacional Virtual'][$periodKey] += $count;
+        }
+    }
 
     public function mount()
     {
@@ -75,6 +111,8 @@ class TableAssistanceOfLastYearByPeriod extends Component
 
     public function render()
     {
-        return view('livewire.charts.table-assistance-of-last-year-by-period');
+        return view('livewire.charts.table-assistance-of-last-year-by-period', [
+            'statistics' => $this->statistics,
+        ]);
     }
 }

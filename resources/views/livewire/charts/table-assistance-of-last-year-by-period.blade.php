@@ -1,65 +1,64 @@
-<div class="mb-10 mt-8">
-    <h1 class="text-xl font-semibold text-primary my-4">Estadísticas de Asistentes por Período</h1>
-    <div class="relative w-full overflow-x-auto  sm:rounded-lg">
-        <table class=" text-sm text-left text-gray-500 rtl:text-right">
+<div class="mt-8 mb-10">
+    <h1 class="my-4 text-xl font-semibold text-primary">Estadísticas de Asistentes por Período</h1>
+    <div class="relative w-full overflow-x-auto sm:rounded-lg">
+        <table class="text-sm text-left text-gray-500 rtl:text-right">
             <thead class="text-gray-700 uppercase bg-gray-50">
                 <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 text-lg">
                         Categoría
                     </th>
-                    <th scope="col" class="px-6 py-3 text-center bg-blue-500 text-white">
-                        2023-1
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-center bg-blue-500 text-white">
-                        2023-2
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-center bg-blue-500 text-white">
-                        2024-1
-                    </th>
+                    @foreach ($statistics['periodos'] as $periodo)
+                        <th scope="col" class="px-6 py-3 text-lg text-center text-white bg-blue-500">
+                            {{ $periodo }}
+                        </th>
+                    @endforeach
                 </tr>
             </thead>
             <tbody>
-                <tr class="bg-white border-b hover:bg-gray-50">
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        N° de asistences Entrante (Internacional)
-                    </td>
-                    <td class="px-6 py-4 text-center">22</td>
-                    <td class="px-6 py-4 text-center">0</td>
-                    <td class="px-6 py-4 text-center">45</td>
-                </tr>
-                <tr class="bg-gray-50 border-b hover:bg-gray-100">
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        N° de asistences Entrante (Nacional)
-                    </td>
-                    <td class="px-6 py-4 text-center">80</td>
-                    <td class="px-6 py-4 text-center">1</td>
-                    <td class="px-6 py-4 text-center">14</td>
-                </tr>
-                <tr class="bg-white border-b hover:bg-gray-50">
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        N° de asistences Entrante Virtual (Internacional)
-                    </td>
-                    <td class="px-6 py-4 text-center">8</td>
-                    <td class="px-6 py-4 text-center">38</td>
-                    <td class="px-6 py-4 text-center">186</td>
-                </tr>
-                <tr class="bg-gray-50 border-b hover:bg-gray-100">
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        N° de asistences Entrante Virtual (Nacional)
-                    </td>
-                    <td class="px-6 py-4 text-center">110</td>
-                    <td class="px-6 py-4 text-center">22</td>
-                    <td class="px-6 py-4 text-center">169</td>
-                </tr>
+                @php
+                    $rows = [
+                        [
+                            'label' => 'N° de asistences Entrante (Internacional)',
+                            'key' => 'Entrante Internacional Presencial',
+                            'rowClass' => 'bg-white border-b hover:bg-gray-50',
+                        ],
+                        [
+                            'label' => 'N° de asistences Entrante (Nacional)',
+                            'key' => 'Entrante Nacional Presencial',
+                            'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
+                        ],
+                        [
+                            'label' => 'N° de asistences Entrante Virtual (Internacional)',
+                            'key' => 'Entrante Internacional Virtual',
+                            'rowClass' => 'bg-white border-b hover:bg-gray-50',
+                        ],
+                        [
+                            'label' => 'N° de asistences Entrante Virtual (Nacional)',
+                            'key' => 'Entrante Nacional Virtual',
+                            'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
+                        ],
+                    ];
+                @endphp
+
+                @foreach ($rows as $row)
+                    <tr class="{{ $row['rowClass'] }}">
+                        <td class="px-6 py-4 text-lg font-medium text-gray-900 whitespace-nowrap">
+                            {{ $row['label'] }}
+                        </td>
+                        @foreach ($statistics['data'][$row['key']] as $count)
+                            <td class="px-6 py-4 text-center">{{ $count }}</td>
+                        @endforeach
+                    </tr>
+                @endforeach
             </tbody>
             <tfoot>
                 <tr class="font-semibold text-gray-900 bg-gray-100">
                     <th scope="row" class="px-6 py-3 text-base">
                         Total
                     </th>
-                    <td class="px-6 py-3 text-center">220</td>
-                    <td class="px-6 py-3 text-center">61</td>
-                    <td class="px-6 py-3 text-center">414</td>
+                    @foreach ($statistics['data']['total'] as $count)
+                        <td class="px-6 py-4 text-center">{{ $count }}</td>
+                    @endforeach
                 </tr>
             </tfoot>
         </table>
