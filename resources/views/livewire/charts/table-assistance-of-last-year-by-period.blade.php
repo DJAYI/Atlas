@@ -64,7 +64,3 @@
         </table>
     </div>
 </div>
-
-<script>
-    console.log(@json($statistics));
-</script>
