@@ -1,6 +1,6 @@
-<div class="col-span-1 row-span-1 py-4">
-    <label for="chart-1" class="text-gray-500 mb-4 font-semibold">
-        Movilidades del Ultimo Año
+<div class="col-span-1 col-start-3 row-span-1 py-4">
+    <label for="chart-1" class="mb-4 font-semibold text-gray-500">
+        Movilidades del Último Año
     </label>
     <div id="chart-1"></div>
 </div>

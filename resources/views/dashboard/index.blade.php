@@ -12,11 +12,7 @@
 
     <livewire:dashboard-map />
 
-
-
-    <br>
-
-    <details open class="flex flex-col open:[&>summary]:bg-primary-400 open:[&>summary]:text-white h-full gap-4 mt-4">
+    <details open class="flex flex-col open:[&>summary]:bg-primary-400 open:[&>summary]:text-white h-full gap-4 ">
         <summary
             class="flex items-center px-3 py-2 text-lg font-semibold transition duration-75 border rounded-lg cursor-pointer text-pretty text-primary-700 hover:bg-primary-400 hover:text-white">
             <h2 class="text-2xl font-semibold text-pretty">

@@ -24,10 +24,10 @@
 @endphp
 
 
-<div class="mt-8 mb-10">
+<div class="col-span-2 col-start-1 row-span-1 row-start-2 mt-4 border-r">
     <h1 class="my-4 text-xl font-semibold text-primary">Estadísticas de Asistentes por Período</h1>
-    <div class="relative w-full overflow-x-auto sm:rounded-lg">
-        <table class="text-sm text-left text-gray-500 rtl:text-right">
+    <div class="relative w-full p-4 overflow-x-auto ">
+        <table class="w-full text-sm text-left text-gray-500 rtl:text-right">
             <thead class="text-gray-700 uppercase bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-3 text-lg">
