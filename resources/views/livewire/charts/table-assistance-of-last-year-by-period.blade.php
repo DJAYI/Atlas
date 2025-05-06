@@ -1,3 +1,29 @@
+@php
+    $rows = [
+        [
+            'label' => 'N° de asistences Entrante (Internacional)',
+            'key' => 'Entrante Internacional Presencial',
+            'rowClass' => 'bg-white border-b hover:bg-gray-50',
+        ],
+        [
+            'label' => 'N° de asistences Entrante (Nacional)',
+            'key' => 'Entrante Nacional Presencial',
+            'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
+        ],
+        [
+            'label' => 'N° de asistences Entrante Virtual (Internacional)',
+            'key' => 'Entrante Internacional Virtual',
+            'rowClass' => 'bg-white border-b hover:bg-gray-50',
+        ],
+        [
+            'label' => 'N° de asistences Entrante Virtual (Nacional)',
+            'key' => 'Entrante Nacional Virtual',
+            'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
+        ],
+    ];
+@endphp
+
+
 <div class="mt-8 mb-10">
     <h1 class="my-4 text-xl font-semibold text-primary">Estadísticas de Asistentes por Período</h1>
     <div class="relative w-full overflow-x-auto sm:rounded-lg">
@@ -15,30 +41,7 @@
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $rows = [
-                        [
-                            'label' => 'N° de asistences Entrante (Internacional)',
-                            'key' => 'Entrante Internacional Presencial',
-                            'rowClass' => 'bg-white border-b hover:bg-gray-50',
-                        ],
-                        [
-                            'label' => 'N° de asistences Entrante (Nacional)',
-                            'key' => 'Entrante Nacional Presencial',
-                            'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
-                        ],
-                        [
-                            'label' => 'N° de asistences Entrante Virtual (Internacional)',
-                            'key' => 'Entrante Internacional Virtual',
-                            'rowClass' => 'bg-white border-b hover:bg-gray-50',
-                        ],
-                        [
-                            'label' => 'N° de asistences Entrante Virtual (Nacional)',
-                            'key' => 'Entrante Nacional Virtual',
-                            'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
-                        ],
-                    ];
-                @endphp
+
 
                 @foreach ($rows as $row)
                     <tr class="{{ $row['rowClass'] }}">
