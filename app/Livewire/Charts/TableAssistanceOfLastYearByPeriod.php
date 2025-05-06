@@ -16,10 +16,10 @@ class TableAssistanceOfLastYearByPeriod extends Component
 
         $periodos = [];
         $data = [
-            'Entrante Internacional Presencial' => [],
-            'Entrante Nacional Presencial' => [],
-            'Entrante Internacional Virtual' => [],
-            'Entrante Nacional Virtual' => [],
+            'Internacional Presencial' => [],
+            'Nacional Presencial' => [],
+            'Internacional Virtual' => [],
+            'Nacional Virtual' => [],
             'total' => [],
         ];
 
@@ -36,20 +36,21 @@ class TableAssistanceOfLastYearByPeriod extends Component
             $events = Event::whereBetween('created_at', [$period['start'], $period['end']])->get();
 
             foreach ($events as $event) {
-                if ($event->university_id == 1) {
-                    continue;
-                }
+
                 $count = $event->assistances()->count();
 
+                // Sumar solo el total, sin clasificar como "entrante"
                 $this->addAssistanceCount($data, $event, $periodKey, $count);
+
+                $data['total'][$periodKey] += $count;
             }
 
             // Calcular total por periodo
             $data['total'][$periodKey] =
-                $data['Entrante Internacional Presencial'][$periodKey] +
-                $data['Entrante Nacional Presencial'][$periodKey] +
-                $data['Entrante Internacional Virtual'][$periodKey] +
-                $data['Entrante Nacional Virtual'][$periodKey];
+                $data['Internacional Presencial'][$periodKey] +
+                $data['Nacional Presencial'][$periodKey] +
+                $data['Internacional Virtual'][$periodKey] +
+                $data['Nacional Virtual'][$periodKey];
         }
 
         $this->statistics = [
@@ -91,16 +92,19 @@ class TableAssistanceOfLastYearByPeriod extends Component
     private function addAssistanceCount(&$data, $event, $periodKey, $count)
     {
         if ($event->location === 'internacional' && $event->modality === 'presencial') {
-            $data['Entrante Internacional Presencial'][$periodKey] += $count;
+            $data['Internacional Presencial'][$periodKey] += $count;
         }
         if ($event->location === 'nacional' && $event->modality === 'presencial') {
-            $data['Entrante Nacional Presencial'][$periodKey] += $count;
+            $data['Nacional Presencial'][$periodKey] += $count;
         }
         if ($event->location === 'internacional' && $event->modality === 'virtual') {
-            $data['Entrante Internacional Virtual'][$periodKey] += $count;
+            $data['Internacional Virtual'][$periodKey] += $count;
         }
         if ($event->location === 'nacional' && $event->modality === 'virtual') {
-            $data['Entrante Nacional Virtual'][$periodKey] += $count;
+            $data['Nacional Virtual'][$periodKey] += $count;
+        }
+        if ($event->location === 'nacional' && $event->modality === 'virtual') {
+            $data['Nacional Virtual'][$periodKey] += $count;
         }
     }
 

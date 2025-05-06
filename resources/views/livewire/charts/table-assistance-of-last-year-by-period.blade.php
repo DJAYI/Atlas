@@ -1,23 +1,23 @@
 @php
     $rows = [
         [
-            'label' => 'N° de asistences Entrante (Internacional)',
-            'key' => 'Entrante Internacional Presencial',
+            'label' => 'N° de asistentes (Internacional)',
+            'key' => 'Internacional Presencial',
             'rowClass' => 'bg-white border-b hover:bg-gray-50',
         ],
         [
-            'label' => 'N° de asistences Entrante (Nacional)',
-            'key' => 'Entrante Nacional Presencial',
+            'label' => 'N° de asistentes (Nacional)',
+            'key' => 'Nacional Presencial',
             'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
         ],
         [
-            'label' => 'N° de asistences Entrante Virtual (Internacional)',
-            'key' => 'Entrante Internacional Virtual',
+            'label' => 'N° de asistentes Virtual (Internacional)',
+            'key' => 'Internacional Virtual',
             'rowClass' => 'bg-white border-b hover:bg-gray-50',
         ],
         [
-            'label' => 'N° de asistences Entrante Virtual (Nacional)',
-            'key' => 'Entrante Nacional Virtual',
+            'label' => 'N° de asistentes Virtual (Nacional)',
+            'key' => 'Nacional Virtual',
             'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
         ],
     ];
@@ -41,8 +41,6 @@
                 </tr>
             </thead>
             <tbody>
-
-
                 @foreach ($rows as $row)
                     <tr class="{{ $row['rowClass'] }}">
                         <td class="px-6 py-4 text-lg font-medium text-gray-900 whitespace-nowrap">
