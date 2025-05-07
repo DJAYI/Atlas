@@ -17,12 +17,44 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        User::create([
-            'username' => 'Admin',
-            'email' => 'test@mail.com',
-            'institutional_email' => 'academic@mail.com',
-            'password' => 'password',
-        ]);
+        $roles = [
+            'admin',
+            'regen',
+            'user'
+        ];
+
+        foreach ($roles as $role) {
+            \Spatie\Permission\Models\Role::create(['name' => $role]);
+        }
+
+
+        $users = [
+            [
+                'name' => 'Admin',
+                'email' => 'test@mail.com',
+                'password' => 'password',
+                'institutional_email' => 'test@mail.com',
+                'role' => 'admin',
+            ],
+            [
+                'name' => 'Regen',
+                'email' => 'regen@mail.com',
+                'institutional_email' => 'regen@institution.com',
+                'password' => 'password',
+                'role' => 'regen',
+            ],
+        ];
+
+        foreach ($users as $user) {
+            $newUser = User::create([
+                'username' => $user['name'],
+                'email' => $user['email'],
+                'institutional_email' => $user['institutional_email'],
+                'password' => $user['password'],
+            ]);
+
+            $newUser->assignRole($user['role']);
+        }
 
 
         $this->call([
