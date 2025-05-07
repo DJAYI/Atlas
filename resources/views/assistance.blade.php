@@ -9,7 +9,8 @@
         @if (session()->has('found'))
 
             <form action="{{ route('assistance.store', ['locale' => app()->getLocale()]) }}"
-                class="flex flex-col gap-6 px-6 py-4 mx-4 bg-white rounded-md" method="POST">
+                class="flex flex-col gap-6 px-6 py-4 mx-4 bg-white rounded-md" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('POST')
 
@@ -229,7 +230,9 @@
                             <label for="identity_document"
                                 class="text-gray-500">{{ __('Fotocopia de Documento de Identidad') }}<span
                                     class="text-secondary-400">*</span></label>
-                            <input type="file" id="identity_document" name="identity_document"
+                            <input type="file" id="identity_document"
+                                value="{{ old('identity_document', session('identity_document_file')) }}"
+                                name="identity_document"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                                 accept="image/jpeg, image/png, image/jpg, image/webp">
                             <p class="text-sm text-gray-500">
@@ -237,8 +240,9 @@
                             </p>
 
                             <div id="preview" class="flex flex-col items-center justify-center w-full mt-2">
-                                <img id="preview-image" onload="this.style.opacity='1'" src=""
-                                    class="object-cover opacity-0 transition hidden w-full h-full rounded-lg shadow-sm border-primary-300"
+                                <img id="preview-image" onload="this.style.opacity='1'"
+                                    src="{{ asset('storage/' . session('identity_document_file')) }}"
+                                    class="object-cover opacity-0 transition {{ session('identity_document_file') ? '' : 'hidden' }} w-full h-full rounded-lg shadow-sm border-primary-300"
                                     alt="{{ __('Vista previa del documento de identidad') }}">
                             </div>
                         </div>

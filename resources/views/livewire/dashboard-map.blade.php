@@ -1,8 +1,8 @@
-<div class="">
+<div class="-mt-28">
     <div class="border rounded-t">
         <h1 class="px-2 py-3 text-2xl font-semibold text-center text-primary-400">Mapa de Asistencias</h1>
     </div>
-    <div class="w-full px-4 py-8 -mt-4 border-b rounded-md border-x aspect-video">
+    <div class="w-full px-4 py-8 -mt-4 border-b rounded-md border-x h-[570px] aspect-video">
         <div id="map"></div>
     </div>
 </div>

@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace App\Http\Controllers;
 
 use App\Models\Assistance;
@@ -11,7 +13,20 @@ use App\Models\Person;
 use App\Models\University;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
+/**
+ * Class AssistanceController
+ *
+ * Handles operations related to event assistance registration, verification, and management.
+ *
+ * Methods:
+ * - index(string $locale): Displays the assistance registration form with required data.
+ * - store(Request $request): Handles the registration of a new assistance, including validation, person creation/update, and file upload.
+ * - verifyAssistance(Request $request): Verifies if a person is registered for an event and checks event validity.
+ *
+ * This controller manages the workflow for registering and verifying assistance to events, including handling identity documents and session data.
+ */
 class AssistanceController extends Controller
 {
     /**
@@ -49,9 +64,11 @@ class AssistanceController extends Controller
                 'type' => 'required|string|max:50',
                 'destination_university' => 'required|exists:universities,id',
                 'mobility_id' => 'required|exists:mobilities,id',
+                'identity_document' => 'nullable|sometimes|file|mimes:jpg,jpeg,png,pdf|max:2048',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             session()->flash('errors', $e->validator->errors());
+            Log::error('Validation error: ', $e->validator->errors()->toArray());
             return redirect()->back()->withInput();
         }
 
@@ -59,6 +76,7 @@ class AssistanceController extends Controller
         $documentType = session('document_type');
         $documentNumber = session('document_number');
         $eventCode = session('event_code');
+
 
 
         $person = Person::updateOrCreate(
@@ -84,6 +102,8 @@ class AssistanceController extends Controller
             ]
         );
 
+        session()->flash('success', __('assistance.person_saved_successfully'));
+
         // Store the person in the session
         session()->put('person', $person);
 
@@ -99,21 +119,51 @@ class AssistanceController extends Controller
         $existingAssistance = Assistance::where('event_id', $event->id)
             ->where('person_id', $person->id)
             ->first();
+
+
+        /**
+         * Checks if an existing assistance record exists and handles the upload of a new identity document file.
+         * 
+         * - If an existing assistance record is found:
+         *   - Stores the uploaded identity document file in the 'identity_documents' directory within the 'public' disk.
+         *   - Updates the `identity_document_file` field of the existing assistance record with the new file path.
+         *   - Sets a session flash message indicating that the assistance is already registered.
+         *   - Redirects the user to the assistance route with the specified locale.
+         * 
+         * @param \Illuminate\Http\Request $request The HTTP request instance containing the uploaded file and locale.
+         * @param mixed $existingAssistance The existing assistance record, if found.
+         * 
+         * @return \Illuminate\Http\RedirectResponse Redirects to the assistance route with the specified locale.
+         */
+
         if ($existingAssistance) {
+            $documentFilePath = $request->file('identity_document')->store('identity_documents', 'public');
+
+            // Update the identity_document_file if a new file is uploaded
+            if ($request->hasFile('identity_document')) {
+                $existingAssistance->update([
+                    'identity_document_file' => $documentFilePath,
+                ]);
+                session()->flash('success', __('assistance.identity_document_file_updated_successfully'));
+            }
             session()->flash('error', __('assistance.already_registered'));
             return redirect()->route('assistance', ['locale' => $request->locale]);
         }
 
 
-        // Create the assistance record
+
+        $documentFilePath = $request->file('identity_document')->store('identity_documents', 'public');
+
+        // Create the assistance record with identity_document_file set to null
         $assistance = Assistance::create([
             'event_id' => $event->id,
             'person_id' => $person->id,
             'university_destiny_id' => $request->input('destination_university'),
             'mobility_id' => $request->input('mobility_id'),
-            'identity_document_file' => null
-
+            'identity_document_file' => $documentFilePath,
         ]);
+
+
 
         session()->flash('success', __('assistance.saved_successfully'));
         return redirect()->route('assistance', ['locale' => $request->locale]);

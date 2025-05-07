@@ -1,12 +1,12 @@
 @php
     $rows = [
         [
-            'label' => 'N° de asistentes (Internacional)',
+            'label' => 'N° de asistentes Presencial (Internacional)',
             'key' => 'Internacional Presencial',
             'rowClass' => 'bg-white border-b hover:bg-gray-50',
         ],
         [
-            'label' => 'N° de asistentes (Nacional)',
+            'label' => 'N° de asistentes Presencial (Nacional)',
             'key' => 'Nacional Presencial',
             'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
         ],
@@ -24,7 +24,7 @@
 @endphp
 
 
-<div class="col-span-2 col-start-1 row-span-1 row-start-2 mt-4 border-r">
+<div class="col-span-2 col-start-1 row-span-1 self-start py-3 border-t row-start-2 mt-4 border-r">
     <h1 class="my-4 text-xl font-semibold text-primary">Estadísticas de Asistentes por Período</h1>
     <div class="relative w-full p-4 overflow-x-auto ">
         <table class="w-full text-sm text-left text-gray-500 rtl:text-right">

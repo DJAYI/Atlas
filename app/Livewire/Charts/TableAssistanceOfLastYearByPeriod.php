@@ -103,9 +103,6 @@ class TableAssistanceOfLastYearByPeriod extends Component
         if ($event->location === 'nacional' && $event->modality === 'virtual') {
             $data['Nacional Virtual'][$periodKey] += $count;
         }
-        if ($event->location === 'nacional' && $event->modality === 'virtual') {
-            $data['Nacional Virtual'][$periodKey] += $count;
-        }
     }
 
     public function mount()
