@@ -31,15 +31,24 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'es|en']], functio
 
 Route::post('/{locale}/assistance', [AssistanceController::class, 'store'])->where('locale', 'es|en')->name('assistance.store');
 Route::post('/{locale}/assistance/verify', [AssistanceController::class, 'verifyAssistance'])->where('locale', 'es|en')->name('assistance.verify');
-// If the person does not exist, create it
-// If the person exists, create the assistance
-// If the assistance exists, use the existing one
+
 
 // Rutes for the dashboard
 Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
         return view('dashboard.index');
     })->name('dashboard');
+
+    Route::prefix('regen')->group(function () {
+        Route::get('/', function () {
+            return view('dashboard.pages.regen.index');
+        })->name('dashboard.regen');
+
+        Route::get('/signatures', function () {
+            return view('dashboard.pages.regen.signatures.index');
+        })->name('dashboard.regen.signatures');
+        Route::post('/signatures', [CertificateController::class, 'store'])->name('dashboard.regen.signatures.store');
+    })->middleware('role:regen');
 
     Route::prefix('events')->group(function () {
 
@@ -51,6 +60,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::delete('/{id}', [EventController::class, 'destroy'])->name('events.destroy');
         Route::post('/events/{id}/certificates', [CertificateController::class, 'sendAllCertificates'])->name('events.sendAllCertificates');
         Route::post('/events/{event_id}/certificates/{assistance_id}', [CertificateController::class, 'sendCertificate'])->name('events.sendCertificate');
+
+        Route::post('/events/{event_id}/certificates/aprove', [CertificateController::class, 'approveCertificate'])->name('events.approveCertificate')->middleware('role:regen');
     });
 
     Route::prefix('universities')->group(function () {
