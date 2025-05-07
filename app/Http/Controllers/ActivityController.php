@@ -5,10 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 
+/**
+ * Controller for managing Activity resources.
+ * 
+ * Handles listing, creating, editing, updating, and deleting activities.
+ */
 class ActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * Retrieves all activities and a paginated list of activities ordered by creation date.
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -19,6 +28,11 @@ class ActivityController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * Validates and creates a new activity from the request data.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -33,6 +47,11 @@ class ActivityController extends Controller
     }
     /**
      * Show the form for editing the specified resource.
+     *
+     * Finds the activity by ID and returns the edit view.
+     *
+     * @param  string  $id
+     * @return \Illuminate\View\View
      */
     public function edit(string $id)
     {
@@ -42,6 +61,12 @@ class ActivityController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * Validates and updates the specified activity with request data.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, string $id)
     {
@@ -59,6 +84,11 @@ class ActivityController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * Deletes the specified activity by ID.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id)
     {

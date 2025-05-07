@@ -5,10 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Agreement;
 use Illuminate\Http\Request;
 
+/**
+ * Class AgreementController
+ *
+ * Handles CRUD operations for Agreement resources, including listing, creation, editing, updating, and deletion.
+ *
+ * Methods:
+ * - index(): Displays a list of all agreements and a paginated list ordered by start date.
+ * - store(Request $request): Validates and stores a new agreement.
+ * - edit(string $id): Shows the form for editing a specific agreement.
+ * - update(Request $request, string $id): Validates and updates an existing agreement.
+ * - destroy(string $id): Deletes a specific agreement.
+ */
 class AgreementController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -20,6 +34,9 @@ class AgreementController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -51,6 +68,9 @@ class AgreementController extends Controller
     }
     /**
      * Show the form for editing the specified resource.
+     *
+     * @param  string  $id  The ID of the agreement to edit
+     * @return \Illuminate\View\View
      */
     public function edit(string $id)
     {
@@ -63,6 +83,10 @@ class AgreementController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id  The ID of the agreement to update
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, string $id)
     {
@@ -98,6 +122,9 @@ class AgreementController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param  string  $id  The ID of the agreement to delete
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id)
     {

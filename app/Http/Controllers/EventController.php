@@ -10,10 +10,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+/**
+ * Class EventController
+ * 
+ * Controlador para la gestión de eventos en el sistema. Permite listar, crear, editar, actualizar y eliminar eventos,
+ * así como asociar universidades, actividades y acuerdos a los eventos.
+ * 
+ * Métodos principales:
+ * - index(): Muestra la lista de eventos y la paginación.
+ * - store(Request $request): Valida y almacena un nuevo evento.
+ * - edit(string $id): Muestra el formulario de edición de un evento.
+ * - update(Request $request, string $id): Valida y actualiza un evento existente.
+ * - destroy(string $id): Elimina un evento y desasocia sus universidades.
+ * 
+ * @package App\Http\Controllers
+ */
 class EventController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de los eventos registrados.
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -24,7 +41,10 @@ class EventController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo evento en la base de datos después de validar los datos recibidos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -81,7 +101,10 @@ class EventController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar un evento específico.
+     *
+     * @param  string  $id  ID del evento a editar
+     * @return \Illuminate\View\View
      */
     public function edit(string $id)
     {
@@ -120,7 +143,11 @@ class EventController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza un evento existente en la base de datos después de validar los datos recibidos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id  ID del evento a actualizar
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function update(Request $request, string $id)
     {
@@ -179,7 +206,10 @@ class EventController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un evento específico de la base de datos y desasocia sus universidades.
+     *
+     * @param  string  $id  ID del evento a eliminar
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id)
     {

@@ -6,10 +6,21 @@ use App\Models\Career;
 use App\Models\Faculty;
 use Illuminate\Http\Request;
 
+/**
+ * Class CareerController
+ * 
+ * Handles CRUD operations for Career resources, including listing, creating, editing, updating, and deleting careers.
+ *
+ * @package App\Http\Controllers
+ */
 class CareerController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * Retrieves all careers sorted by creation date (descending) and paginates the results.
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -18,10 +29,13 @@ class CareerController extends Controller
         return view('dashboard.pages.careers.index', compact('careers', 'careersPaginated'));
     }
 
-
-
     /**
      * Store a newly created resource in storage.
+     *
+     * Validates and creates a new career record from the request data.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -36,9 +50,13 @@ class CareerController extends Controller
         return redirect()->route('careers')->with('success', 'Career created successfully.');
     }
 
-
     /**
      * Show the form for editing the specified resource.
+     *
+     * Retrieves the specified career and all faculties for the edit form.
+     *
+     * @param  string  $id
+     * @return \Illuminate\View\View
      */
     public function edit(string $id)
     {
@@ -49,6 +67,12 @@ class CareerController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * Validates and updates the specified career record with the request data.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, string $id)
     {
@@ -66,6 +90,11 @@ class CareerController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * Deletes the specified career record.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id)
     {

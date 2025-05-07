@@ -7,8 +7,22 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Resend\Laravel\Facades\Resend;
 
+/**
+ * Class CertificateController
+ * 
+ * Handles the sending of certificates to event participants via email.
+ *
+ * @package App\Http\Controllers
+ */
 class CertificateController extends Controller
 {
+    /**
+     * Send certificates to all event attendees (both personal and institutional emails).
+     *
+     * @param Request $request The HTTP request instance.
+     * @param string $id The event ID.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the event edit page with a success message.
+     */
     public function sendAllCertificates(Request $request, string $id)
     {
         // Enviar certificados a todos los asistentes tanto a sus correos personales como institucionales
@@ -18,15 +32,30 @@ class CertificateController extends Controller
         // Obtener los asistentes al evento
         $assistances = $event->assistances()->with('person')->get();
 
-        foreach ($assistances as $assistance) {
-            $person = $assistance->person;
-            $fullname = $person->firstname . ' ' . $person->middlename . ' ' . $person->lastname . ' ' . $person->second_lastname;
+        $batchSize = 10; // Tamaño del paquete
+        $chunks = $assistances->chunk($batchSize);
 
-            dispatch((new SendCertificateEmailJob($person, $fullname, $event, $assistance))->delay(now()));
+        foreach ($chunks as $chunk) {
+            foreach ($chunk as $assistance) {
+                $person = $assistance->person;
+                $fullname = $person->firstname . ' ' . $person->middlename . ' ' . $person->lastname . ' ' . $person->second_lastname;
+
+                dispatch((new SendCertificateEmailJob($person, $fullname, $event, $assistance))->delay(now()));
+            }
+            // Opcional: Agregar un pequeño retraso entre paquetes para reducir la carga
+            usleep(500000); // 500ms
         }
         return redirect()->route('events.edit', $id)->with('success', 'Certificados enviados exitosamente.');
     }
 
+    /**
+     * Send a certificate to a specific attendee by email.
+     *
+     * @param Request $request The HTTP request instance.
+     * @param string $event_id The event ID.
+     * @param string $assistance_id The assistance (attendance) ID.
+     * @return \Illuminate\Http\RedirectResponse Redirects to the event edit page with a success message.
+     */
     public function sendCertificate(Request $request, string $event_id, string $assistance_id)
     {
         // Enviar certificado a un asistente específico por correo

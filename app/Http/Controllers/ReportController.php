@@ -9,19 +9,30 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
+/**
+ * Controller for generating reports related to event assistance.
+ *
+ * This controller provides functionality to generate Excel reports
+ * based on assistance records for a given event. Reports can be filtered
+ * by event, type of person (e.g., student), and whether the person is Colombian.
+ *
+ * @package App\Http\Controllers
+ */
 class ReportController extends Controller
 {
 
     /**
-     * Generate a report based on the event ID and optional filters.
-     * 
-     * This method retrieves assistance records filtered by event ID, 
-     * type of person, and whether the person is Colombian or not.
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * Generate an Excel report of assistance records for a specific event.
+     *
+     * Retrieves assistance records filtered by event ID, type of person, and
+     * whether the person is Colombian. The resulting data is exported as an Excel file.
+     *
+     * @param Request $request The HTTP request containing query parameters:
+     *                         - event_id: (int) The ID of the event to filter by (required).
+     *                         - type: (string|null) The type of person to filter by (optional).
+     *                         - is_colombian: (bool|string|null) Whether to filter by Colombians (optional).
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse The Excel file download response.
      */
-
     public function generateReport(Request $request)
     {
         // Validar que el evento existe

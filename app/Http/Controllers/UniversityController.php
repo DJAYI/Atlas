@@ -6,15 +6,22 @@ use App\Models\Person;
 use App\Models\University;
 use Illuminate\Http\Request;
 
+/**
+ * Controller for managing University resources.
+ * Handles CRUD operations for universities, including listing, creating, editing, updating, and deleting universities.
+ * Also manages the association between universities and countries, and handles deletion of related people when a university is deleted.
+ */
 class UniversityController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * Retrieves all universities and a paginated list of universities ordered by name.
+     *
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-
-
         $universities = University::all();
         $universitiesPaginated = University::orderBy('name', 'asc')->paginate(6);
 
@@ -23,11 +30,14 @@ class UniversityController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * Validates and creates a new university, associating it with a country.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
-
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:50|unique:universities,code',
@@ -53,6 +63,11 @@ class UniversityController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * Retrieves the university and all countries for the edit form.
+     *
+     * @param  string  $id
+     * @return \Illuminate\View\View
      */
     public function edit(string $id)
     {
@@ -65,6 +80,12 @@ class UniversityController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * Validates and updates the university, associating it with a country.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, string $id)
     {
@@ -95,6 +116,11 @@ class UniversityController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * Deletes the university and all people associated with it.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id)
     {

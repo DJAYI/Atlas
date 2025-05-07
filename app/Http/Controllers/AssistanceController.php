@@ -14,6 +14,7 @@ use App\Models\University;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class AssistanceController
@@ -137,16 +138,25 @@ class AssistanceController extends Controller
          */
 
         if ($existingAssistance) {
-            $documentFilePath = $request->file('identity_document')->store('identity_documents', 'public');
-
-            // Update the identity_document_file if a new file is uploaded
             if ($request->hasFile('identity_document')) {
+                // Borrar el archivo anterior si existe
+                if ($existingAssistance->identity_document_file) {
+                    Storage::disk('public')->delete($existingAssistance->identity_document_file);
+                }
+
+                // Subir el nuevo archivo
+                $documentFilePath = $request->file('identity_document')->store('identity_documents', 'public');
+
+                // Actualizar el registro
                 $existingAssistance->update([
                     'identity_document_file' => $documentFilePath,
                 ]);
+
                 session()->flash('success', __('assistance.identity_document_file_updated_successfully'));
+            } else {
+                session()->flash('error', __('assistance.already_registered'));
             }
-            session()->flash('error', __('assistance.already_registered'));
+
             return redirect()->route('assistance', ['locale' => $request->locale]);
         }
 
