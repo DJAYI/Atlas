@@ -222,4 +222,15 @@ class EventController extends Controller
 
         return redirect()->route('events')->with('success', 'Evento eliminado exitosamente.');
     }
+
+    public function aproveEvent(string $id)
+    {
+        // Buscar el evento por ID
+        $event = Event::findOrFail($id);
+        // Cambiar el estado del evento a aprobado
+        $event->approved = true;
+        $event->save();
+
+        return redirect()->route('events')->with('success', 'Evento aprobado exitosamente.');
+    }
 }

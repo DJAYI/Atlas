@@ -6,8 +6,8 @@ use App\Http\Controllers\AssistanceController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\MapDataController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\UniversityController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -48,17 +48,15 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
             return redirect()->route('events');
         })->name('dashboard.regen');
 
-        Route::get('/signatures', function () {
-            return view('dashboard.pages.regen.signatures.index');
-        })->name('dashboard.regen.signatures');
-        Route::post('/signatures', [CertificateController::class, 'store'])->name('dashboard.regen.signatures.store');
+        Route::get('/signatures', [SignatureController::class, 'index'])->name('dashboard.regen.signatures');
+        Route::post('/signatures', [SignatureController::class, 'store'])->name('dashboard.regen.signatures.store');
     })->middleware('role:regen');
 
     Route::prefix('events')->group(function () {
 
         Route::get('/', [EventController::class, 'index'])->name('events');
         Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report')->middleware('role:admin');
-        Route::get('/edit/{id}', [EventController::class, 'edit'])->name('events.edit');
+        Route::get('/{ID}/edit', [EventController::class, 'edit'])->name('events.edit');
 
         Route::post('/', [EventController::class, 'store'])->name('events.store')->middleware('role:admin');
         Route::put('/{id}', [EventController::class, 'update'])->name('events.update')->middleware('role:admin');
@@ -67,7 +65,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
 
         Route::post('/events/{event_id}/certificates/{assistance_id}', [CertificateController::class, 'sendCertificate'])->name('events.sendCertificate')->middleware('role:admin');
 
-        Route::post('/events/{event_id}/certificates/aprove', [CertificateController::class, 'approveCertificate'])->name('events.approveCertificate')->middleware('role:regen');
+        Route::put('/{id}/approve', [EventController::class, 'aproveEvent'])->name('events.approveCertificate')->middleware('role:regen');
     });
 
     Route::prefix('universities')->group(function () {

@@ -106,21 +106,24 @@
                     <td class="px-6 py-4">
                         <span
                             class="inline-flex items-center px-2 py-1 text-sm font-semibold rounded-full 
-           {{ $event->isActive() ? 'text-primary-800 bg-primary-100' : 'text-red-800 bg-red-100' }}">
-                            {{ $event->isActive() ? 'Activo' : 'Inactivo' }}
+           {{ $event->approved ? 'text-primary-800 bg-primary-100' : 'text-red-800 bg-red-100' }}">
+                            {{ $event->approved ? 'Aprobado' : 'No Aprobado' }}
                         </span>
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('events.edit', $event->id) }}"
                             class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                             popovertarget="edit-event" popoverdata="{{ $event->id }}">Ver más</a>
-                        <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
-                                popovertarget="delete-event" popoverdata="{{ $event->id }}">Eliminar</button>
-                        </form>
+
+                        @hasrole('admin')
+                            <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
+                                    popovertarget="delete-event" popoverdata="{{ $event->id }}">Eliminar</button>
+                            </form>
+                        @endhasrole
                     </td>
                 </tr>
             @endforeach

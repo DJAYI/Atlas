@@ -22,6 +22,7 @@ class Event extends Model
         'start_time',
         'end_time',
         'university_id',
+        'approved'
     ];
 
     protected $casts = [
