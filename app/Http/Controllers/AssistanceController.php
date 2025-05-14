@@ -162,7 +162,10 @@ class AssistanceController extends Controller
 
 
 
-        $documentFilePath = $request->file('identity_document')->store('identity_documents', 'public');
+        $documentFilePath = null;
+        if ($request->hasFile('identity_document')) {
+            $documentFilePath = $request->file('identity_document')->store('identity_documents', 'public');
+        }
 
         // Create the assistance record with identity_document_file set to null
         $assistance = Assistance::create([
