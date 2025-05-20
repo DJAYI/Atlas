@@ -14,9 +14,10 @@ class CountrySeeder extends Seeder
      */
     public function run(): void
     {
-        $response = Http::timeout(30)->get('https://restcountries.com/v3.1/all');
+        $response = Http::get('https://restcountries.com/v3.1/all');
 
         if ($response->failed()) {
+            $this->command->error('Error fetching countries from API.');
             Country::create([
                 'name' => 'Colombia',
                 'iso_code' => '170',
