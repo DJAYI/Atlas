@@ -90,7 +90,7 @@ La aplicación incluye funcionalidades como:
 -   Gestión de Universidades, Facultades y Carreras.
 -   Gestión de reportes y estadísticas.
 -   Autenticación y autorización de usuarios.
--   Envío de certificados por medio de correo electrónico.
+-   Envío de encuestas por medio de correo electrónico.
 -   Soporte para múltiples idiomas.
 -   Interfaz de usuario responsiva y moderna.
 

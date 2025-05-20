@@ -165,13 +165,12 @@
                 </span>
             </h3>
 
-            {{-- Button for send Certificates to all --}}
-            <form action="{{ route('events.sendAllCertificates', $event->id) }}" method="POST" class="inline">
+            {{-- Button for send Surveys to all --}}
+            <form action="{{ route('events.sendAllSurveys', $event->id) }}" method="POST" class="inline">
                 @csrf
-
                 <button type="submit"
                     class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95">
-                    Enviar Certificados a Todos
+                    Enviar Encuestas a Todos
                 </button>
             </form>
         </div>
@@ -219,9 +218,9 @@
                     </td>
 
                     <td colspan="1" class="px-6 py-4">
-                        {{-- Send certificate individual --}}
+                        {{-- Send survey individual --}}
                         <form
-                            action="{{ route('events.sendCertificate', [
+                            action="{{ route('events.sendSurvey', [
                                 'event_id' => $event->id,
                                 'assistance_id' => $assistance->id,
                             ]) }}"
@@ -229,7 +228,7 @@
                             @csrf
                             <button type="submit"
                                 class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95">
-                                Enviar Certificado
+                                Enviar Encuesta
                             </button>
                         </form>
                     </td>

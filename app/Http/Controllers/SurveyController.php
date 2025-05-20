@@ -2,30 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SendCertificateEmailJob;
+use App\Jobs\SendSurveyEmailJob;
 use App\Models\Event;
 use Illuminate\Http\Request;
-use Resend\Laravel\Facades\Resend;
 
 /**
- * Class CertificateController
+ * Class SurveyController
  * 
- * Handles the sending of certificates to event participants via email.
+ * Handles the sending of surveys to event participants via email.
  *
  * @package App\Http\Controllers
  */
-class CertificateController extends Controller
+class SurveyController extends Controller
 {
     /**
-     * Send certificates to all event attendees (both personal and institutional emails).
+     * Send surveys to all event attendees (both personal and institutional emails).
      *
      * @param Request $request The HTTP request instance.
      * @param string $id The event ID.
      * @return \Illuminate\Http\RedirectResponse Redirects to the event edit page with a success message.
      */
-    public function sendAllCertificates(Request $request, string $id)
+    public function sendAllSurveys(Request $request, string $id)
     {
-        // Enviar certificados a todos los asistentes tanto a sus correos personales como institucionales
+        // Enviar encuestas a todos los asistentes tanto a sus correos personales como institucionales
 
         // Obtener el evento por ID
         $event = Event::findOrFail($id);
@@ -40,44 +39,40 @@ class CertificateController extends Controller
                 $person = $assistance->person;
                 $fullname = $person->firstname . ' ' . $person->middlename . ' ' . $person->lastname . ' ' . $person->second_lastname;
 
-                dispatch((new SendCertificateEmailJob($person, $fullname, $event, $assistance))->delay(now()));
+                dispatch((new SendSurveyEmailJob($person, $fullname, $event, $assistance))->delay(now()));
             }
             // Opcional: Agregar un pequeño retraso entre paquetes para reducir la carga
             usleep(500000); // 500ms
         }
-        return redirect()->route('events.edit', $id)->with('success', 'Certificados enviados exitosamente.');
+        return redirect()->route('events.edit', $id)->with('success', 'Encuestas enviadas exitosamente.');
     }
 
     /**
-     * Send a certificate to a specific attendee by email.
+     * Send a survey to a specific attendee by email.
      *
      * @param Request $request The HTTP request instance.
      * @param string $event_id The event ID.
      * @param string $assistance_id The assistance (attendance) ID.
      * @return \Illuminate\Http\RedirectResponse Redirects to the event edit page with a success message.
      */
-    public function sendCertificate(Request $request, string $event_id, string $assistance_id)
+    public function sendSurvey(Request $request, string $event_id, string $assistance_id)
     {
-        // Enviar certificado a un asistente específico por correo
+        // Enviar encuesta a un asistente específico por correo
         // Obtener el evento por ID
         $event = Event::findOrFail($event_id);
         // Obtener la asistencia por ID
         $assistance = $event->assistances()->with('person')->findOrFail($assistance_id);
         $person = $assistance->person;
 
-
         $fullname = $person->firstname . ' ' . $person->middlename . ' ' . $person->lastname . ' ' . $person->second_lastname;
 
         // fullname = upper case full name
-
         $fullname = strtoupper($fullname);
 
         // Usa el Job para enviar el correo
-        dispatch((new SendCertificateEmailJob($person, $fullname, $event, $assistance))->delay(now()));
-
+        dispatch((new SendSurveyEmailJob($person, $fullname, $event, $assistance))->delay(now()));
 
         // Redirigir a la página de edición del evento con un mensaje de éxito
-
-        return redirect()->route('events.edit', $event_id)->with('success', 'Certificado enviado exitosamente.');
+        return redirect()->route('events.edit', $event_id)->with('success', 'Encuesta enviada exitosamente.');
     }
 }
