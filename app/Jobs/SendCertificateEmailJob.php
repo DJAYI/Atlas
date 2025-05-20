@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Models\Assistance;
 use App\Models\Event;
 use App\Models\Person;
-use App\Models\Signature;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Bus\Queueable;
@@ -63,7 +62,6 @@ class SendCertificateEmailJob implements ShouldQueue
                 'person'   => $this->person,
                 'event'    => $this->event,
                 'assistance' => $this->assistance,
-                'signature' => Signature::find(1),
             ]);
 
             $certificatePDF->save($path);

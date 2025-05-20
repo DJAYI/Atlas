@@ -16,11 +16,6 @@
         </div>
 
         <nav id="menu" class="flex flex-col md:flex-row [&>*]:list-none items-center gap-5 rounded-xl p-4">
-            <li class="transition hover:scale-95">
-                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('events') ? 'bg-primary-500 text-white scale-95' : '' }}"
-                    href="{{ route('events') }}">Eventos</a>
-            </li>
-
             @role('admin')
                 <li class="transition hover:scale-95">
                     <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('dashboard') ? 'bg-primary-500 text-white scale-95' : '' }}"
@@ -44,6 +39,10 @@
                 </li>
             @endrole
 
+            <li class="transition hover:scale-95">
+                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('events') ? 'bg-primary-500 text-white scale-95' : '' }}"
+                    href="{{ route('events') }}">Eventos</a>
+            </li>
 
             @role('regen')
                 <li class="transition hover:scale-95">

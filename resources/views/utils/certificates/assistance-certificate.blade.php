@@ -125,9 +125,7 @@
             </div>
 
             <div class="mt-4 center-content">
-                <img class="w-[400px] h-[100px]" src="{{ asset('storage/' . $signature->signature_file_path) }}"
-                    alt="">
-                <h1 class="bold" style="font-size: 1rem;">{{ $signature->name }}</h1>
+                <h1 class="bold" style="font-size: 1rem;">MARÍA FERNANDA NOVA DEL GIÚDICE</h1>
                 <h1 class="bold" style="font-size: 1rem;">SECRETARIA GENERAL</h1>
             </div>
 
