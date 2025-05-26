@@ -1,4 +1,4 @@
-<div class="-mt-28">
+<div class="">
     <div class="border rounded-t">
         <h1 class="px-2 py-3 text-2xl font-semibold text-center text-primary-400">Mapa de Asistencias</h1>
     </div>

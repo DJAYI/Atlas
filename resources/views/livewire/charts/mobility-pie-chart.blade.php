@@ -1,5 +1,5 @@
-<div class="col-span-1 col-start-3 row-span-1 py-4">
-    <label for="chart-1" class="mb-4 font-semibold text-gray-500">
+<div class="col-span-1 col-start-3 border-t row-span-1 mt-4 flex flex-col items-between">
+    <label for="chart-1" class="my-8 font-semibold text-gray-500">
         Movilidades del Último Año
     </label>
     <div id="chart-1"></div>
@@ -14,7 +14,7 @@
     const pieChartOptions = {
         chart: {
             type: 'donut',
-            height: 350,
+            height: 'auto',
             toolbar: {
                 show: true,
                 tools: {

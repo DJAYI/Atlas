@@ -8,9 +8,12 @@
 
     <livewire:dashboard-sparks />
 
-    <livewire:dashboard-charts />
+    <div class="flex flex-col gap-2">
+        <livewire:dashboard-charts />
 
-    <livewire:dashboard-map />
+        <livewire:dashboard-map />
+    </div>
+
 
     <details open class="flex flex-col open:[&>summary]:bg-primary-400 open:[&>summary]:text-white mt-4 h-full gap-4 ">
         <summary

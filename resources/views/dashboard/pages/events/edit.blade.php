@@ -165,14 +165,14 @@
                 </span>
             </h3>
 
-            {{-- Button for send Surveys to all --}}
-            <form action="{{ route('events.sendAllSurveys', $event->id) }}" method="POST" class="inline">
-                @csrf
-                <button type="submit"
-                    class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95">
-                    Enviar Encuestas a Todos
-                </button>
-            </form>
+            {{-- Botón para enviar encuestas a todos --}}
+            <button type="button"
+                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                onclick="openSurveyPopover(null)" popovertarget="survey-popover">
+                Enviar Encuestas a Todos
+            </button>
+
+
         </div>
 
         <div class="relative sm:w-1/2">
@@ -217,20 +217,13 @@
                         {{ $assistance->person->university->name }}
                     </td>
 
+                    {{-- Botón para enviar encuesta individual --}}
                     <td colspan="1" class="px-6 py-4">
-                        {{-- Send survey individual --}}
-                        <form
-                            action="{{ route('events.sendSurvey', [
-                                'event_id' => $event->id,
-                                'assistance_id' => $assistance->id,
-                            ]) }}"
-                            method="POST" class="inline">
-                            @csrf
-                            <button type="submit"
-                                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95">
-                                Enviar Encuesta
-                            </button>
-                        </form>
+                        <button type="button"
+                            class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                            onclick="openSurveyPopover({{ $assistance->id }})" popovertarget="survey-popover">
+                            Enviar Encuesta
+                        </button>
                     </td>
                 </tr>
             @endforeach
@@ -248,8 +241,59 @@
         {{ $assistancesPaginated->links() }}
     </div>
 
+    <x-modals.send-survey-event-url id="send-individual-survey-modal" />
 </x-layouts.dashboard-layout>
 
 @vite(['resources/js/modules/utils/conditionalSelect.js'])
 @vite(['resources/js/modules/utils/multiSelectUtil.js'])
 @vite(['resources/js/modules/utils/dateValidation.js'])
+<script>
+    let currentAssistanceId = null;
+
+    function openSurveyPopover(assistanceId) {
+        currentAssistanceId = assistanceId;
+        document.getElementById('survey_url').value = '';
+        const title = document.getElementById('survey-popover-title');
+        title.textContent = assistanceId ?
+            'Enviar encuesta individual' :
+            'Enviar encuesta a todos los participantes';
+    }
+
+    function sendSurvey() {
+        const url = document.getElementById('survey_url').value;
+        if (!url) {
+            alert('Debes ingresar una URL.');
+            return;
+        }
+
+        let fetchUrl = '';
+        const body = {
+            url
+        };
+
+        if (currentAssistanceId) {
+            fetchUrl = `{{ route('events.sendSurvey', ['event_id' => $event->id, 'assistance_id' => '__ID__']) }}`
+                .replace('__ID__', currentAssistanceId);
+        } else {
+            fetchUrl = `{{ route('events.sendAllSurveys', $event->id) }}`;
+        }
+
+        fetch(fetchUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(body)
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Error al enviar la encuesta');
+            }
+        });
+
+        document.getElementById('survey-popover').hidePopover();
+        currentAssistanceId = null;
+    }
+</script>

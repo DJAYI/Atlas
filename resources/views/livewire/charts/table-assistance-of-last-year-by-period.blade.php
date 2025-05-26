@@ -3,62 +3,61 @@
         [
             'label' => 'N° de asistentes Presencial (Internacional)',
             'key' => 'Internacional Presencial',
-            'rowClass' => 'bg-white border-b hover:bg-gray-50',
+            'rowClass' => 'bg-gray-50 text-center',
         ],
         [
             'label' => 'N° de asistentes Presencial (Nacional)',
             'key' => 'Nacional Presencial',
-            'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
+            'rowClass' => 'bg-gray-50 text-center',
         ],
         [
             'label' => 'N° de asistentes Virtual (Internacional)',
             'key' => 'Internacional Virtual',
-            'rowClass' => 'bg-white border-b hover:bg-gray-50',
+            'rowClass' => 'bg-gray-50 text-center',
         ],
         [
             'label' => 'N° de asistentes Virtual (Nacional)',
             'key' => 'Nacional Virtual',
-            'rowClass' => 'border-b bg-gray-50 hover:bg-gray-100',
+            'rowClass' => 'bg-gray-50 text-center',
         ],
     ];
 @endphp
 
-
-<div class="col-span-2 col-start-1 row-span-1 self-start py-3 border-t row-start-2 mt-4 border-r">
-    <h1 class="my-4 text-xl font-semibold text-primary">Estadísticas de Asistentes por Período</h1>
-    <div class="relative w-full p-4 overflow-x-auto ">
-        <table class="w-full text-sm text-left text-gray-500 rtl:text-right">
-            <thead class="text-gray-700 uppercase bg-gray-50">
+<div class="col-span-2 col-start-1 row-span-1 self-start py-4 border-t mx-4 row-start-2 mt-4">
+    <label for="chart-1" class="mb-4 font-semibold text-gray-500">
+        Estadísticas de Asistentes por Período
+    </label>
+    <div class="relative w-full overflow-x-auto">
+        <table class="min-w-full w-full divide-y divide-gray-200 rounded-lg overflow-hidden bg-white">
+            <thead class="bg-gray-100">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-lg">
+                    <th scope="col"
+                        class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                         Categoría
                     </th>
                     @foreach ($statistics['periodos'] as $periodo)
-                        <th scope="col" class="px-6 py-3 text-lg text-center text-white bg-blue-500">
+                        <th scope="col"
+                            class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider text-center">
                             {{ $periodo }}
                         </th>
                     @endforeach
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-white divide-y divide-gray-200">
                 @foreach ($rows as $row)
                     <tr class="{{ $row['rowClass'] }}">
-                        <td class="px-6 py-4 text-lg font-medium text-gray-900 whitespace-nowrap">
-                            {{ $row['label'] }}
-                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap text-left text-sm text-gray-900">{{ $row['label'] }}</td>
                         @foreach ($statistics['data'][$row['key']] as $count)
-                            <td class="px-6 py-4 text-center">{{ $count }}</td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{{ $count }}</td>
                         @endforeach
                     </tr>
                 @endforeach
             </tbody>
             <tfoot>
-                <tr class="font-semibold text-gray-900 bg-gray-100">
-                    <th scope="row" class="px-6 py-3 text-base">
-                        Total
-                    </th>
+                <tr class=" font-semibold bg-gray-50 text-center">
+                    <td class="px-4 py-4 whitespace-nowrap text-left text-sm text-gray-900 font-semibold">Total</td>
                     @foreach ($statistics['data']['total'] as $count)
-                        <td class="px-6 py-4 text-center">{{ $count }}</td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{{ $count }}</td>
                     @endforeach
                 </tr>
             </tfoot>

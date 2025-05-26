@@ -1,4 +1,4 @@
-<div class="col-span-2 col-start-1 row-span-1 row-start-1 border-r">
+<div class="col-span-2 col-start-1 row-span-2 row-start-1 border-r">
     <div class="flex flex-row justify-between py-2 border-b pe-4">
         <label for="chart-0" class="text-xl font-semibold text-primary">
             Estadísticas de Asistencias
@@ -70,7 +70,7 @@
     const chartColumnOptions = {
         chart: {
             type: 'bar',
-            height: 550,
+            height: 850,
             toolbar: {
                 show: true
             },

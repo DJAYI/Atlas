@@ -24,8 +24,7 @@ class SurveyController extends Controller
      */
     public function sendAllSurveys(Request $request, string $id)
     {
-        // Enviar encuestas a todos los asistentes tanto a sus correos personales como institucionales
-
+        $url = $request->input('url');
         // Obtener el evento por ID
         $event = Event::findOrFail($id);
         // Obtener los asistentes al evento
@@ -39,12 +38,12 @@ class SurveyController extends Controller
                 $person = $assistance->person;
                 $fullname = $person->firstname . ' ' . $person->middlename . ' ' . $person->lastname . ' ' . $person->second_lastname;
 
-                dispatch((new SendSurveyEmailJob($person, $fullname, $event, $assistance))->delay(now()));
+                dispatch((new SendSurveyEmailJob($person, $fullname, $event, $assistance, $url))->delay(now()));
             }
             // Opcional: Agregar un pequeño retraso entre paquetes para reducir la carga
             usleep(500000); // 500ms
         }
-        return redirect()->route('events.edit', $id)->with('success', 'Encuestas enviadas exitosamente.');
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -57,22 +56,13 @@ class SurveyController extends Controller
      */
     public function sendSurvey(Request $request, string $event_id, string $assistance_id)
     {
-        // Enviar encuesta a un asistente específico por correo
-        // Obtener el evento por ID
+        $url = $request->input('url');
         $event = Event::findOrFail($event_id);
-        // Obtener la asistencia por ID
         $assistance = $event->assistances()->with('person')->findOrFail($assistance_id);
         $person = $assistance->person;
-
         $fullname = $person->firstname . ' ' . $person->middlename . ' ' . $person->lastname . ' ' . $person->second_lastname;
-
-        // fullname = upper case full name
         $fullname = strtoupper($fullname);
-
-        // Usa el Job para enviar el correo
-        dispatch((new SendSurveyEmailJob($person, $fullname, $event, $assistance))->delay(now()));
-
-        // Redirigir a la página de edición del evento con un mensaje de éxito
-        return redirect()->route('events.edit', $event_id)->with('success', 'Encuesta enviada exitosamente.');
+        dispatch((new SendSurveyEmailJob($person, $fullname, $event, $assistance, $url))->delay(now()));
+        return response()->json(['success' => true]);
     }
 }
