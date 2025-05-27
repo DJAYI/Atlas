@@ -24,20 +24,18 @@ class DatabaseSeeder extends Seeder
             'password' => 'password',
         ]);
 
-
         $this->call([
             CountrySeeder::class,
+            AgreementSeeder::class,
             MobilitiesSeeder::class,
             FacultiesSeeder::class,
             ActivitiesSeeder::class,
-            CareersSeeder::class
-        ]);
-
-        University::create([
-            'name' => 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO',
-            'description' => 'La Fundación Universitaria Tecnológico Comfenalco, ubicada en Cartagena de Indias, Bolívar, Colombia, ofrece programas académicos en diversas áreas del conocimiento.',
-            'code' => 'FUTC',
-            'country_id' => Country::where('name', 'Colombia')->first()->id,
+            CareersSeeder::class,
+            UniversitySeeder::class,
+            PersonSeeder::class,
+            UserSeeder::class,
+            FinancialEntitySeeder::class,
+            EventSeeder::class,
         ]);
     }
 }

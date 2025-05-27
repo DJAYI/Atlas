@@ -2,29 +2,22 @@
 
 namespace Database\Factories;
 
+use App\Models\Event;
+use App\Models\Person;
+use App\Models\University;
+use App\Models\Mobility;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Assistance>
- */
 class AssistanceFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-
-    protected $model = \App\Models\Assistance::class;
-
     public function definition(): array
     {
         return [
-            'event_id' => 1,
-            'person_id' => 1,
-            'university_destiny_id' => 1,
-            'mobility_id' => 1,
-            'identity_document_file' => null
+            'event_id' => Event::factory(),
+            'person_id' => Person::factory(),
+            'university_destiny_id' => University::factory(),
+            'mobility_id' => $this->faker->randomElement(Mobility::all())->id,
+            'identity_document_file' => null,
         ];
     }
 }

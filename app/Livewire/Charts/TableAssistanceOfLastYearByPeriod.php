@@ -32,25 +32,35 @@ class TableAssistanceOfLastYearByPeriod extends Component
                 $data[$key][$periodKey] = 0;
             }
 
-            // Consultar eventos del periodo
-            $events = Event::whereBetween('created_at', [$period['start'], $period['end']])->get();
+            // Contar asistencias por periodo y modalidad
+            $data['Internacional Presencial'][$periodKey] = \App\Models\Assistance::whereHas('event', function ($q) use ($period) {
+                $q->where('location', 'internacional')
+                    ->where('modality', 'presencial')
+                    ->whereBetween('created_at', [$period['start'], $period['end']]);
+            })->count();
 
-            foreach ($events as $event) {
+            $data['Nacional Presencial'][$periodKey] = \App\Models\Assistance::whereHas('event', function ($q) use ($period) {
+                $q->whereIn('location', ['nacional', 'local'])
+                    ->where('modality', 'presencial')
+                    ->whereBetween('created_at', [$period['start'], $period['end']]);
+            })->count();
 
-                $count = $event->assistances()->count();
+            $data['Internacional Virtual'][$periodKey] = \App\Models\Assistance::whereHas('event', function ($q) use ($period) {
+                $q->where('location', 'internacional')
+                    ->where('modality', 'virtual')
+                    ->whereBetween('created_at', [$period['start'], $period['end']]);
+            })->count();
 
-                // Sumar solo el total, sin clasificar como "entrante"
-                $this->addAssistanceCount($data, $event, $periodKey, $count);
+            $data['Nacional Virtual'][$periodKey] = \App\Models\Assistance::whereHas('event', function ($q) use ($period) {
+                $q->whereIn('location', ['nacional', 'local'])
+                    ->where('modality', 'virtual')
+                    ->whereBetween('created_at', [$period['start'], $period['end']]);
+            })->count();
 
-                $data['total'][$periodKey] += $count;
-            }
-
-            // Calcular total por periodo
-            $data['total'][$periodKey] =
-                $data['Internacional Presencial'][$periodKey] +
-                $data['Nacional Presencial'][$periodKey] +
-                $data['Internacional Virtual'][$periodKey] +
-                $data['Nacional Virtual'][$periodKey];
+            $data['total'][$periodKey] = $data['Internacional Presencial'][$periodKey]
+                + $data['Nacional Presencial'][$periodKey]
+                + $data['Internacional Virtual'][$periodKey]
+                + $data['Nacional Virtual'][$periodKey];
         }
 
         $this->statistics = [

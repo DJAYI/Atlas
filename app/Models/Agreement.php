@@ -4,10 +4,13 @@ namespace App\Models;
 
 use App\Enums\AgreementActivityEnum;
 use App\Enums\AgreementTypeEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Agreement extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'year',
         'semester',
