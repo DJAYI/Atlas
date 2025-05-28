@@ -32,29 +32,29 @@ class TableAssistanceOfLastYearByPeriod extends Component
                 $data[$key][$periodKey] = 0;
             }
 
-            // Contar asistencias por periodo y modalidad
+            // Contar asistencias por periodo y modalidad usando start_date del evento
             $data['Internacional Presencial'][$periodKey] = \App\Models\Assistance::whereHas('event', function ($q) use ($period) {
                 $q->where('location', 'internacional')
                     ->where('modality', 'presencial')
-                    ->whereBetween('created_at', [$period['start'], $period['end']]);
+                    ->whereBetween('start_date', [$period['start'], $period['end']]);
             })->count();
 
             $data['Nacional Presencial'][$periodKey] = \App\Models\Assistance::whereHas('event', function ($q) use ($period) {
                 $q->whereIn('location', ['nacional', 'local'])
                     ->where('modality', 'presencial')
-                    ->whereBetween('created_at', [$period['start'], $period['end']]);
+                    ->whereBetween('start_date', [$period['start'], $period['end']]);
             })->count();
 
             $data['Internacional Virtual'][$periodKey] = \App\Models\Assistance::whereHas('event', function ($q) use ($period) {
                 $q->where('location', 'internacional')
                     ->where('modality', 'virtual')
-                    ->whereBetween('created_at', [$period['start'], $period['end']]);
+                    ->whereBetween('start_date', [$period['start'], $period['end']]);
             })->count();
 
             $data['Nacional Virtual'][$periodKey] = \App\Models\Assistance::whereHas('event', function ($q) use ($period) {
                 $q->whereIn('location', ['nacional', 'local'])
                     ->where('modality', 'virtual')
-                    ->whereBetween('created_at', [$period['start'], $period['end']]);
+                    ->whereBetween('start_date', [$period['start'], $period['end']]);
             })->count();
 
             $data['total'][$periodKey] = $data['Internacional Presencial'][$periodKey]

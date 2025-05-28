@@ -17,6 +17,27 @@ class EventFactory extends Factory
     {
         $modalities = ['presencial', 'virtual'];
         $locations = ['nacional', 'internacional', 'local'];
+        $now = now();
+        $currentYear = $now->year;
+        $yearStart = $currentYear - 2;
+        $yearEnd = $currentYear - 1;
+        $startDate = $this->faker->dateTimeBetween("$yearStart-01-01", "$yearEnd-12-31");
+        $monthlyStart = $now->copy()->subYear();
+        $monthlyEnd = $now->copy()->subDay();
+        $isMonthly = $this->faker->boolean(30);
+        if ($isMonthly && $monthlyStart < $monthlyEnd) {
+            $startDate = $this->faker->dateTimeBetween($monthlyStart, $monthlyEnd);
+        }
+        // Ensure end_date is always >= start_date
+        $daysToAdd = rand(0, 10);
+        $endDate = (clone $startDate)->modify("+{$daysToAdd} days");
+        // created_at should be before or equal to start_date, but not after now
+        $createdAtEnd = min($startDate, $now);
+        $createdAtStart = (clone $createdAtEnd)->modify('-2 years');
+        if ($createdAtStart > $createdAtEnd) {
+            $createdAtStart = $createdAtEnd;
+        }
+        $createdAt = $this->faker->dateTimeBetween($createdAtStart, $createdAtEnd);
         return [
             'name' => $this->faker->catchPhrase,
             'responsable' => $this->faker->name,
@@ -25,10 +46,12 @@ class EventFactory extends Factory
             'modality' => $this->faker->randomElement($modalities),
             'location' => $this->faker->randomElement($locations),
             'internationalization_at_home' => $this->faker->randomElement(['si', 'no']),
-            'start_date' => $this->faker->date,
-            'end_date' => $this->faker->date,
+            'start_date' => $startDate->format('Y-m-d'),
+            'end_date' => $endDate->format('Y-m-d'),
             'start_time' => $this->faker->time('H:i'),
             'end_time' => $this->faker->time('H:i'),
+            'created_at' => $createdAt->format('Y-m-d H:i:s'),
+            'updated_at' => $createdAt->format('Y-m-d H:i:s'),
         ];
     }
 

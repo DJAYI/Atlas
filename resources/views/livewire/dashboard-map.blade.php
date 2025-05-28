@@ -10,18 +10,22 @@
 <script>
     const cords = @json($cords);
 
+    function getColor(total) {
+        if (total > 500) return '#b30000';
+        if (total > 100) return '#e34a33';
+        if (total > 50) return '#fc8d59';
+        if (total > 10) return '#fdbb84';
+        if (total > 0) return '#fdd49e';
+        return '#fef0d9';
+    }
     cords.forEach((cord, i) => {
-        if (cord.university_total == 0) {
-            return;
-        }
-
         simplemaps_worldmap_mapdata.locations[i] = {
             name: cord.university_name,
             lat: cord.lat,
             lng: cord.lng,
-            description: `De la universidad ${cord.university_name} hay ${cord.university_total} asistentes`,
+            description: `De la universidad ${cord.university_name} (${cord.country ?? ''}) hay ${cord.university_total} asistentes`,
+            color: getColor(cord.university_total),
         };
     });
-
     simplemaps_worldmap.refresh();
 </script>

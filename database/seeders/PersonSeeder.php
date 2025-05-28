@@ -10,12 +10,13 @@ class PersonSeeder extends Seeder
 {
     public function run(): void
     {
+        $colombiaId = \App\Models\Country::where('name', 'Colombia')->value('id') ?? 1;
         $comfenalco = University::firstOrCreate([
             'code' => 'FUTC'
         ], [
             'name' => 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO',
             'description' => 'La Fundación Universitaria Tecnológico Comfenalco, ubicada en Cartagena de Indias, Bolívar, Colombia, ofrece programas académicos en diversas áreas del conocimiento.',
-            'country_id' => 1,
+            'country_id' => $colombiaId,
         ]);
         // Crear 20 estudiantes y 20 profesores de Comfenalco
         \App\Models\Person::factory(20)->create([

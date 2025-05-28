@@ -19,11 +19,9 @@ class MobilityPieChart extends Component
         $comfenalco = \App\Models\University::where('name', 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO')->first();
         $comfenalcoId = $comfenalco ? $comfenalco->id : null;
 
-        $events = \App\Models\Event::all();
-
-        $lastYearAssistances = Assistance::whereIn('event_id', $events->pluck('id'))
-            ->where('created_at', '>=', now()->subYear())
-            ->get();
+        // Solo asistencias de eventos del último año (por start_date)
+        $eventIds = \App\Models\Event::where('start_date', '>=', now()->subYear())->pluck('id');
+        $lastYearAssistances = Assistance::whereIn('event_id', $eventIds)->get();
 
         if ($lastYearAssistances->isEmpty() || !$comfenalcoId) {
             $this->statistics = [

@@ -15,17 +15,24 @@ class DashboardMap extends Component
 
     public function mount()
     {
-        $universities = University::all();
-        $this->cords = $universities->map(function ($university) {
+        // Solo universidades con coordenadas válidas y asistentes en el último año
+        $universities = University::whereNotNull('lat')->whereNotNull('lng')->get();
+        $eventIds = \App\Models\Event::where('start_date', '>=', now()->subYear())->pluck('id');
+        $this->cords = $universities->map(function ($university) use ($eventIds) {
+            $total = Assistance::whereHas('person', function ($query) use ($university) {
+                $query->where('university_id', $university->id);
+            })
+                ->whereIn('event_id', $eventIds)
+                ->count();
+            $country = $university->country ? $university->country->name : null;
             return [
                 'lat' => $university->lat,
                 'lng' => $university->lng,
                 'university_name' => $university->name,
-                'university_total' => Assistance::whereHas('person', function ($query) use ($university) {
-                    $query->where('university_id', $university->id);
-                })->count(),
+                'university_total' => $total,
+                'country' => $country,
             ];
-        })->toArray();
+        })->filter(fn($cord) => $cord['university_total'] > 0)->values()->toArray();
     }
 
     public function render()
