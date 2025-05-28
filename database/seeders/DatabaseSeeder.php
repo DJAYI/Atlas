@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             UniversitySeeder::class,
             PersonSeeder::class,
             UserSeeder::class,
-            FinancialEntitySeeder::class,
+            // FinancialEntitySeeder::class,
             EventSeeder::class,
         ]);
     }

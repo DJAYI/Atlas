@@ -24,6 +24,15 @@ class UniversityAttendanceCoordsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Ejecutar solo si han pasado 7 días desde la última ejecución
+        $cacheKey = 'university_coords_provider_last_run';
+        $lastRun = cache()->get($cacheKey);
+        if ($lastRun && now()->diffInDays($lastRun) < 7) {
+            Log::info('UniversityAttendanceCoordsServiceProvider: Skipping execution, last run was less than 7 days ago.');
+            return;
+        }
+        cache()->put($cacheKey, now(), now()->addDays(7));
+
         $requiredTables = ['assistances', 'people', 'universities', 'countries'];
         $missingTables = [];
         foreach ($requiredTables as $table) {

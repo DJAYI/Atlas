@@ -19,11 +19,11 @@ class PersonSeeder extends Seeder
             'country_id' => $colombiaId,
         ]);
         // Crear 20 estudiantes y 20 profesores de Comfenalco
-        \App\Models\Person::factory(20)->create([
+        \App\Models\Person::factory(10)->create([
             'type' => 'estudiante',
             'university_id' => $comfenalco->id
         ]);
-        \App\Models\Person::factory(20)->create([
+        \App\Models\Person::factory(10)->create([
             'type' => 'profesor',
             'university_id' => $comfenalco->id
         ]);
