@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/es', 301);
-Route::redirect('/login', '/', 301);
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'es|en']], function () {
     Route::get('/', function (string $locale) {
@@ -87,3 +86,12 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
 });
 
 require __DIR__ . '/auth.php';
+
+
+Livewire::setScriptRoute(function ($handle) {
+    return Route::get(request()->getBasePath() . '/livewire/livewire.js', $handle);
+});
+
+Livewire::setUpdateRoute(function ($handle) {
+    return Route::post(request()->getBasePath() . '/livewire/update', $handle);
+});
