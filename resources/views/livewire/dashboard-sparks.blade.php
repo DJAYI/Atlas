@@ -12,12 +12,11 @@
             'count' => $totalUniqueParticipants,
         ],
     ] as $stat)
-            <div
-                class="grid w-full grid-cols-2 gap-4 px-4 py-3 rounded-xl bg-gradient-to-tl from-primary-200 to-primary-400">
+            <div class="grid w-full grid-cols-2 px-4 py-3 rounded-xl shadow-primary-400 bg-white shadow-2xl gap-12">
                 <div>
-                    <h2 class="text-2xl font-semibold text-white">{{ $stat['title'] }}</h2>
+                    <h2 class="text-2xl font-semibold text-primary-500">{{ $stat['title'] }}</h2>
                     <div class="flex mt-2">
-                        <h2 class="text-4xl font-semibold text-white">{{ $stat['count'] }}</h2>
+                        <h2 class="text-4xl font-semibold text-primary-600">{{ $stat['count'] }}</h2>
                     </div>
                 </div>
                 <div class="w-full" id="{{ $stat['id'] }}"></div>
@@ -64,12 +63,16 @@
         const options = {
             chart: {
                 id,
-                type: 'line',
-                height: 140,
+                type: 'area',
+                height: 150,
+                toolbar: {
+                    show: true
+                },
                 sparkline: {
                     enabled: true
                 },
                 group: 'sparklines',
+
             },
             series: [{
                 name,
@@ -93,7 +96,15 @@
                     }
                 },
             },
-            colors: ['#fff'],
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.7,
+                    opacityTo: 0.9,
+                    stops: [0, 90, 100]
+                }
+            },
         };
 
         const chart = new ApexCharts(document.querySelector(`#${id}`), options);
