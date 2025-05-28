@@ -128,4 +128,4 @@
         activities={{ $activities }}></x-modals.create-event-modal>
 </x-layouts.dashboard-layout>
 
-@vite(['resources/js/modules/utils/filterSearch.js'])
+<script src="{{ asset('js/modules/utils/filterSearch.js') }}"></script>

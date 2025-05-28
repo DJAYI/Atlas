@@ -102,4 +102,4 @@
     </form>
 </x-layouts.dashboard-layout>
 
-@vite(['resources/js/modules/utils/dateValidation.js'])
+<script src="{{ asset('js/modules/utils/dateValidation.js') }}"></script>

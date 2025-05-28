@@ -89,4 +89,5 @@
 </x-layouts.dashboard-layout>
 
 <x-modals.create-agreement-modal />
-@vite(['resources/js/modules/utils/filterSearch.js'])
+
+<script src="{{ asset('js/modules/utils/filterSearch.js') }}"></script>

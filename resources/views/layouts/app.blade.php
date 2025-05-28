@@ -26,10 +26,10 @@
 
     {{-- Singlemaps --}}
     @if (file_exists(resource_path('js/mapdata.js')))
-        <script type="text/javascript" src="{{ Vite::asset('resources/js/mapdata.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/mapdata.js') }}"></script>
     @endif
     @if (file_exists(resource_path('js/worldmap.js')))
-        <script type="text/javascript" src="{{ Vite::asset('resources/js/worldmap.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/worldmap.js') }}"></script>
     @endif
 
     {{-- Livewire --}}

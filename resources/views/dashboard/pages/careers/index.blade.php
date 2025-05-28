@@ -85,4 +85,4 @@
 </x-layouts.dashboard-layout>
 <x-modals.create-career-modal faculties={{ $faculties }} />
 
-@vite(['resources/js/modules/utils/filterSearch.js'])
+<script src="{{ asset('js/modules/utils/filterSearch.js') }}"></script>

@@ -75,6 +75,6 @@
         {{ $activitiesPaginated->links() }}
     </div>
     <x-modals.create-activity-modal></x-modals.create-activity-modal>
-</x-layouts.dashboard-layout>
 
-@vite(['resources/js/modules/utils/filterSearch.js'])
+    <script src="{{ asset('js/modules/utils/filterSearch.js') }}"></script>
+</x-layouts.dashboard-layout>

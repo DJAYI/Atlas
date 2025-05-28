@@ -263,5 +263,5 @@
     </div>
 </x-app-layout>
 
-@vite('resources/js/modules/utils/countryOriginValidation.js')
-@vite('resources/js/modules/utils/loadPreviewDocumentFile.js')
+<script src="{{ asset('js/modules/utils/countryOriginValidation.js') }}"></script>
+<script src="{{ asset('js/modules/utils/loadPreviewDocumentFile.js') }}"></script>

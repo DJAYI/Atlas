@@ -85,4 +85,4 @@
 
 <x-modals.create-university-modal countries={{ $countries }} />
 
-@vite(['resources/js/modules/utils/filterSearch.js'])
+<script src="{{ asset('js/modules/utils/filterSearch.js') }}"></script>

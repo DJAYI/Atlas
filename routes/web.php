@@ -10,8 +10,12 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 
-Route::redirect('/', '/es', 301);
+// Redirección explícita para la raíz de public que respeta el subdirectorio
+Route::get('/', function () {
+    return redirect()->to(request()->getBasePath() . '/es');
+});
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'es|en']], function () {
     Route::get('/', function (string $locale) {

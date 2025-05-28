@@ -84,4 +84,4 @@
             </div>
     </form>
 </div>
-@vite(['resources/js/modules/utils/dateValidation.js'])
+<script src="{{ asset('js/modules/utils/dateValidation.js') }}"></script>

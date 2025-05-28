@@ -244,9 +244,9 @@
     <x-modals.send-survey-event-url id="send-individual-survey-modal" />
 </x-layouts.dashboard-layout>
 
-@vite(['resources/js/modules/utils/conditionalSelect.js'])
-@vite(['resources/js/modules/utils/multiSelectUtil.js'])
-@vite(['resources/js/modules/utils/dateValidation.js'])
+<script src="{{ asset('js/modules/utils/conditionalSelect.js') }}"></script>
+<script src="{{ asset('js/modules/utils/multiSelectUtil.js') }}"></script>
+<script src="{{ asset('js/modules/utils/dateValidation.js') }}"></script>
 <script>
     let currentAssistanceId = null;
 
