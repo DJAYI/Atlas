@@ -7,7 +7,7 @@
         ['title' => 'N° Participantes', 'id' => 'spark-assistances', 'count' => $totalAssistances],
         ['title' => 'N° Programas Participantes', 'id' => 'spark-careers', 'count' => $totalCareers],
         [
-            'title' => 'Participantes únicos',
+            'title' => 'N° Participantes Únicos',
             'id' => 'spark-unique-participants',
             'count' => $totalUniqueParticipants,
         ],
