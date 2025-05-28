@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Country;
 use App\Models\University;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -23,86 +24,61 @@ class UniversityAttendanceCoordsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Verificamos si los esquemas requeridos existen antes de ejecutar el código
+        // Ejecutar solo si han pasado 7 días desde la última ejecución
+        $cacheKey = 'university_coords_provider_last_run';
+        $lastRun = cache()->get($cacheKey);
+        if ($lastRun && now()->diffInDays($lastRun) < 7) {
+            Log::info('UniversityAttendanceCoordsServiceProvider: Skipping execution, last run was less than 7 days ago.');
+            return;
+        }
+        cache()->put($cacheKey, now(), now()->addDays(7));
+
         $requiredTables = ['assistances', 'people', 'universities', 'countries'];
         $missingTables = [];
-
         foreach ($requiredTables as $table) {
             if (!DB::getSchemaBuilder()->hasTable($table)) {
                 $missingTables[] = $table;
             }
         }
-
         if (!empty($missingTables)) {
             Log::warning('Missing required tables: ' . implode(', ', $missingTables));
             return;
         }
-
-        // 1. Consultamos los datos agregados por universidad sin usar joins
-        $results = DB::table('assistances')
-            ->join('people', 'people.id', '=', 'assistances.person_id')
-            ->join('universities', 'universities.id', '=', 'people.university_id')
-            ->join('countries', 'countries.id', '=', 'universities.country_id')
-            ->select(
-                'universities.id as university_id',
-                'universities.name as university',
-                'countries.name as country',
-                'universities.lat',
-                'universities.lng',
-                DB::raw('COUNT(assistances.id) as total_assistants')
-            )
-            ->whereNotNull('assistances.person_id')
-            ->groupBy('universities.id', 'universities.name', 'countries.name', 'universities.lat', 'universities.lng')
-            ->havingRaw('COUNT(assistances.id) > 0')
+        // Solo universidades con asistentes
+        $universities = DB::table('universities')
+            ->select('universities.id', 'universities.name', 'universities.lat', 'universities.lng', 'universities.country_id', DB::raw('(SELECT COUNT(1) FROM assistances a JOIN people p ON a.person_id = p.id WHERE p.university_id = universities.id) as total_assistants'))
+            ->whereRaw('(SELECT COUNT(1) FROM assistances a JOIN people p ON a.person_id = p.id WHERE p.university_id = universities.id) > 0')
             ->get();
-
-        if ($results->isEmpty()) {
-            Log::info('No data found in the assistances table.');
+        if ($universities->isEmpty()) {
+            Log::info('No universities with assistances found.');
             return;
         }
-
-        $updated = []; // Aquí vamos a guardar qué universidades se geolocalizaron
-
-        // 2. Recorremos los resultados para asegurarnos de que tienen coordenadas
-        foreach ($results as $r) {
-            // Si no hay latitud o longitud, buscamos vía API
-            if (!$r->lat || !$r->lng) {
-                $query = "{$r->university}, {$r->country}";
-
-                // Decode the query to ensure proper formatting
-                $decodedQuery = urldecode($query);
-
-                // Show in console the decoded query
-                Log::info("Querying OpenCage API for: {$decodedQuery}");
-
-                // Llamada a OpenCage API para obtener las coordenadas
-                $response = Http::get('https://api.opencagedata.com/geocode/v1/json', [
-                    'q'   => $decodedQuery,
-                    'key' => env('OPENCAGE_API_KEY'), // Asegúrate de tener esto en tu .env
-                    'limit' => 1,
-                ]);
-
-                if ($response->ok() && isset($response['results'][0]['geometry'])) {
-                    $coords = $response['results'][0]['geometry'];
-
-                    // Persistimos las coordenadas en la base de datos
-                    University::where('id', $r->university_id)->update([
-                        'lat' => $coords['lat'],
-                        'lng' => $coords['lng'],
+        foreach ($universities as $u) {
+            // Solo si faltan coordenadas
+            if (empty($u->lat) || empty($u->lng)) {
+                // Verifica si ya se intentó buscar antes (usa un campo extra o log, aquí solo ejemplo de lógica simple)
+                $countryName = Country::where('id', $u->country_id)->first()->name ?? 'Unknown Country';
+                $query = $u->name . ', ' . $countryName;
+                // Si ya existen logs de intento para esta universidad y país, no repite la petición
+                $logKey = "coords_attempted_{$u->id}_{$countryName}";
+                if (!cache()->has($logKey)) {
+                    Log::info("Querying OpenCage API for: {$query}");
+                    $response = Http::get('https://api.opencagedata.com/geocode/v1/json', [
+                        'q'   => $query,
+                        'key' => env('OPENCAGE_API_KEY'),
+                        'limit' => 1,
                     ]);
-
-                    // Actualizamos el objeto en memoria
-                    $r->lat = $coords['lat'];
-                    $r->lng = $coords['lng'];
-
-                    // Guardamos el nombre de la universidad para fines de depuración o logs
-                    $updated[] = $r->university;
-
-                    // Log de las coordenadas actualizadas
-                    Log::info("Updated coordinates for {$r->university}: lat={$coords['lat']}, lng={$coords['lng']}");
+                    cache()->put($logKey, true, now()->addDays(7)); // Evita repetir por 7 días
+                    if ($response->ok() && isset($response['results'][0]['geometry'])) {
+                        $coords = $response['results'][0]['geometry'];
+                        University::where('id', $u->id)->update([
+                            'lat' => $coords['lat'],
+                            'lng' => $coords['lng'],
+                        ]);
+                        Log::info("Updated coordinates for {$u->name}: lat={$coords['lat']}, lng={$coords['lng']}");
+                    }
                 } else {
-                    // Log de las coordenadas existentes
-                    Log::info("Existing coordinates for {$r->university}: lat={$r->lat}, lng={$r->lng}");
+                    Log::info("Skipping OpenCage API for {$u->name} (already attempted recently)");
                 }
             }
         }

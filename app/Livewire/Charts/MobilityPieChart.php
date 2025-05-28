@@ -15,17 +15,15 @@ class MobilityPieChart extends Component
 
     public function getStatistics()
     {
-        // 1. Get all Events
+        // Obtener el id real de Comfenalco
+        $comfenalco = \App\Models\University::where('name', 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO')->first();
+        $comfenalcoId = $comfenalco ? $comfenalco->id : null;
 
-        $events = \App\Models\Event::all();
+        // Solo asistencias de eventos del último año (por start_date)
+        $eventIds = \App\Models\Event::where('start_date', '>=', now()->subYear())->pluck('id');
+        $lastYearAssistances = Assistance::whereIn('event_id', $eventIds)->get();
 
-        // 2. foreach event in the last year, get the assistances
-        $lastYearAssistances = Assistance::whereIn('event_id', $events->pluck('id'))
-            ->where('created_at', '>=', now()->subYear())
-            ->get();
-
-        // If there are no assistances, return 0 for all statistics
-        if ($lastYearAssistances->isEmpty()) {
+        if ($lastYearAssistances->isEmpty() || !$comfenalcoId) {
             $this->statistics = [
                 "entrantes" => 0,
                 "salientes" => 0,
@@ -34,10 +32,10 @@ class MobilityPieChart extends Component
             return;
         }
 
-        $this->statistics = $lastYearAssistances->reduce(function ($carry, $assistance) {
+        $this->statistics = $lastYearAssistances->reduce(function ($carry, $assistance) use ($comfenalcoId) {
             $universityId = $assistance->person->university_id;
 
-            if ($universityId != 1) {
+            if ($universityId != $comfenalcoId) {
                 $carry['entrantes'] += 1;
             } else {
                 if ($assistance->event->internationalization_at_home === 'si') {
@@ -46,9 +44,6 @@ class MobilityPieChart extends Component
                     $carry['salientes'] += 1;
                 }
             }
-
-
-
             return $carry;
         }, [
             "entrantes" => 0,
