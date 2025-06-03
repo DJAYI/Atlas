@@ -72,7 +72,7 @@ class ReportController extends Controller
 
         $result = $query->get();
 
-        return Excel::download(new ReportsExport($result, $type, $filterByColombia), 'report.xlsx');
+        return Excel::download(new ReportsExport($result, $type, $filterByColombia), 'Reporte Internacional Presencial de SNIES.xlsx');
     }
 
     public function generateTemplateCertificates(Request $request)
@@ -83,6 +83,6 @@ class ReportController extends Controller
         // Aquí puedes implementar la lógica para generar un certificado
         // basándote en la asistencia y el evento.
         // Por ahora, solo retornamos un mensaje de éxito.
-        return Excel::download(new \App\Exports\CertificateTemplateExport($eventId), 'certificates.xlsx');
+        return Excel::download(new \App\Exports\CertificateTemplateExport($eventId), 'plantilla-certificados.xlsx');
     }
 }

@@ -68,7 +68,6 @@ class CertificateTemplateExport implements FromView, ShouldAutoSize, WithStyles
 
         // Adjust column widths for better readability
         foreach (range('A', $highestColumn) as $column) {
-            $sheet->getColumnDimension($column)->setAutoSize(true);
 
             // Add vertical padding to the cells
             $sheet->getStyle($column . '1:' . $column . $sheet->getHighestRow())->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);

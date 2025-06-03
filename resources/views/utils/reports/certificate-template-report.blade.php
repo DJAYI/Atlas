@@ -34,9 +34,9 @@
                 <td class="px-2 py-1 border">{{ $assistance->person->document_type }}</td>
                 <td class="px-2 py-1 border">{{ $assistance->person->document_number }}</td>
 
-                <td>Por su participación en el evento <b>{{ $assistance->event->activity->name }}</b> del programa
+                <td>Por su participación en el evento de tipo {{ $assistance->event->activity->name }} del programa
                     {{ $assistance->person->career->name }} en modalidad {{ $assistance->event->modality }} durante
-                    {{ $start->translatedFormat('F \d\e Y') }} - {{ $end->translatedFormat('F \d\e Y') }} días</td>
+                    {{ abs($end->diffInDays($start)) + 1 }} días</td>
 
                 <td class="px-2 py-1 border">{{ $assistance->event->name }}</td>
 
