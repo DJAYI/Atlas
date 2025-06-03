@@ -7,29 +7,12 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ReportsExport implements FromView, ShouldAutoSize, WithStyles
+class AssistancesExport implements FromView, ShouldAutoSize, WithStyles
 {
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public $ReportCollection;
-    public $ReportType;
-    public $IsColombian;
-
-    public function __construct($ReportCollection, $ReportType, $IsColombian)
-    {
-        $this->ReportCollection = $ReportCollection;
-        $this->ReportType = $ReportType;
-        $this->IsColombian = $IsColombian;
-    }
 
     public function view(): \Illuminate\Contracts\View\View
     {
-        return view('utils.reports.snies-report', [
-            'ReportCollection' => $this->ReportCollection,
-            'ReportType' => $this->ReportType,
-            'IsColombian' => $this->IsColombian,
-        ]);
+        return view('utils.reports.assistance-report');
     }
 
     public function styles(Worksheet $sheet)

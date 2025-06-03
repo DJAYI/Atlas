@@ -14,7 +14,7 @@
         <livewire:dashboard-map />
     </div>
 
-    <livewire:charts.table-total-assistances />
+    <livewire:charts.table-total-assistances lazy />
 
     <details open class="flex flex-col open:[&>summary]:bg-primary-400 open:[&>summary]:text-white mt-4 h-full gap-4 ">
         <summary

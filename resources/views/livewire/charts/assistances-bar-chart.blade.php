@@ -20,90 +20,75 @@
 
 
 <script>
-    console.log(@json($statistics));
+    document.addEventListener('DOMContentLoaded', () => {
+        const $ = selector => document.querySelector(selector);
 
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => document.querySelectorAll(selector);
+        const movilitySelect = $('#movility-select');
+        const modalitySelect = $('#modality-select');
+        const chartContainer = $('#chart-0');
+        const statistics = @json($statistics);
 
-    const movilitySelect = $('#movility-select');
-    const modalitySelect = $('#modality-select');
+        const getSeries = (stats, mov, mod) => {
+            const labels = [
+                mov === 'profesor' ? 'Docentes Entrantes (Nacional)' :
+                'Estudiantes Entrantes (Nacional)',
+                mov === 'profesor' ? 'Docentes Entrantes (Internacional)' :
+                'Estudiantes Entrantes (Internacional)',
+                mov === 'profesor' ? 'Docentes Entrantes (Local)' : 'Estudiantes Entrantes (Local)',
+                mov === 'profesor' ? 'Docentes Salientes (Nacional)' :
+                'Estudiantes Salientes (Nacional)',
+                mov === 'profesor' ? 'Docentes Salientes (Internacional)' :
+                'Estudiantes Salientes (Internacional)',
+                mov === 'profesor' ? 'Docentes Salientes (Local)' : 'Estudiantes Salientes (Local)',
+            ];
+            const data = Object.values(stats).map(year => [
+                year.nacional[mov][mod].entrantes,
+                year.internacional[mov][mod].entrantes,
+                year.local[mov][mod].entrantes,
+                year.nacional[mov][mod].salientes,
+                year.internacional[mov][mod].salientes,
+                year.local[mov][mod].salientes
+            ]);
+            return labels.map((name, i) => ({
+                name,
+                data: data.map(row => row[i])
+            }));
+        };
 
-    const chartContainer = $('#chart-0');
-
-    const statistics = @json($statistics);
-
-    const getStatisticsSeries = (statistics, movility, modality) => {
-        let series = [];
-
-        let names = [
-            movility == 'profesor' ? 'Docentes Entrantes (Nacional)' : 'Estudiantes Entrantes (Nacional)',
-            movility == 'profesor' ? 'Docentes Entrantes (Internacional)' :
-            'Estudiantes Entrantes (Internacional)',
-            movility == 'profesor' ? 'Docentes Entrantes (Local)' : 'Estudiantes Entrantes (Local)',
-            movility == 'profesor' ? 'Docentes Salientes (Nacional)' : 'Estudiantes Salientes (Nacional)',
-            movility == 'profesor' ? 'Docentes Salientes (Internacional)' :
-            'Estudiantes Salientes (Internacional)',
-            movility == 'profesor' ? 'Docentes Salientes (Local)' : 'Estudiantes Salientes (Local)',
-        ]
-
-        let data = Object.values(statistics).map((years) => {
-            return [
-                years['nacional'][movility][modality]['entrantes'],
-                years['internacional'][movility][modality]['entrantes'],
-                years['local'][movility][modality]['entrantes'],
-                years['nacional'][movility][modality]['salientes'],
-                years['internacional'][movility][modality]['salientes'],
-                years['local'][movility][modality]['salientes']
-            ]
-        });
-
-        return names.map((name, index) => {
-            return {
-                name: name,
-                data: data.map((locality) => {
-                    return locality[index]
-                })
-            }
-        });
-    }
-
-    const chartColumnOptions = {
-        chart: {
-            type: 'bar',
-            height: 850,
-            toolbar: {
-                show: true
+        const chartOptions = {
+            chart: {
+                type: 'bar',
+                height: 850,
+                toolbar: {
+                    show: true
+                },
+                selection: {
+                    enabled: true
+                }
             },
-            selection: {
+            series: [],
+            xaxis: {
+                categories: Object.keys(statistics),
+                title: {
+                    text: 'Años'
+                }
+            },
+            dataLabels: {
                 enabled: true
-            }
-        },
-        series: [],
-        xaxis: {
-            categories: Object.keys(statistics),
-            title: {
-                text: 'Años'
-            }
-        },
-        dataLabels: {
-            enabled: true
-        },
-        position: 'bottom',
-        horizontalAlign: 'center',
+            },
+            position: 'bottom',
+            horizontalAlign: 'center',
+        };
 
-    }
+        const chart = new ApexCharts(chartContainer, chartOptions);
 
-    const chartColumn = new ApexCharts(chartContainer, chartColumnOptions);
+        const updateChart = () => {
+            chart.updateSeries(getSeries(statistics, movilitySelect.value, modalitySelect.value));
+        };
 
-    const updateChartSeries = () => {
-        const series = getStatisticsSeries(statistics, movilitySelect.value, modalitySelect.value);
-        chartColumn.updateSeries(series);
+        movilitySelect.addEventListener('change', updateChart);
+        modalitySelect.addEventListener('change', updateChart);
 
-    }
-
-    movilitySelect.addEventListener('change', updateChartSeries);
-    modalitySelect.addEventListener('change', updateChartSeries);
-
-    chartColumn.render();
-    updateChartSeries();
+        chart.render().then(updateChart);
+    });
 </script>

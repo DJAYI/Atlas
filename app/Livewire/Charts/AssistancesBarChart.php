@@ -3,6 +3,7 @@
 namespace App\Livewire\Charts;
 
 use App\Models\Event;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -18,10 +19,12 @@ class AssistancesBarChart extends Component
         $statistics = [];
 
         foreach ($years as $year) {
-            // Eager load assistances and their related person data
-            $events = Event::whereYear('created_at', $year)
-                ->with(['assistances.person.university'])
-                ->get();
+            // Cache the events query for this year
+            $events = Cache::remember("events_for_year_{$year}", 3600, function () use ($year) {
+                return Event::whereYear('created_at', $year)
+                    ->with(['assistances.person.university'])
+                    ->get();
+            });
 
             $yearData = [
                 'internacional' => [

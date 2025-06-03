@@ -22,14 +22,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
 
     <!-- Agregar el archivo JS de Choices.js -->
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
     {{-- Singlemaps --}}
     @if (file_exists(resource_path('js/mapdata.js')))
-        <script type="text/javascript" src="{{ asset('js/mapdata.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/mapdata.js') }}" defer></script>
     @endif
     @if (file_exists(resource_path('js/worldmap.js')))
-        <script type="text/javascript" src="{{ asset('js/worldmap.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/worldmap.js') }}" defer></script>
     @endif
 
     {{-- Livewire --}}

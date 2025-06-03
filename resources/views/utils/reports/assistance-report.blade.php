@@ -1,50 +1,57 @@
-<table>
+@php
+    $assistances = App\Models\Assistance::all();
+@endphp
+
+<table class="text-sm text-gray-500 rounded-lg text-center">
     <thead>
-        <tr>
-            <th>AÑO</th>
-            <th>SEMESTRE</th>
-            <th>ID_TIPO_DOCUMENTO</th>
-            <th>NUM_DOCUMENTO</th>
-            @if ($IsColombian == 'false')
-                <th>PRIMER_NOMBRE</th>
-                <th>SEGUNDO_NOMBRE</th>
-                <th>PRIMER_APELLIDO</th>
-                <th>SEGUNDO_APELLIDO</th>
-            @endif
-            <th>ID_PAIS_EXTRANJERO</th>
-            <th>INSTITUCION_EXTRANJERA</th>
-            <th>ID_TIPO_MOV_{{ $ReportType == 'estudiante' ? 'EST' : ($ReportType == 'profesor' ? 'DOC' : ($ReportType == 'administrativo' ? 'ADM' : '')) }}_{{ $IsColombian == 'true' ? 'EXTERIOR' : 'EXTRANJ' }}
-            </th>
-            <th>NUM_DIAS_MOVILIDAD</th>
-            <th>MOVILIDAD_POR_CONVENIO</th>
-            <th>CODIGO_CONVENIO</th>
-            <th>ID_FUENTE_NACIONAL_INVESTIG</th>
-            <th>VALOR_FINANCIACION_NACIONAL</th>
-            <th>ID_FUENTE_INTERNACIONAL</th>
-            <th>ID_PAIS_FINANCIADOR</th>
-            <th>VALOR_FINANCIACION_INTERNAC</th>
+        <tr class="px-2 py-1 text-sm font-semibold text-gray-700 uppercase bg-gray-100">
+            <th class="px-2 py-1 border">FECHA</th>
+            <th class="px-2 py-1 border">GENERO</th>
+            <th class="px-2 py-1 border">COMUNIDAD</th>
+            <th class="px-2 py-1 border">CORREO ELECTRÓNICO</th>
+            <th class="px-2 py-1 border">NOMBRE Y APELLIDOS</th>
+            <th class="px-2 py-1 border">TIPO DE IDENTIFICACIÓN</th>
+            <th class="px-2 py-1 border">N° IDENTIFICACIÓN</th>
+            <th class="px-2 py-1 border">FECHA DE NACIMIENTO</th>
+            <th class="px-2 py-1 border">TELÉFONO</th>
+            <th class="px-2 py-1 border">INSTITUCIÓN</th>
+            <th class="px-2 py-1 border">PROGRAMA</th>
+            <th class="px-2 py-1 border">TIPO DE MOVILIDAD</th>
+            <th class="px-2 py-1 border">TIPO DE PARTICIPACION</th>
+            <th class="px-2 py-1 border">NOMBRE DEL EVENTO</th>
+            <th class="px-2 py-1 border">NACIONALIDAD</th>
+            <th class="px-2 py-1 border">E/S</th>
+            <th class="px-2 py-1 border">Movilidad</th>
+            <th class="px-2 py-1 border">Tipo</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($ReportCollection as $row)
-            <tr>
-                <td>{{ $row->event->start_date->format('Y') }}</td>
-                <td>{{ $row->event->start_date->month <= 6 ? '1' : '2' }}</td>
-                <td>{{ $row->person->document_type }}</td>
-                <td>{{ $row->person->document_number }}</td>
-                @if ($IsColombian == 'false')
-                    <td>{{ $row->person->firstname }}</td>
-                    <td>{{ $row->person->middlename }}</td>
-                    <td>{{ $row->person->lastname }}</td>
-                    <td>{{ $row->person->second_lastname }}</td>
-                @endif
-                <td>{{ $row->person->country->iso_code }}</td>
-                <td>{{ $row->universityDestiny->name ?? '' }}</td>
-                <td>{{ $row->mobility->name }}</td>
-                <td>{{ $row->event->start_date->diffInDays($row->event->end_date) }}</td>
-                <td>{{ strtolower($row->event->has_agreement) === 'si' ? 'S' : 'N' }}</td>
-                <td>{{ $row->event->agreement->code ?? '' }}</td>
-            </tr>
+        @foreach ($assistances as $assistance)
+            <tr class="hover:bg-gray-50 transition">
+                <td class="px-2 py-1 border">{{ $assistance->created_at->format('d/m/Y') }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->person->genre }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->person->minority ?? 'ninguna' }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->person->email }}</td>
+                <td class="px-2 py-1 border">
+                    {{ $assistance->person->firstname . ' ' . ($assistance->person->middlename ?? '') . ' ' . $assistance->person->lastname . ' ' . ($assistance->person->second_lastname ?? '') }}
+                </td>
+                <td class="px-2 py-1 border">{{ $assistance->person->document_type }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->person->document_number }}</td>
+                <td class="px-2 py-1 border">
+                    {{ $assistance->person->birth_date ? $assistance->person->birth_date->format('d/m/Y') : 'N/A' }}
+                </td>
+                <td class="px-2 py-1 border">{{ $assistance->person->phone }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->person->university->name }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->person->career->name }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->event->modality }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->event->activity->name }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->event->name }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->person->country->name }}</td>
+                <td class="px-2 py-1 border">
+                    {{ $assistance->person->university->name === 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO' ? 'S' : 'E' }}
+                </td>
+                <td class="px-2 py-1 border">{{ $assistance->mobility->name }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->mobility->type }}</td>
         @endforeach
     </tbody>
 </table>
