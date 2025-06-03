@@ -12,14 +12,16 @@
             'count' => $totalUniqueParticipants,
         ],
     ] as $stat)
-            <div class="grid w-full grid-cols-2 px-4 py-3 rounded-xl shadow-primary-400 bg-white shadow-2xl gap-12">
+            <div class="grid w-full grid-cols-2 px-4 py-3 rounded-xl shadow-primary-400 bg-white shadow-2xl gap-4">
                 <div>
-                    <h2 class="text-2xl font-semibold text-primary-500">{{ $stat['title'] }}</h2>
+                    <h2 class="text-xl font-semibold text-primary-500">{{ $stat['title'] }}</h2>
                     <div class="flex mt-2">
                         <h2 class="text-4xl font-semibold text-primary-600">{{ $stat['count'] }}</h2>
                     </div>
                 </div>
-                <div class="w-full" id="{{ $stat['id'] }}"></div>
+                <div class="w-full [&>div>svg]:[mask-image:linear-gradient(to_left,black_80%,transparent)]"
+                    id="{{ $stat['id'] }}">
+                </div>
             </div>
         @endforeach
     </div>
