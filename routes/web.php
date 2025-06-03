@@ -47,6 +47,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
 
         Route::get('/', [EventController::class, 'index'])->name('events');
         Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report');
+        Route::post('/generate-certificate', [ReportController::class, 'generateTemplateCertificates'])->name('generate.certificate');
         Route::get('/edit/{id}', [EventController::class, 'edit'])->name('events.edit');
         Route::post('/', [EventController::class, 'store'])->name('events.store');
         Route::put('/{id}', [EventController::class, 'update'])->name('events.update');

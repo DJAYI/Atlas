@@ -165,12 +165,27 @@
                 </span>
             </h3>
 
-            {{-- Botón para enviar encuestas a todos --}}
-            <button type="button"
-                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-                onclick="openSurveyPopover(null)" popovertarget="survey-popover">
-                Enviar Encuestas a Todos
-            </button>
+            <div class="flex flex-row items-center gap-3">
+                {{-- Botón para enviar encuestas a todos --}}
+                <button type="button"
+                    class="px-4 py-2 font-semibold text-xs text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                    onclick="openSurveyPopover(null)" popovertarget="survey-popover">
+                    Enviar Encuestas a Todos
+                </button>
+
+                {{-- Botón para descargar Plantilla de certificado --}}
+                <form class="inline-block" action="{{ route('generate.certificate') }}" method="POST">
+                    @csrf
+                    @method('POST')
+
+                    <input type="hidden" name="event_id" value="{{ $event->id }}">
+                    <button type="submit"
+                        class="px-4 py-2 font-semibold text-xs text-white transition rounded-lg shadow-md bg-gradient-to-bl to-secondary-700 from-secondary-500 hover:scale-95">
+                        Plantilla de Certificado
+                    </button>
+                </form>
+            </div>
+
 
 
         </div>

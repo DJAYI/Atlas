@@ -74,4 +74,15 @@ class ReportController extends Controller
 
         return Excel::download(new ReportsExport($result, $type, $filterByColombia), 'report.xlsx');
     }
+
+    public function generateTemplateCertificates(Request $request)
+    {
+        // Validar que el evento existe
+        $eventId = $request->event_id;
+
+        // Aquí puedes implementar la lógica para generar un certificado
+        // basándote en la asistencia y el evento.
+        // Por ahora, solo retornamos un mensaje de éxito.
+        return Excel::download(new \App\Exports\CertificateTemplateExport($eventId), 'certificates.xlsx');
+    }
 }
