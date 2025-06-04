@@ -8,26 +8,36 @@
 </div>
 
 @push('scripts')
+    <!-- Make sure to include the SimpleMaps library before your script -->
+    <script src="https://simplemaps.com/static/js/worldmap.js"></script>
     <script>
-        const cords = @json($cords);
+        document.addEventListener('DOMContentLoaded', function() {
+            const cords = @json($cords);
 
-        function getColor(total) {
-            if (total > 500) return '#b30000';
-            if (total > 100) return '#e34a33';
-            if (total > 50) return '#fc8d59';
-            if (total > 10) return '#fdbb84';
-            if (total > 0) return '#fdd49e';
-            return '#fef0d9';
-        }
-        cords.forEach((cord, i) => {
-            simplemaps_worldmap_mapdata.locations[i] = {
-                name: cord.university_name,
-                lat: cord.lat,
-                lng: cord.lng,
-                description: `De la universidad ${cord.university_name} (${cord.country ?? ''}) hay ${cord.university_total} asistentes`,
-                color: getColor(cord.university_total),
-            };
+            function getColor(total) {
+                if (total > 500) return '#b30000';
+                if (total > 100) return '#e34a33';
+                if (total > 50) return '#fc8d59';
+                if (total > 10) return '#fdbb84';
+                if (total > 0) return '#fdd49e';
+                return '#fef0d9';
+            }
+            if (typeof simplemaps_worldmap_mapdata !== 'undefined') {
+                cords.forEach((cord, i) => {
+                    simplemaps_worldmap_mapdata.locations[i] = {
+                        name: cord.university_name,
+                        lat: cord.lat,
+                        lng: cord.lng,
+                        description: `De la universidad ${cord.university_name} (${cord.country ?? ''}) hay ${cord.university_total} asistentes`,
+                        color: getColor(cord.university_total),
+                    };
+                });
+
+                console.log(simplemaps_worldmap_mapdata.locations);
+            } else {
+                console.error(
+                    'simplemaps_worldmap_mapdata is not defined. Make sure the SimpleMaps library is loaded.');
+            }
         });
-        simplemaps_worldmap.refresh();
     </script>
 @endpush
