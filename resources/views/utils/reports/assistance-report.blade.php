@@ -1,7 +1,3 @@
-@php
-    $assistances = App\Models\Assistance::all();
-@endphp
-
 <table class="text-sm text-gray-500 rounded-lg text-center">
     <thead>
         <tr class="px-2 py-1 text-sm font-semibold text-gray-700 uppercase bg-gray-100">

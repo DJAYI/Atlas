@@ -184,13 +184,35 @@
                         Plantilla de Certificado
                     </button>
                 </form>
+
+                <form class="inline-block" action="{{ route('events.exportAssistances', $event->id) }}"
+                    method="POST">
+                    @csrf
+                    @method('POST')
+
+                    <button type="submit"
+                        class="px-4 py-2 font-semibold text-xs text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
+                        Exportar Asistencias
+                    </button>
+                </form>
+
+                <form class="inline-block" action="{{ route('events.zipIdentityDocuments', $event->id) }}"
+                    method="POST">
+                    @csrf
+                    @method('POST')
+
+                    <button type="submit"
+                        class="px-4 py-2 font-semibold text-xs text-white transition rounded-lg shadow-md bg-gradient-to-bl to-blue-700 from-blue-500 hover:scale-95">
+                        Exportar Documentos de Identidad
+                    </button>
+                </form>
             </div>
 
 
 
         </div>
 
-        <div class="relative sm:w-1/2">
+        <div class="relative">
 
             <input required type="text" placeholder="Buscar asistente" id="filter-search"
                 class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border rounded-lg shadow-sm border-primary-300">

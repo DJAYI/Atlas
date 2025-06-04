@@ -54,6 +54,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::delete('/{id}', [EventController::class, 'destroy'])->name('events.destroy');
         Route::post('/events/{id}/surveys', [SurveyController::class, 'sendAllSurveys'])->name('events.sendAllSurveys');
         Route::post('/events/{event_id}/surveys/{assistance_id}', [SurveyController::class, 'sendSurvey'])->name('events.sendSurvey');
+        Route::post('/events/{event_id}/assistances', [AssistanceController::class, 'exportAssistances'])->name('events.exportAssistances');
+        Route::post('/events/{event_id}/assistances/zip', [AssistanceController::class, 'exportIdentityDocumentsZip'])->name('events.zipIdentityDocuments');
     });
 
     Route::prefix('universities')->group(function () {

@@ -4,6 +4,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AssistancesExport;
 use App\Models\Assistance;
 use App\Models\Career;
 use App\Models\Country;
@@ -15,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Class AssistanceController
@@ -246,5 +248,55 @@ class AssistanceController extends Controller
         session()->flash('person', $person);
 
         return redirect()->route('assistance', ['locale' => $request->locale]);
+    }
+
+    public function exportAssistances(Request $request, $eventId)
+    {
+        // Validar el evento
+        $event = Event::findOrFail($eventId);
+
+        // Obtener las asistencias del evento
+        $assistances = Assistance::where('event_id', $event->id)->with('person')->get();
+
+        return Excel::download(new AssistancesExport($assistances), 'assistances_' . $event->event_code . '.xlsx');
+    }
+
+    public function exportIdentityDocumentsZip(Request $request, $eventId)
+    {
+        $event = Event::findOrFail($eventId);
+
+        $assistances = Assistance::where('event_id', $event->id)
+            ->whereNotNull('identity_document_file')
+            ->with('person')
+            ->get();
+
+        if ($assistances->isEmpty()) {
+            session()->flash('error', __('assistance.no_identity_documents_found'));
+            return redirect()->back();
+        }
+
+        $zipFileName = 'identity_documents_' . $event->event_code . '.zip';
+        $zipPath = storage_path('app/public/' . $zipFileName);
+
+        $zip = new \ZipArchive();
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+            session()->flash('error', __('assistance.zip_creation_failed'));
+            return redirect()->back();
+        }
+
+        foreach ($assistances as $assistance) {
+            $filePath = storage_path('app/public/' . $assistance->identity_document_file);
+            if (file_exists($filePath)) {
+                $person = $assistance->person;
+                $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+                $filename = $person->firstname . '_' . $person->lastname . '_' . $person->document_number . '.' . $extension;
+                $filename = preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $filename);
+                $zip->addFile($filePath, $filename);
+            }
+        }
+
+        $zip->close();
+
+        return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 }

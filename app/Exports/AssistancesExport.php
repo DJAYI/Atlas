@@ -12,10 +12,18 @@ class AssistancesExport implements FromView, ShouldAutoSize, WithStyles
 {
 
     use Exportable;
+    protected $assistances;
+
+    public function __construct($assistances = null)
+    {
+        $this->assistances = $assistances;
+    }
 
     public function view(): \Illuminate\Contracts\View\View
     {
-        return view('utils.reports.assistance-report');
+        return view('utils.reports.assistance-report', [
+            'assistances' => $this->assistances
+        ]);
     }
 
     public function styles(Worksheet $sheet)
