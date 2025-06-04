@@ -19,7 +19,7 @@ class TableTotalAssistances extends Component
 
     public function downloadExcel()
     {
-        return Excel::download(new AssistancesExport, 'assistances.xlsx');
+        return Excel::download(new AssistancesExport, 'Reporte de Asistencias Totales.xlsx');
     }
 
     public function mount()

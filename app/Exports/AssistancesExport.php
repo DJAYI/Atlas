@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -9,6 +10,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class AssistancesExport implements FromView, ShouldAutoSize, WithStyles
 {
+
+    use Exportable;
 
     public function view(): \Illuminate\Contracts\View\View
     {
