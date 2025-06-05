@@ -5,11 +5,13 @@
         </label>
         <div class="flex flex-row gap-4 mb-2">
             <select wire:model="movility" class="font-semibold rounded-lg" name="movility" id="movility-select">
-                <option value="profesor" selected>Docentes</option>
+                <option value="profesor">Docentes</option>
                 <option value="estudiante">Estudiantes</option>
+                <option value="egresado">Egresados</option>
+                <option value="administrativo">Administrativos</option>
             </select>
             <select wire:model="modality" class="font-semibold rounded-lg" name="modality" id="modality-select">
-                <option value="presencial" selected>Presencial</option>
+                <option value="presencial">Presencial</option>
                 <option value="virtual">Virtual</option>
             </select>
         </div>
@@ -30,16 +32,12 @@
 
         const getSeries = (stats, mov, mod) => {
             const labels = [
-                mov === 'profesor' ? 'Docentes Entrantes (Nacional)' :
-                'Estudiantes Entrantes (Nacional)',
-                mov === 'profesor' ? 'Docentes Entrantes (Internacional)' :
-                'Estudiantes Entrantes (Internacional)',
-                mov === 'profesor' ? 'Docentes Entrantes (Local)' : 'Estudiantes Entrantes (Local)',
-                mov === 'profesor' ? 'Docentes Salientes (Nacional)' :
-                'Estudiantes Salientes (Nacional)',
-                mov === 'profesor' ? 'Docentes Salientes (Internacional)' :
-                'Estudiantes Salientes (Internacional)',
-                mov === 'profesor' ? 'Docentes Salientes (Local)' : 'Estudiantes Salientes (Local)',
+                `${capitalize(mov)}s Entrantes (Nacional)`,
+                `${capitalize(mov)}s Entrantes (Internacional)`,
+                `${capitalize(mov)}s Entrantes (Local)`,
+                `${capitalize(mov)}s Salientes (Nacional)`,
+                `${capitalize(mov)}s Salientes (Internacional)`,
+                `${capitalize(mov)}s Salientes (Local)`
             ];
             const data = Object.values(stats).map(year => [
                 year.nacional[mov][mod].entrantes,
@@ -54,6 +52,10 @@
                 data: data.map(row => row[i])
             }));
         };
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
 
         const chartOptions = {
             chart: {

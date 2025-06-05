@@ -17,7 +17,7 @@ class DashboardMap extends Component
     {
         // Solo universidades con coordenadas válidas y asistentes en el último año
         $universities = University::whereNotNull('lat')->whereNotNull('lng')->get();
-        $eventIds = \App\Models\Event::where('start_date', '>=', now()->subYear())->pluck('id');
+        $eventIds = \App\Models\Event::all()->pluck('id');
         $this->cords = $universities->map(function ($university) use ($eventIds) {
             $total = Assistance::whereHas('person', function ($query) use ($university) {
                 $query->where('university_id', $university->id);

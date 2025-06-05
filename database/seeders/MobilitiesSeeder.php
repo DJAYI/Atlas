@@ -24,11 +24,11 @@ class MobilitiesSeeder extends Seeder
             ['name' => 'Doble Titulación', 'type' => 'estudiante'],
 
             // Administrativos
-            // ['name' => 'Misión', 'type' => 'administrativo'],
-            // ['name' => 'Asistencia a eventos', 'type' => 'administrativo'],
-            // ['name' => 'Curso Corto', 'type' => 'administrativo'],
-            // ['name' => 'Pasantía', 'type' => 'administrativo'],
-            // ['name' => 'Gestión de convenios', 'type' => 'administrativo'],
+            ['name' => 'Misión', 'type' => 'administrativo'],
+            ['name' => 'Asistencia a eventos', 'type' => 'administrativo'],
+            ['name' => 'Curso Corto', 'type' => 'administrativo'],
+            ['name' => 'Pasantía', 'type' => 'administrativo'],
+            ['name' => 'Gestión de convenios', 'type' => 'administrativo'],
 
             // Docentes
             ['name' => 'Profesor Visitante', 'type' => 'profesor'],
@@ -43,12 +43,12 @@ class MobilitiesSeeder extends Seeder
             ['name' => 'Profesor Programa Posdoctorado', 'type' => 'profesor'],
 
             // Egresados
-            // ['name' => 'Asistencia a eventos', 'type' => 'egresado'],
-            // ['name' => 'Misión', 'type' => 'egresado'],
-            // ['name' => 'Curso Corto', 'type' => 'egresado'],
-            // ['name' => 'Gestión de convenios', 'type' => 'egresado'],
-            // ['name' => 'Doble Titulación', 'type' => 'egresado'],
-            // ['name' => 'Conversatorio', 'type' => 'egresado'],
+            ['name' => 'Asistencia a eventos', 'type' => 'egresado'],
+            ['name' => 'Misión', 'type' => 'egresado'],
+            ['name' => 'Curso Corto', 'type' => 'egresado'],
+            ['name' => 'Gestión de convenios', 'type' => 'egresado'],
+            ['name' => 'Doble Titulación', 'type' => 'egresado'],
+            ['name' => 'Conversatorio', 'type' => 'egresado'],
 
         ];
 

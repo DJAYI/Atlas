@@ -19,110 +19,82 @@ class AssistancesBarChart extends Component
         $statistics = [];
 
         foreach ($years as $year) {
-            // Cache the events query for this year
             $events = Cache::remember("events_for_year_{$year}", 3600, function () use ($year) {
-                return Event::whereYear('created_at', $year)
-                    ->with(['assistances.person.university'])
+                return Event::whereYear('start_date', $year)
+                    ->with(['assistances.person.university', 'assistances.mobility'])
                     ->get();
             });
 
             $yearData = [
                 'internacional' => [
-                    'estudiante' => [ // Updated to use $this->movility
-                        'virtual' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
-                        'presencial' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
+                    'estudiante' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
                     ],
-
-                    'profesor' => [ // Updated to use $this->movility
-                        'virtual' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
-                        'presencial' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
-                    ]
+                    'profesor' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
+                    'egresado' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
+                    'administrativo' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
                 ],
-
                 'nacional' => [
-                    'estudiante' => [ // Fixed typo to use $this->movility
-                        'virtual' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
-                        'presencial' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
+                    'estudiante' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
                     ],
-                    'profesor' => [ // Updated to use $this->movility
-                        'virtual' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
-                        'presencial' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
-                    ]
+                    'profesor' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
+                    'egresado' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
+                    'administrativo' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
                 ],
-
                 'local' => [
-                    'estudiante' => [ // Fixed typo to use $this->movility
-                        'virtual' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
-                        'presencial' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
+                    'estudiante' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
                     ],
-                    'profesor' => [ // Updated to use $this->movility
-                        'virtual' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
-                        'presencial' => [
-                            'entrantes' => 0,
-                            'salientes' => 0,
-                        ],
+                    'profesor' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
+                    'egresado' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
+                    'administrativo' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
                     ],
                 ],
             ];
 
-
             foreach ($events as $event) {
                 foreach ($event->assistances as $assistance) {
                     $person = $assistance->person;
-
-                    // Determine modality (presencial or virtual)
-                    $modality = $event->modality; // 'presencial' or 'virtual'
-
-                    // Determine person type (estudiante or profesor)
-                    $personType = $person->type; // 'estudiante' or 'profesor'
-
-                    // Determine location (local, nacional, or internacional)
-                    $location = $event->location; // 'local', 'nacional', or 'internacional'
-
-                    // Increment the count based on modality, person type, and location
-                    if ($personType === 'estudiante' || $personType === 'profesor') {
-                        if ($person->university->name !== 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO') {
-                            $yearData[$location][$personType][$modality]['entrantes']++;
-                        } else {
-                            $yearData[$location][$personType][$modality]['salientes']++;
-                        }
+                    $mobilityType = $assistance->mobility->type ?? $person->type; // fallback por compatibilidad
+                    $modality = $event->modality;
+                    $location = $event->location;
+                    if (isset($yearData[$location][$mobilityType][$modality])) {
+                        $isEntrante = $person->university->name !== 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO';
+                        $key = $isEntrante ? 'entrantes' : 'salientes';
+                        $yearData[$location][$mobilityType][$modality][$key]++;
                     }
                 }
             }
-
             $statistics[$year] = $yearData;
         }
 
