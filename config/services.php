@@ -17,6 +17,12 @@ return [
         'site_key' => env('RECAPTCHA_SITE_KEY'),
         'secret_key' => env('RECAPTCHA_SECRET_KEY'),
         'min_score' => env('RECAPTCHA_MIN_SCORE', .5),
+        'project_id' => env('RECAPTCHA_PROJECT_ID'),
+        'action' => env('RECAPTCHA_ACTION'),
+    ],
+
+    'turnstile' => [
+        'secret_key' => env('TURNSTILE_SECRET_KEY'),
     ],
 
     'postmark' => [

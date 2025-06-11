@@ -8,7 +8,7 @@
 
         @if (session()->has('found'))
 
-            <form action="{{ route('assistance.store', ['locale' => app()->getLocale()]) }}"
+            <form id="assistance-form" action="{{ route('assistance.store', ['locale' => app()->getLocale()]) }}"
                 class="flex flex-col gap-6 px-6 py-4 mx-4 bg-white rounded-md" method="POST"
                 enctype="multipart/form-data">
                 @csrf
@@ -247,8 +247,16 @@
                             </div>
                         </div>
                         {{-- Submit Button --}}
-                        <button type="submit"
-                            class="px-4 w-full ms-4 col-span-1 items-center mx-auto mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Registrar Asistencia') }}</button>
+
+                        <div
+                            class="flex col-span-2 md:col-span-2 justify-between w-full px-6 py-4 mt-4 bg-white rounded-lg md:flex-row flex-col gap-4">
+                            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button type="submit"
+                                    class="px-4 w-full ms-4 col-span-1 items-center mx-auto mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Registrar Asistencia') }}</button>
+                            </div>
+                            <div class="cf-turnstile" class="w-fit" data-sitekey="0x4AAAAAABgyCFXRn5k6igzX">
+                            </div>
+                        </div>
                     </div>
 
                 </div>

@@ -32,7 +32,6 @@
             <form action="{{ route('login') }}" id="login-form" class="flex flex-col gap-6" method="POST">
                 @csrf
                 @method('POST')
-                <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
                 <h3 class="text-2xl mb-4 hidden md:block text-pretty max-w-[450px]">
                     {{ __('¿Vas a gestionar tu internacionalización?') }}
@@ -52,9 +51,9 @@
                             class="px-4 py-3 transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300">
                     </div>
 
-                    <button type="submit" data-sitekey="{{ config('services.recaptcha.site_key') }}"
-                        data-callback="onSubmit" data-action="submit"
-                        class="g-recaptcha px-4 mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Iniciar sesión') }}</button>
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAABgyCFXRn5k6igzX"></div>
+                    <button type="submit"
+                        class="px-4 mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Iniciar sesión') }}</button>
                 </div>
             </form>
 
@@ -69,8 +68,4 @@
         </p>
     </footer>
 </x-app-layout>
-<script>
-    function onSubmit(token) {
-        document.getElementById("login-form").submit();
-    }
-</script>
+<script></script>

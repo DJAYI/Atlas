@@ -12,6 +12,8 @@ use App\Models\Event;
 use App\Models\Mobility;
 use App\Models\Person;
 use App\Models\University;
+use App\Rules\Recaptcha;
+use App\Services\TurnstileServiceCF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -69,6 +71,13 @@ class AssistanceController extends Controller
                 'mobility_id' => 'required|exists:mobilities,id',
                 'identity_document' => 'nullable|sometimes|file|mimes:jpg,jpeg,png,pdf|max:2048',
             ]);
+
+            $token = $request['cf-turnstile-response'] ?? null;
+            $ip = request()->ip();
+            $result = (new TurnstileServiceCF())->validate($token, $ip);
+            if (!$result) {
+                return back()->withErrors(['captcha' => 'La validación de Turnstile falló. Intenta de nuevo.']);
+            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             session()->flash('errors', $e->validator->errors());
             Log::error('Validation error: ', $e->validator->errors()->toArray());
@@ -193,6 +202,13 @@ class AssistanceController extends Controller
             'document_number' => 'required|string|max:255',
             'event_code' => 'required|string|max:255',
         ]);
+
+        $token = $request['cf-turnstile-response'] ?? null;
+        $ip = request()->ip();
+        $result = (new TurnstileServiceCF())->validate($token, $ip);
+        if (!$result) {
+            return back()->withErrors(['captcha' => 'La validación de Turnstile falló. Intenta de nuevo.']);
+        }
 
         // Buscar persona (Asegurar que whereAny existe o usar where con un array)
         $person = Person::where([

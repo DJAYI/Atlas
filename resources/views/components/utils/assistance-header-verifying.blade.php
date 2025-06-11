@@ -18,10 +18,12 @@
     </li>
 </nav>
 
-<form action="{{ route('assistance.verify', ['locale' => app()->getLocale()]) }}" class="flex flex-col items-center"
-    method="POST">
+<form id="verify-assistance-form" action="{{ route('assistance.verify', ['locale' => app()->getLocale()]) }}"
+    class="flex flex-col items-center" method="POST">
     @csrf
     @method('POST')
+
+    <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
     <div class="flex flex-col md:flex-row items-center justify-center w-full">
 
@@ -78,12 +80,15 @@
         </div>
     </div>
 
+    <div class="flex justify-between w-full px-6 py-4 mt-4 bg-white rounded-lg md:flex-row flex-col gap-4">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAABgyCFXRn5k6igzX"></div>
 
-    {{-- Botón de búsqueda --}}
-    <button type="submit"
-        class="self-end px-4 py-2 mx-12 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl from-primary-500 to-primary-700 hover:scale-95">
-        {{ __('Buscar Coincidencias') }}
-    </button>
+        {{-- Botón de búsqueda --}}
+        <button type="submit"
+            class="g-recaptcha self-end px-4 py-2 mx-12 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl from-primary-500 to-primary-700 hover:scale-95">
+            {{ __('Buscar Coincidencias') }}
+        </button>
+    </div>
     {{-- Mensaje de error si el evento no existe o el usuario no fue encontrado --}}
     @if (session('error'))
         <div class="w-full p-4 my-4 text-red-700 bg-red-100 border border-red-400">
