@@ -26,16 +26,16 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CountrySeeder::class,
-            AgreementSeeder::class,
             MobilitiesSeeder::class,
             FacultiesSeeder::class,
             ActivitiesSeeder::class,
             CareersSeeder::class,
             UniversitySeeder::class,
-            PersonSeeder::class,
-            UserSeeder::class,
+            // AgreementSeeder::class,
+            // PersonSeeder::class,
+            // UserSeeder::class,
             // FinancialEntitySeeder::class,
-            EventSeeder::class,
+            // EventSeeder::class,
         ]);
     }
 }
