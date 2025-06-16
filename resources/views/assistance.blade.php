@@ -218,11 +218,14 @@
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="" disabled selected>{{ __('Seleccione una universidad') }}
                                 </option>
-                                @foreach (session('event')->universities as $university)
-                                    <option value="{{ $university->id }}">
-                                        {{ $university->name }}
-                                    </option>
-                                @endforeach
+                                @if (session('event') && isset(session('event')->universities) && count(session('event')->universities) > 0)
+                                    @foreach (session('event')->universities as $university)
+                                        <option value="{{ $university->id }}">
+                                            {{ $university->name }}
+                                        </option>
+                                    @endforeach
+
+                                @endif
                             </select>
                         </div>
 
@@ -254,13 +257,20 @@
                                 <button type="submit"
                                     class="px-4 w-full ms-4 col-span-1 items-center mx-auto mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Registrar Asistencia') }}</button>
                             </div>
-                            <div class="cf-turnstile" class="w-fit" data-sitekey="0x4AAAAAABgyCFXRn5k6igzX">
+                            <div class="cf-turnstile" data-sitekey="0x4AAAAAABgyCFXRn5k6igzX"
+                                data-response-field-name="cf-turnstile-response">
                             </div>
                         </div>
                     </div>
 
                 </div>
             </form>
+        @endif
+
+        @if (session()->has('success'))
+            <div class="w-full p-4 my-4 text-green-700 bg-green-100 border border-green-400">
+                {{ session('success') }}
+            </div>
         @endif
 
         <div class="flex flex-col items-center justify-center w-full px-6 py-4 bg-white ">

@@ -21,7 +21,8 @@ class AuthenticatedSessionController extends Controller
         $ip = request()->ip();
         $result = (new TurnstileServiceCF())->validate($token, $ip);
         if (!$result) {
-            return back()->withErrors(['captcha' => 'La validación de Turnstile falló. Intenta de nuevo.']);
+            session()->flash('error_captcha', 'La validación de Turnstile falló. Intenta de nuevo.');
+            return redirect()->back();
         }
         $request->authenticate();
         session()->regenerate();

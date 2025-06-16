@@ -28,8 +28,35 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'email' => ['required', 'string', 'email', 'min:10', 'max:100'],
+            'password' => ['required', 'string', 'min:8', 'max:30'],
+            'cf-turnstile-response' => ['required', 'string']
+        ];
+    }
+
+    /**
+     * Get the custom validation messages for the request.
+     *
+     * To display these messages in a Blade template, you can use the `@error` directive.
+     * For example, to show the error for the 'email' field:
+     *
+     * @error('email')
+     *     <span class="text-danger">{{ $message }}</span>
+     * @enderror
+     */
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.string' => 'El correo electrónico debe ser una cadena de texto.',
+            'email.email' => 'El correo electrónico debe ser una dirección válida.',
+            'email.min' => 'El correo electrónico debe tener al menos 10 caracteres.',
+            'email.max' => 'El correo electrónico no debe exceder los 100 caracteres.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.string' => 'La contraseña debe ser una cadena de texto.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.max' => 'La contraseña no debe exceder los 30 caracteres.',
+            'cf-turnstile-response.required' => 'La verificación de Turnstile es obligatoria.',
         ];
     }
 
