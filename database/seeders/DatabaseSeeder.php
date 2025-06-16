@@ -31,11 +31,11 @@ class DatabaseSeeder extends Seeder
             FacultiesSeeder::class,
             ActivitiesSeeder::class,
             CareersSeeder::class,
-            UniversitySeeder::class,
-            PersonSeeder::class,
-            UserSeeder::class,
+            // UniversitySeeder::class,
+            // PersonSeeder::class,
+            // UserSeeder::class,
             // FinancialEntitySeeder::class,
-            EventSeeder::class,
+            // EventSeeder::class,
         ]);
     }
 }
