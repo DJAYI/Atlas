@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CountrySeeder::class,
-            AgreementSeeder::class,
             MobilitiesSeeder::class,
             FacultiesSeeder::class,
             ActivitiesSeeder::class,

@@ -1,10 +1,10 @@
 <?php
 
-
-
 namespace App\Http\Controllers;
 
 use App\Exports\AssistancesExport;
+use App\Http\Requests\StoreAssistanceRequest;
+use App\Http\Requests\ValidateAssistaceRequest;
 use App\Models\Assistance;
 use App\Models\Career;
 use App\Models\Country;
@@ -49,40 +49,10 @@ class AssistanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAssistanceRequest $request)
     {
-        // Validate the request
-
-        try {
-            $request->validate([
-                'first_name' => 'required|string|max:255',
-                'last_name' => 'required|string|max:255',
-                'personal_email' => 'required|email|max:255',
-                'institutional_email' => 'nullable|email|max:255',
-                'phone_number' => 'nullable|string|max:20',
-                'country_of_origin' => 'required|exists:countries,id',
-                'origin_university' => 'required|exists:universities,id',
-                'academic_program' => 'required|exists:careers,id',
-                'biological_sex' => 'required|string|max:10',
-                'birth_date' => 'required|date',
-                'minority_group' => 'nullable|string|max:255',
-                'type' => 'required|string|max:50',
-                'destination_university' => 'required|exists:universities,id',
-                'mobility_id' => 'required|exists:mobilities,id',
-                'identity_document' => 'nullable|sometimes|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            ]);
-
-            $token = $request['cf-turnstile-response'] ?? null;
-            $ip = request()->ip();
-            $result = (new TurnstileServiceCF())->validate($token, $ip);
-            if (!$result) {
-                return back()->withErrors(['captcha' => 'La validación de Turnstile falló. Intenta de nuevo.']);
-            }
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            session()->flash('errors', $e->validator->errors());
-            Log::error('Validation error: ', $e->validator->errors()->toArray());
-            return redirect()->back()->withInput();
-        }
+        // Validation is now handled by StoreAssistanceRequest
+        // The Turnstile validation is also included in the form request
 
         // Retrieve data from session
         $documentType = session('document_type');
@@ -114,17 +84,15 @@ class AssistanceController extends Controller
             ]
         );
 
-        session()->flash('success', __('assistance.person_saved_successfully'));
-
         // Store the person in the session
         session()->put('person', $person);
 
-        // Find the event
-        $event = Event::firstWhere('event_code', $eventCode);
+        // Find the event and load universities relationship
+        $event = Event::with('universities')->firstWhere('event_code', $eventCode);
 
         if (!$event) {
-            session()->flash('error', __('assistance.event_not_found'));
-            return redirect()->route('assistance', ['locale' => $request->locale]);
+            return redirect()->route('assistance', ['locale' => $request->locale])
+                ->with('error', __('assistance.event_not_found'));
         }
 
         // Validar que el asistente no haya sido registrado previamente
@@ -132,22 +100,9 @@ class AssistanceController extends Controller
             ->where('person_id', $person->id)
             ->first();
 
-
         /**
-         * Checks if an existing assistance record exists and handles the upload of a new identity document file.
-         * 
-         * - If an existing assistance record is found:
-         *   - Stores the uploaded identity document file in the 'identity_documents' directory within the 'public' disk.
-         *   - Updates the `identity_document_file` field of the existing assistance record with the new file path.
-         *   - Sets a session flash message indicating that the assistance is already registered.
-         *   - Redirects the user to the assistance route with the specified locale.
-         * 
-         * @param \Illuminate\Http\Request $request The HTTP request instance containing the uploaded file and locale.
-         * @param mixed $existingAssistance The existing assistance record, if found.
-         * 
-         * @return \Illuminate\Http\RedirectResponse Redirects to the assistance route with the specified locale.
+         * Handle existing assistance record
          */
-
         if ($existingAssistance) {
             if ($request->hasFile('identity_document')) {
                 // Borrar el archivo anterior si existe
@@ -163,12 +118,12 @@ class AssistanceController extends Controller
                     'identity_document_file' => $documentFilePath,
                 ]);
 
-                session()->flash('success', __('assistance.identity_document_file_updated_successfully'));
+                return redirect()->route('assistance', ['locale' => $request->locale])
+                    ->with('success', __('assistance.identity_document_file_updated_successfully'));
             } else {
-                session()->flash('error', __('assistance.already_registered'));
+                return redirect()->route('assistance', ['locale' => $request->locale])
+                    ->with('error', __('assistance.already_registered'));
             }
-
-            return redirect()->route('assistance', ['locale' => $request->locale]);
         }
 
 
@@ -178,7 +133,7 @@ class AssistanceController extends Controller
             $documentFilePath = $request->file('identity_document')->store('identity_documents', 'public');
         }
 
-        // Create the assistance record with identity_document_file set to null
+        // Create the assistance record with identity_document_file
         $assistance = Assistance::create([
             'event_id' => $event->id,
             'person_id' => $person->id,
@@ -187,67 +142,48 @@ class AssistanceController extends Controller
             'identity_document_file' => $documentFilePath,
         ]);
 
-
-
-        session()->flash('success', __('assistance.saved_successfully'));
-        return redirect()->route('assistance', ['locale' => $request->locale]);
+        return redirect()->route('assistance', ['locale' => $request->locale])
+            ->with('success', __('Asistencia registrada correctamente'));
     }
 
 
-    public function verifyAssistance(Request $request)
+    public function verifyAssistance(\App\Http\Requests\ValidateAssistaceRequest $request)
     {
-        // Validar los datos de entrada
-        $request->validate([
-            'document_type' => 'required|string|max:255',
-            'document_number' => 'required|string|max:255',
-            'event_code' => 'required|string|max:255',
-        ]);
+        // The validation is now handled by the ValidateAssistaceRequest class
+        // The Turnstile validation is also included in the form request
 
-        $token = $request['cf-turnstile-response'] ?? null;
-        $ip = request()->ip();
-        $result = (new TurnstileServiceCF())->validate($token, $ip);
-        if (!$result) {
-            return back()->withErrors(['captcha' => 'La validación de Turnstile falló. Intenta de nuevo.']);
-        }
-
-        // Buscar persona (Asegurar que whereAny existe o usar where con un array)
+        // Buscar persona
         $person = Person::where([
             'document_type' => $request->document_type,
             'document_number' => $request->document_number,
         ])->first();
 
-        // Buscar evento
-        $event = Event::firstWhere('event_code', $request->event_code);
-
-        // Verificar si el evento existe
-        if (!$event) {
-            session()->flash('error', __('assistance.event_not_found'));
-            return redirect()->route('assistance', ['locale' => $request->locale]);
-        }
+        // Buscar evento (ya validado que existe por ValidateAssistaceRequest) y cargar relaciones
+        $event = Event::with('universities')->firstWhere('event_code', $request->event_code);
 
         // Verificar si el evento ya ha pasado
         if (Carbon::parse($event->end_date)->isPast()) {
-            session()->flash('error', __('assistance.event_expired'));
-            return redirect()->route('assistance', ['locale' => $request->locale]);
+            return redirect()->route('assistance', ['locale' => $request->locale])
+                ->with('error', __('assistance.event_expired'));
         }
 
         if (Carbon::parse($event->start_date)->isFuture()) {
-            session()->flash('error', __('assistance.event_not_started'));
-            return redirect()->route('assistance', ['locale' => $request->locale]);
+            return redirect()->route('assistance', ['locale' => $request->locale])
+                ->with('error', __('assistance.event_not_started'));
         }
 
+        // Almacenar información necesaria en la sesión para el formulario
         session()->put('document_type', $request->document_type);
         session()->put('document_number', $request->document_number);
         session()->put('event_code', $request->event_code);
-        session()->flash('locale', $request->locale);
-        session()->flash('success', 'event_found');
-        session()->flash('event', $event);
 
         // Verificar si la persona existe
         if (!$person) {
-            session()->flash('error', __('assistance.not_found'));
-            session()->flash('found', false);
-            return redirect()->route('assistance', ['locale' => $request->locale]);
+            return redirect()->route('assistance', ['locale' => $request->locale])
+                ->with([
+                    'error' => __('assistance.not_found'),
+                    'found' => false
+                ]);
         }
 
         // Recuperar el archivo de documento de identidad si existe
@@ -256,14 +192,20 @@ class AssistanceController extends Controller
             'event_id' => $event->id,
         ])->first();
 
+        // Preparar los datos para pasar al formulario
+        $data = [
+            'found' => true,
+            'person' => $person,
+            'success' => 'Evento encontrado correctamente',
+            'event' => $event,
+        ];
+
         if ($assistance && $assistance->identity_document_file) {
-            session()->flash('identity_document_file', $assistance->identity_document_file);
+            $data['identity_document_file'] = $assistance->identity_document_file;
         }
 
-        session()->flash('found', true);
-        session()->flash('person', $person);
-
-        return redirect()->route('assistance', ['locale' => $request->locale]);
+        return redirect()->route('assistance', ['locale' => $request->locale])
+            ->with($data);
     }
 
     public function exportAssistances(Request $request, $eventId)
@@ -287,8 +229,8 @@ class AssistanceController extends Controller
             ->get();
 
         if ($assistances->isEmpty()) {
-            session()->flash('error', __('assistance.no_identity_documents_found'));
-            return redirect()->back();
+            return redirect()->back()
+                ->with('error', __('assistance.no_identity_documents_found'));
         }
 
         $zipFileName = 'identity_documents_' . $event->event_code . '.zip';
@@ -296,8 +238,8 @@ class AssistanceController extends Controller
 
         $zip = new \ZipArchive();
         if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
-            session()->flash('error', __('assistance.zip_creation_failed'));
-            return redirect()->back();
+            return redirect()->back()
+                ->with('error', __('assistance.zip_creation_failed'));
         }
 
         foreach ($assistances as $assistance) {

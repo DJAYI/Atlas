@@ -43,15 +43,28 @@
                         <label for="email" class="text-lg">{{ __('Correo electrónico') }}</label>
                         <input id="email" type="email" name="email" required autofocus autocomplete="username"
                             class="px-4 py-3 transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300">
+
+                        @error('email')
+                            <p class="text-red-500 text-sm text-pretty">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="flex flex-col gap-2">
                         <label for="password" class="text-lg">{{ __('Contraseña') }}</label>
                         <input type="password" name="password" required autocomplete="current-password"
                             class="px-4 py-3 transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300">
+
+                        @error('password')
+                            <p class="text-red-500 text-sm text-pretty">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="cf-turnstile" data-sitekey="0x4AAAAAABgyCFXRn5k6igzX"></div>
+
+                    @error('cf-turnstile-response')
+                        <p class="text-red-500 text-sm text-pretty">{{ $message }}</p>
+                    @enderror
+
                     <button type="submit"
                         class="px-4 mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Iniciar sesión') }}</button>
                 </div>
