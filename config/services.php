@@ -21,7 +21,7 @@ return [
         'action' => env('RECAPTCHA_ACTION'),
     ],
 
-    'turnstile' => [
+    'turnstile' => [ 
         'secret_key' => env('TURNSTILE_SECRET_KEY'),
     ],
 
