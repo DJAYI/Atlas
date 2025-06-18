@@ -12,13 +12,13 @@ class EventSeeder extends Seeder
     {
         $agreements = Agreement::all();
         foreach ($agreements as $agreement) {
-            Event::factory(rand(1, 4))->create([
+            Event::factory(rand(1, 20))->create([
                 'has_agreement' => 'si',
                 'agreement_id' => $agreement->id,
             ]);
         }
 
-        Event::factory(rand(1, 6))->create([
+        Event::factory(rand(1, 30))->create([
             'agreement_id' => null,
             'has_agreement' => 'no',
         ]);
