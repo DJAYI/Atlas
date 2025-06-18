@@ -31,22 +31,22 @@
         const statistics = @json($statistics);
 
         console.log("Datos recibidos en gráfico de barras:", statistics);
-        
+
         // Análisis de los datos recibidos
         if (statistics) {
             const years = Object.keys(statistics);
             console.log("Años disponibles:", years);
-            
+
             if (years.length > 0) {
                 const firstYear = statistics[years[0]];
                 // Comprobamos qué roles están disponibles
                 const locations = Object.keys(firstYear);
                 console.log("Ubicaciones disponibles:", locations);
-                
+
                 if (locations.includes('nacional')) {
                     const roles = Object.keys(firstYear['nacional']);
                     console.log("Roles disponibles:", roles);
-                    
+
                     // Si hay roles disponibles, establecemos el primero como valor inicial
                     if (roles.length > 0 && movilitySelect.value !== roles[0]) {
                         console.log("Estableciendo rol inicial:", roles[0]);
@@ -69,7 +69,7 @@
 
         const getSeries = (stats, mov, mod) => {
             console.log(`Generando series para: ${mov} - ${mod}`);
-            
+
             const labels = [
                 `${capitalize(mov)}s Entrantes (Nacional)`,
                 `${capitalize(mov)}s Entrantes (Internacional)`,

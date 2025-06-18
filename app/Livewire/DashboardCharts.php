@@ -31,14 +31,47 @@ class DashboardCharts extends Component
 
     public function mount()
     {
-        $this->loadBarChartData();
-        $this->loadPieChartData();
-        $this->loadTableByPeriodData();
-        $this->loadTableTotalActivitiesData();
+        // Tiempo de caché en segundos (10 minutos)
+        $cacheTime = 600;
+
+        // Cargar datos desde caché o calcularlos si la caché ha expirado
+        $this->barChartStatistics = Cache::remember('dashboard_bar_chart_statistics', $cacheTime, function () {
+            return $this->calculateBarChartData();
+        });
+
+        $this->pieChartStatistics = Cache::remember('dashboard_pie_chart_statistics', $cacheTime, function () {
+            return $this->calculatePieChartData();
+        });
+
+        $cacheData = Cache::remember('dashboard_table_period_statistics', $cacheTime, function () {
+            return [
+                'statistics' => $this->calculateTableByPeriodData(),
+                'periods' => $this->getLastThreePeriodsLabels()
+            ];
+        });
+        $this->tableByPeriodStatistics = $cacheData['statistics'];
+        $this->periodLabels = $cacheData['periods'];
+
+        $cacheActivities = Cache::remember('dashboard_activities_data', $cacheTime, function () {
+            return [
+                'activitiesData' => $this->calculateTableTotalActivitiesData(),
+                'totalResults' => $this->calculateTotalResults()
+            ];
+        });
+        $this->activitiesData = $cacheActivities['activitiesData'];
+        $this->totalResults = $cacheActivities['totalResults'];
     }
 
-    // Cargar datos para AssistancesBarChart
-    protected function loadBarChartData()
+    // Método auxiliar para obtener los últimos tres períodos (solo etiquetas)
+    protected function getLastThreePeriodsLabels()
+    {
+        $currentDate = now();
+        $periods = $this->getLastThreeSemesters($currentDate);
+        return array_column($periods, 'key');
+    }
+
+    // Calcular datos para el gráfico de barras (sin guardarlos en la propiedad)
+    protected function calculateBarChartData()
     {
         $currentYear = now()->year;
         $years = [$currentYear - 2, $currentYear - 1, $currentYear];
@@ -177,18 +210,17 @@ class DashboardCharts extends Component
                     }
                 }
             }
-
             $statistics[$year] = $yearData;
         }
 
-        $this->barChartStatistics = $statistics;
-
         // Log de depuración para ver los datos procesados
         \Illuminate\Support\Facades\Log::info("Datos procesados para gráfico de barras:", ['data' => $statistics]);
+
+        return $statistics;
     }
 
-    // Cargar datos para MobilityPieChart
-    protected function loadPieChartData()
+    // Calcular datos para MobilityPieChart (sin guardarlos en la propiedad)
+    protected function calculatePieChartData()
     {
         // Obtener el id real de Comfenalco
         $comfenalco = University::where('name', 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO')->first();
@@ -199,15 +231,14 @@ class DashboardCharts extends Component
         $lastYearAssistances = Assistance::whereIn('event_id', $eventIds)->with(['person', 'event'])->get();
 
         if ($lastYearAssistances->isEmpty() || !$comfenalcoId) {
-            $this->pieChartStatistics = [
+            return [
                 "entrantes" => 0,
                 "salientes" => 0,
                 "en_casa" => 0,
             ];
-            return;
         }
 
-        $this->pieChartStatistics = $lastYearAssistances->reduce(function ($carry, $assistance) use ($comfenalcoId) {
+        return $lastYearAssistances->reduce(function ($carry, $assistance) use ($comfenalcoId) {
             $universityId = $assistance->person->university_id;
 
             if ($universityId != $comfenalcoId) {
@@ -227,12 +258,12 @@ class DashboardCharts extends Component
         ]);
     }
 
-    // Cargar datos para TableAssistanceOfLastYearByPeriod
-    protected function loadTableByPeriodData()
+    // Calcular datos para TableAssistanceOfLastYearByPeriod (sin guardarlos en la propiedad)
+    protected function calculateTableByPeriodData()
     {
         $currentDate = now();
         $periods = $this->getLastThreeSemesters($currentDate);
-        $this->periodLabels = array_column($periods, 'key');
+        // Ya no guardamos los periodLabels aquí, se retornan desde getLastThreePeriodsLabels()
 
         $data = [
             'Internacional Presencial' => [],
@@ -283,17 +314,17 @@ class DashboardCharts extends Component
                 $data['Nacional Virtual'][$periodKey];
         }
 
-        $this->tableByPeriodStatistics = $data;
+        return $data;
     }
 
-    // Cargar datos para TableTotalActivities
-    protected function loadTableTotalActivitiesData()
+    // Calcular datos para TableTotalActivities (sin guardarlos en la propiedad)
+    protected function calculateTableTotalActivitiesData()
     {
         // Obtener todas las actividades
         $activities = Activity::with(['events.assistances'])->get();
 
         // Agrupar actividades por nombre y contar asistentes y eventos
-        $this->activitiesData = $activities->map(function ($activity) {
+        return $activities->map(function ($activity) {
             // 1. Cada evento tiene una actividad
             $events = $activity->events;
             // 2. Contar el número de asistentes por evento
@@ -309,11 +340,17 @@ class DashboardCharts extends Component
                 'total_activities' => $totalActivities,
             ];
         })->toArray();
+    }
+
+    // Calcular totales para TableTotalActivities
+    protected function calculateTotalResults()
+    {
+        $activitiesData = $this->calculateTableTotalActivitiesData();
 
         // Calcular el total de asistentes y actividades
-        $this->totalResults = [
-            'total_assistants' => collect($this->activitiesData)->sum('total_assistants'),
-            'total_activities' => collect($this->activitiesData)->sum('total_activities'),
+        return [
+            'total_assistants' => collect($activitiesData)->sum('total_assistants'),
+            'total_activities' => collect($activitiesData)->sum('total_activities'),
         ];
     }
 
@@ -367,5 +404,24 @@ class DashboardCharts extends Component
     public function render()
     {
         return view('livewire.dashboard-charts');
+    }
+
+    /**
+     * Limpiar la caché de los datos del dashboard
+     * Este método puede ser llamado cuando se necesite actualizar los datos manualmente
+     */
+    public function refreshData()
+    {
+        // Limpiar todas las cachés
+        Cache::forget('dashboard_bar_chart_statistics');
+        Cache::forget('dashboard_pie_chart_statistics');
+        Cache::forget('dashboard_table_period_statistics');
+        Cache::forget('dashboard_activities_data');
+
+        // Recargar los datos
+        $this->mount();
+
+        // Notificar al frontend
+        $this->dispatch('dashboard-data-refreshed');
     }
 }
