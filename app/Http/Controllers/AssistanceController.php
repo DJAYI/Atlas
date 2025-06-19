@@ -181,8 +181,9 @@ class AssistanceController extends Controller
         if (!$person) {
             return redirect()->route('assistance', ['locale' => $request->locale])
                 ->with([
-                    'error' => __('assistance.not_found'),
-                    'found' => false
+                    'error' => __('Asistencias previas no registradas'),
+                    'found' => false,
+                    'event' => $event,
                 ]);
         }
 

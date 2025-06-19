@@ -11,4 +11,5 @@ return [
     'saved_successfully' => 'Attendance registered successfully',
     'no_identity_documents_found' => 'No identity documents found for this event',
     'zip_creation_failed' => 'Error creating ZIP file',
+    'available_universities' => 'available universities',
 ];
