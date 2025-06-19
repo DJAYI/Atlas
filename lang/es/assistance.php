@@ -11,4 +11,5 @@ return [
     'saved_successfully' => 'Asistencia registrada correctamente',
     'no_identity_documents_found' => 'No se encontraron documentos de identidad para este evento',
     'zip_creation_failed' => 'Error al crear el archivo ZIP',
+    'available_universities' => 'universidades disponibles',
 ];

@@ -94,7 +94,7 @@
                                     {{ old('country_of_origin', session('country_id')) ? '' : 'selected' }}>
                                     {{ __('Seleccione un país') }}
                                 </option>
-                                @foreach ($countries as $country)
+                                @foreach ($countries->sortBy('name') as $country)
                                     <option value="{{ $country->id }}"
                                         {{ session('found') && session('person')->country_id == $country->id ? 'selected' : '' }}>
                                         {{ $country->name }}
@@ -115,7 +115,7 @@
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="" disabled selected>{{ __('Seleccione una universidad') }}
                                 </option>
-                                @foreach ($universities as $university)
+                                @foreach ($universities->sortBy('name') as $university)
                                     <option value="{{ $university->id }}"
                                         {{ session('found') && session('person')->university_id == $university->id ? 'selected' : '' }}>
                                         {{ $university->name }}
@@ -130,7 +130,7 @@
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="" disabled selected>{{ __('Seleccione un Programa') }}
                                 </option>
-                                @foreach ($careers as $career)
+                                @foreach ($careers->sortBy('name') as $career)
                                     <option value="{{ $career->id }}"
                                         {{ session('found') && session('person')->career_id == $career->id ? 'selected' : '' }}>
                                         {{ $career->name }}
@@ -218,13 +218,16 @@
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                                 <option value="" disabled selected>{{ __('Seleccione una universidad') }}
                                 </option>
-                                @if (session('event') && isset(session('event')->universities) && count(session('event')->universities) > 0)
-                                    @foreach (session('event')->universities as $university)
+
+                                @if (session('event') && isset(session('event')->universities))
+                                    <p>{{ session('event')->universities->count() }}
+                                        {{ __('available_universities') }}</p>
+
+                                    @foreach (session('event')->universities->sortBy('name') as $university)
                                         <option value="{{ $university->id }}">
                                             {{ $university->name }}
                                         </option>
                                     @endforeach
-
                                 @endif
                             </select>
                         </div>

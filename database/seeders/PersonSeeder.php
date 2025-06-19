@@ -18,16 +18,25 @@ class PersonSeeder extends Seeder
             'description' => 'La Fundación Universitaria Tecnológico Comfenalco, ubicada en Cartagena de Indias, Bolívar, Colombia, ofrece programas académicos en diversas áreas del conocimiento.',
             'country_id' => $colombiaId,
         ]);
-        // Crear 20 estudiantes y 20 profesores de Comfenalco
-        \App\Models\Person::factory(10)->create([
+        \App\Models\Person::factory(100)->create([
             'type' => 'estudiante',
             'university_id' => $comfenalco->id
         ]);
-        \App\Models\Person::factory(10)->create([
+        \App\Models\Person::factory(100)->create([
             'type' => 'profesor',
             'university_id' => $comfenalco->id
         ]);
+        \App\Models\Person::factory(100)->create([
+            'type' => 'administrativo',
+            'university_id' => $comfenalco->id
+        ]);
+
+        \App\Models\Person::factory(100)->create([
+            'type' => 'egresado',
+            'university_id' => $comfenalco->id
+        ]);
+
         // ...resto del seeder...
-        Person::factory(10)->create();
+        Person::factory(100)->create();
     }
 }

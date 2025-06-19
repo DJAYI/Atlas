@@ -23,7 +23,7 @@ class ValidateAssistaceRequest extends FormRequest
     {
         return [
             'document_type' => 'required|string|in:DNI,PP,CC,CE,TI,CA,Otro',
-            'document_number' => 'required|string|numeric|max:30',
+            'document_number' => 'required|string|numeric',
             'event_code' => 'required|string|exists:events,event_code',
             'cf-turnstile-response' => 'required|string',
         ];
@@ -42,7 +42,6 @@ class ValidateAssistaceRequest extends FormRequest
             'document_number.required' => __('El número de documento es obligatorio'),
             'document_number.string' => __('El número de documento debe ser una cadena de texto'),
             'document_number.numeric' => __('El número de documento debe ser numérico'),
-            'document_number.max' => __('El número de documento no debe exceder los 30 caracteres'),
             'event_code.required' => __('El código del evento es obligatorio'),
             'event_code.exists' => __('El código del evento no es válido o no existe'),
             'cf-turnstile-response.required' => __('La verificación de seguridad es obligatoria'),

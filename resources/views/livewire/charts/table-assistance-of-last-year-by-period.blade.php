@@ -35,7 +35,7 @@
                         class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                         Categoría
                     </th>
-                    @foreach ($statistics['periodos'] as $periodo)
+                    @foreach ($periods as $periodo)
                         <th scope="col"
                             class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider text-center">
                             {{ $periodo }}
@@ -47,8 +47,9 @@
                 @foreach ($rows as $row)
                     <tr class="{{ $row['rowClass'] }}">
                         <td class="px-4 py-4 whitespace-nowrap text-left text-sm text-gray-900">{{ $row['label'] }}</td>
-                        @foreach ($statistics['data'][$row['key']] as $count)
-                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{{ $count }}</td>
+                        @foreach ($periods as $periodo)
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ $statistics[$row['key']][$periodo] ?? 0 }}</td>
                         @endforeach
                     </tr>
                 @endforeach
@@ -56,8 +57,9 @@
             <tfoot>
                 <tr class=" font-semibold bg-gray-50 text-center">
                     <td class="px-4 py-4 whitespace-nowrap text-left text-sm text-gray-900 font-semibold">Total</td>
-                    @foreach ($statistics['data']['total'] as $count)
-                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{{ $count }}</td>
+                    @foreach ($periods as $periodo)
+                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ $statistics['total'][$periodo] ?? 0 }}</td>
                     @endforeach
                 </tr>
             </tfoot>

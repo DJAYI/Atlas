@@ -94,7 +94,7 @@ class EventFactory extends Factory
                 ]);
             });
             $university = \App\Models\University::inRandomOrder()->first();
-            $persons = \App\Models\Person::inRandomOrder()->take(rand(1, 10))->get();
+            $persons = \App\Models\Person::inRandomOrder()->take(rand(1, Person::count()))->get();
             $persons->each(function ($person) use ($event, $university, $mobility) {
                 \App\Models\Assistance::factory()->create([
                     'event_id' => $event->id,

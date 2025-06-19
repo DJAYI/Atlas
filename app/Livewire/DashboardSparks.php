@@ -227,32 +227,38 @@ class DashboardSparks extends Component
 
     public function mount()
     {
-        // Cache all events for 1 hour
-        $this->events = Cache::remember('dashboard_events', 3600, function () {
+        // Tiempo de caché en segundos (10 minutos)
+        $cacheTime = 600;
+        
+        // Cache all events for 10 minutes
+        $this->events = Cache::remember('dashboard_events', $cacheTime, function () {
             return Event::with(['assistances.person.career'])->get();
         });
-        $this->lastYearEventsCounts = Cache::remember('dashboard_last_year_events_counts', 3600, function () {
+        $this->lastYearEventsCounts = Cache::remember('dashboard_last_year_events_counts', $cacheTime, function () {
             return $this->getLastYearEventsCounts();
         });
-        $this->lastYearAssistancesCounts = Cache::remember('dashboard_last_year_assistances_counts', 3600, function () {
+        $this->lastYearAssistancesCounts = Cache::remember('dashboard_last_year_assistances_counts', $cacheTime, function () {
             return $this->getLastYearAssistancesCounts();
         });
-        $this->lastYearCareersCounts = Cache::remember('dashboard_last_year_careers_counts', 3600, function () {
+        $this->lastYearCareersCounts = Cache::remember('dashboard_last_year_careers_counts', $cacheTime, function () {
             return $this->getLastYearCareersCounts();
         });
-        $this->lastYearUniqueParticipantsCounts = Cache::remember('dashboard_last_year_unique_participants_counts', 3600, function () {
+        $this->lastYearUniqueParticipantsCounts = Cache::remember('dashboard_last_year_unique_participants_counts', $cacheTime, function () {
             return $this->getLastYearUniqueParticipantsCounts();
         });
-        $this->lastYearEventsPerMonth = Cache::remember('dashboard_last_year_events_per_month', 3600, function () {
+        // Tiempo de caché en segundos (10 minutos)
+        $cacheTime = 600;
+        
+        $this->lastYearEventsPerMonth = Cache::remember('dashboard_last_year_events_per_month', $cacheTime, function () {
             return $this->getLastYearEventsPerMonth();
         });
-        $this->lastYearAssistancesPerMonth = Cache::remember('dashboard_last_year_assistances_per_month', 3600, function () {
+        $this->lastYearAssistancesPerMonth = Cache::remember('dashboard_last_year_assistances_per_month', $cacheTime, function () {
             return $this->getLastYearAssistancesPerMonth();
         });
-        $this->lastYearCareersPerMonth = Cache::remember('dashboard_last_year_careers_per_month', 3600, function () {
+        $this->lastYearCareersPerMonth = Cache::remember('dashboard_last_year_careers_per_month', $cacheTime, function () {
             return $this->getLastYearCareersPerMonth();
         });
-        $this->lastYearUniqueParticipantsPerMonth = Cache::remember('dashboard_last_year_unique_participants_per_month', 3600, function () {
+        $this->lastYearUniqueParticipantsPerMonth = Cache::remember('dashboard_last_year_unique_participants_per_month', $cacheTime, function () {
             return $this->getLastYearUniqueParticipantsPerMonth();
         });
         $this->totalEvents = array_sum($this->lastYearEventsPerMonth['data']);

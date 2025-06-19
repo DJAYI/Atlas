@@ -92,10 +92,10 @@
                         class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95">
                         Actualizar Convenio
                     </button>
-                    <button type="button" popovertarget="edit-agreement"
+                    <a href="{{ route('agreements') }}"
                         class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95">
                         Cancelar
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
