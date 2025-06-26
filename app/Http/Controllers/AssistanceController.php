@@ -110,6 +110,11 @@ class AssistanceController extends Controller
                     Storage::disk('public')->delete($existingAssistance->identity_document_file);
                 }
 
+                // Validar tamaño del archivo (máximo 2MB)
+                if ($request->file('identity_document')->getSize() > 2 * 1024 * 1024) {
+                    return redirect()->route('assistance', ['locale' => $request->locale])
+                        ->with('error', __('El archivo no debe superar los 2MB.'));
+                }
                 // Subir el nuevo archivo
                 $documentFilePath = $request->file('identity_document')->store('identity_documents', 'public');
 

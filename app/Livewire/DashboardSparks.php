@@ -227,9 +227,9 @@ class DashboardSparks extends Component
 
     public function mount()
     {
-        // Tiempo de caché en segundos (10 minutos)
-        $cacheTime = 600;
-        
+        // Tiempo de caché en segundos (1 minutos)
+        $cacheTime = 60;
+
         // Cache all events for 10 minutes
         $this->events = Cache::remember('dashboard_events', $cacheTime, function () {
             return Event::with(['assistances.person.career'])->get();
@@ -246,9 +246,9 @@ class DashboardSparks extends Component
         $this->lastYearUniqueParticipantsCounts = Cache::remember('dashboard_last_year_unique_participants_counts', $cacheTime, function () {
             return $this->getLastYearUniqueParticipantsCounts();
         });
-        // Tiempo de caché en segundos (10 minutos)
-        $cacheTime = 600;
-        
+        // Tiempo de caché en segundos (1 minuto)
+        $cacheTime = 60;
+
         $this->lastYearEventsPerMonth = Cache::remember('dashboard_last_year_events_per_month', $cacheTime, function () {
             return $this->getLastYearEventsPerMonth();
         });

@@ -240,9 +240,10 @@
                                 value="{{ old('identity_document', session('identity_document_file')) }}"
                                 name="identity_document"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
-                                accept="image/jpeg, image/png, image/jpg, image/webp">
+                                accept="image/jpeg, image/png, image/jpg, image/webp,application/pdf"
+                                @if (!session('identity_document_file')) required @endif>
                             <p class="text-sm text-gray-500">
-                                {{ __('Formato permitido: JPG, JPEG, PNG, WEBP. Tamaño máximo: 2MB.') }}
+                                {{ __('Formato permitido: JPG, JPEG, PNG, WEBP, PDF. Tamaño máximo: 2MB.') }}
                             </p>
 
                             <div id="preview" class="flex flex-col items-center justify-center w-full mt-2">
@@ -251,6 +252,12 @@
                                     class="object-cover opacity-0 transition {{ session('identity_document_file') ? '' : 'hidden' }} w-full h-full rounded-lg shadow-sm border-primary-300"
                                     alt="{{ __('Vista previa del documento de identidad') }}">
                             </div>
+                            @if ($error)
+                                <p class="text-red-500 text-sm mt-2">
+                                    {{ $error }}
+                                </p>
+                                
+                            @endif
                         </div>
                         {{-- Submit Button --}}
 
