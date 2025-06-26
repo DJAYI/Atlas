@@ -30,10 +30,10 @@ class DatabaseSeeder extends Seeder
             FacultiesSeeder::class,
             ActivitiesSeeder::class,
             CareersSeeder::class,
-            UniversitySeeder::class,
-            PersonSeeder::class,
-            UserSeeder::class,
-            EventSeeder::class,
+            // UniversitySeeder::class,
+            // PersonSeeder::class,
+            // UserSeeder::class,
+            // EventSeeder::class,
         ]);
     }
 }
