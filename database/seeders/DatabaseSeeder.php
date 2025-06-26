@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         User::create([
             'username' => 'Admin',
-            'email' => 'test@mail.com',
+            'email' => 'danilo.arenasyi@gmail.com',
             'institutional_email' => 'academic@mail.com',
             'password' => 'password',
         ]);
@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             FacultiesSeeder::class,
             ActivitiesSeeder::class,
             CareersSeeder::class,
-            // UniversitySeeder::class,
+            UniversitySeeder::class,
             // PersonSeeder::class,
             // UserSeeder::class,
             // EventSeeder::class,
