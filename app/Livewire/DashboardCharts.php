@@ -163,11 +163,10 @@ class DashboardCharts extends Component
                 }
 
                 foreach ($event->assistances as $assistance) {
-                    // \Illuminate\Support\Facades\Log::debug('Mobilidad de asistencia', [
-                    //     'assistance_id' => $assistance->id,
-                    //     'mobility' => $assistance->mobility,
-                    // ]);
-                    // dd($assistance->mobility);
+                    \Illuminate\Support\Facades\Log::debug('Mobilidad de asistencia', [
+                        'assistance_id' => $assistance->id,
+                        'mobility' => $assistance->mobility,
+                    ]);
 
                     // Verificar si la asistencia tiene movilidad
                     if (!$assistance->mobility) {
@@ -190,10 +189,9 @@ class DashboardCharts extends Component
                     }
 
                     // Determinar dirección (entrante/saliente)
-                    $universityId = $assistance->person->university_id ?? null;
+                    $universityId = $assistance->person->university->id ?? null;
                     if (!$universityId || !$comfenalcoId) {
                         \Illuminate\Support\Facades\Log::info("Asistencia {$assistance->id} sin universidad válida o Comfenalco no encontrado");
-                        continue;
                     }
                     $direction = ($universityId == $comfenalcoId) ? 'salientes' : 'entrantes';
 

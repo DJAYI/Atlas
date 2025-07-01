@@ -29,13 +29,13 @@
             <div class="grid grid-cols-4 gap-4">
                 <div class="flex flex-col gap-2">
                     <label for="start_date" class="text-gray-500">Fecha de Inicio</label>
-                    <input required type="date" name="start_date" id="start_date" min="{{ date('Y-m-d') }}"
+                    <input required type="date" name="start_date" id="start_date"
                         value="{{ old('start_date', $event->start_date ? $event->start_date->format('Y-m-d') : '') }}"
                         class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="end_date" class="text-gray-500">Fecha de Fin</label>
-                    <input required type="date" name="end_date" id="end_date" min="{{ date('Y-m-d') }}"
+                    <input required type="date" name="end_date" id="end_date"
                         value="{{ old('end_date', $event->end_date ? $event->end_date->format('Y-m-d') : '') }}"
                         class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                 </div>
@@ -168,7 +168,7 @@
             <div class="flex flex-row items-center gap-3">
                 {{-- Botón para enviar encuestas a todos --}}
                 <button type="button"
-                    class="px-4 py-2 font-semibold text-xs text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                    class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                     onclick="openSurveyPopover(null)" popovertarget="survey-popover">
                     Enviar Encuestas a Todos
                 </button>
@@ -180,7 +180,7 @@
 
                     <input type="hidden" name="event_id" value="{{ $event->id }}">
                     <button type="submit"
-                        class="px-4 py-2 font-semibold text-xs text-white transition rounded-lg shadow-md bg-gradient-to-bl to-secondary-700 from-secondary-500 hover:scale-95">
+                        class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-secondary-700 from-secondary-500 hover:scale-95">
                         Plantilla de Certificado
                     </button>
                 </form>
@@ -191,7 +191,7 @@
                     @method('POST')
 
                     <button type="submit"
-                        class="px-4 py-2 font-semibold text-xs text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
+                        class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
                         Exportar Asistencias
                     </button>
                 </form>
@@ -202,7 +202,7 @@
                     @method('POST')
 
                     <button type="submit"
-                        class="px-4 py-2 font-semibold text-xs text-white transition rounded-lg shadow-md bg-gradient-to-bl to-blue-700 from-blue-500 hover:scale-95">
+                        class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-blue-700 from-blue-500 hover:scale-95">
                         Exportar Documentos de Identidad
                     </button>
                 </form>
