@@ -31,8 +31,8 @@ class DashboardCharts extends Component
 
     public function mount()
     {
-        // Tiempo de caché en segundos (10 minutos)
-        $cacheTime = 600;
+        // Tiempo de caché en segundos (1 minuto)
+        $cacheTime = 60;
 
         // Cargar datos desde caché o calcularlos si la caché ha expirado
         $this->barChartStatistics = Cache::remember('dashboard_bar_chart_statistics', $cacheTime, function () {
