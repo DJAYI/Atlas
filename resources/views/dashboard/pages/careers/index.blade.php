@@ -37,11 +37,13 @@
         <tbody id="table-data">
             @foreach ($careersPaginated as $career)
                 <tr>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <td
+                        class="max-w-full px-6 py-4 overflow-hidden font-medium text-gray-900 text-ellipsis whitespace-nowrap">
                         {{ $career->name }}
                     </td>
 
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <td
+                        class="px-6 py-4 font-medium text-gray-900 text-ellipsis whitespace-nowrap max-w-[200px] overflow-hidden">
                         {{ $career->description }}
                     </td>
 

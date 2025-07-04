@@ -18,7 +18,8 @@
         <tbody>
             @foreach ($filteredEvents as $event)
                 <tr>
-                    <td class="px-4 py-2 text-center">{{ $event->name }}</td>
+                    <td class="px-4 py-2 text-center text-ellipsis whitespace-nowrap max-w-[200px] overflow-hidden">
+                        {{ $event->name }}</td>
                     <td class="px-4 py-2 text-center">{{ $event->assistances->count() }}</td>
                     <td class="px-4 py-2 text-center">{{ \Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}</td>
                     <td class="px-4 py-2 text-center">

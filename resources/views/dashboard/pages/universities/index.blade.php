@@ -40,7 +40,8 @@
         <tbody id="table-data">
             @foreach ($universitiesPaginated as $university)
                 <tr>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <td
+                        class="px-6 py-4 font-medium text-gray-900 text-ellipsis whitespace-nowrap max-w-[200px] overflow-hidden">
                         {{ $university->country->name }}
                     </td>
 

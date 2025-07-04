@@ -21,7 +21,9 @@
                 class="flex flex-row items-center justify-between gap-5 px-4 py-2 mb-1 rounded-lg bg-gradient-to-b from-white to-transparent">
                 <div class="flex flex-col gap-3">
                     <div class="">
-                        <h3 class="text-lg font-semibold text-gray-700">{{ $event->name }}</h3>
+                        <h3
+                            class="text-lg font-semibold text-ellipsis whitespace-nowrap max-w-[200px] overflow-hidden text-gray-700">
+                            {{ $event->name }}</h3>
                     </div>
                     <p class="text-sm text-gray-500">Código: {{ $event->event_code }}</p>
                     <p class="text-sm text-gray-500">
@@ -75,7 +77,8 @@
         <tbody id="table-data" class="">
             @foreach ($eventsPaginated->sortByDesc('created_at') as $event)
                 <tr class="transition hover:bg-primary-50/50">
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    <td
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-ellipsis max-w-[200px] overflow-hidden">
                         {{ $event->name }}
                     </td>
                     <td class="px-6 py-4">
@@ -89,7 +92,7 @@
                         {{ \Carbon\Carbon::parse($event->start_date)->format('d/m/Y') }} -
                         {{ \Carbon\Carbon::parse($event->end_date)->format('d/m/Y') }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-ellipsis whitespace-nowrap max-w-[200px] overflow-hidden">
                         {{ $event->responsable }}
                     </td>
                     <td class="px-6 py-4">
