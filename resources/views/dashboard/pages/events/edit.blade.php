@@ -170,10 +170,10 @@
 
                 <div class="flex flex-col col-span-3 gap-2">
                     <label for="description" class="text-gray-500">Descripción del Evento</label>
-                    <textarea name="description" id="description" rows="4"
+                    <textarea name="description" id="description" rows="4" maxlength="1000"
                         class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                         placeholder="Escriba el nombre del invitado, la universidad a la que pertenece, su última formación académica y un breve perfil profesional. Indique también el tema a tratar y qué se busca fomentar en los asistentes (estudiantes, docentes, egresados, entre otros).">{{ $event->description }}</textarea>
-                    <small class="text-gray-400">Proporcione una descripción detallada del evento</small>
+                    <small class="text-gray-400">Máximo 150 palabras. Sea conciso y claro en su descripción.</small>
                 </div>
             </div>
             <div class="grid grid-cols-1">

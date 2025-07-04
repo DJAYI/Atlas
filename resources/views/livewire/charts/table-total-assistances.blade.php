@@ -59,7 +59,7 @@
                         <td class="px-2 py-1 border">{{ $assistance->event->name }}</td>
                         <td class="px-2 py-1 border">{{ $assistance->person->country->name }}</td>
                         <td class="px-2 py-1 border">
-                            {{ $assistance->person->university->name === 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO' ? 'S' : 'E' }}
+                            {{ $assistance->person->university->name === 'Fundación Universitaria Tecnológico Comfenalco' ? 'S' : 'E' }}
                         </td>
                         <td class="px-2 py-1 border">{{ $assistance->mobility->name }}</td>
                         <td class="px-2 py-1 border">{{ $assistance->mobility->type }}</td>

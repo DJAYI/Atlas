@@ -65,7 +65,7 @@ class EventController extends Controller
             'end_time' => 'required|date_format:H:i',
             'universities' => 'required|array', // Debe ser un array de IDs
             'universities.*' => 'exists:universities,id', // Cada ID debe existir en la BD
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:1000',
             'career_id' => 'nullable|exists:careers,id', // Carrera asociada
         ]);
 
@@ -178,7 +178,7 @@ class EventController extends Controller
             'end_time' => 'required|date_format:H:i',
             'universities' => 'required|array', // Debe ser un array de IDs
             'universities.*' => 'exists:universities,id', // Cada ID debe existir en la BD
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:1000',
             'career_id' => 'nullable|exists:careers,id', // Carrera asociada
         ]);
 
