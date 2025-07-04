@@ -21,6 +21,7 @@ class PersonFactory extends Factory
             'discapacitado',
             'victima de conflicto armado',
             'desplazado',
+            'PDET',
             null
         ];
         $docTypes = ['CC', 'CE', 'TI', 'PP', 'DNI', 'CA', 'Otro'];

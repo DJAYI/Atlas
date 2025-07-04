@@ -50,6 +50,12 @@ class MobilitiesSeeder extends Seeder
             ['name' => 'Doble Titulación', 'type' => 'egresado'],
             ['name' => 'Conversatorio', 'type' => 'egresado'],
 
+            // Emprendedores
+            ['name' => 'Asesoría', 'type' => 'emprendedor'],
+            ['name' => 'Mentoría', 'type' => 'emprendedor'],
+            ['name' => 'Networking', 'type' => 'emprendedor'],
+            ['name' => 'Talleres', 'type' => 'emprendedor'],
+
         ];
 
         DB::table('mobilities')->insert($mobilities);

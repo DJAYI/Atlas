@@ -31,8 +31,8 @@ class DashboardCharts extends Component
 
     public function mount()
     {
-        // Tiempo de caché en segundos (1 minuto)
-        $cacheTime = 60;
+        // Tiempo de caché en segundos (10 segundos)
+        $cacheTime = 10;
 
         // Cargar datos desde caché o calcularlos si la caché ha expirado
         $this->barChartStatistics = Cache::remember('dashboard_bar_chart_statistics', $cacheTime, function () {
@@ -103,6 +103,10 @@ class DashboardCharts extends Component
                         'virtual' => ['entrantes' => 0, 'salientes' => 0],
                         'presencial' => ['entrantes' => 0, 'salientes' => 0],
                     ],
+                    'emprendedor' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
                 ],
                 'nacional' => [
                     'estudiante' => [
@@ -118,6 +122,10 @@ class DashboardCharts extends Component
                         'presencial' => ['entrantes' => 0, 'salientes' => 0],
                     ],
                     'administrativo' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
+                    'emprendedor' => [
                         'virtual' => ['entrantes' => 0, 'salientes' => 0],
                         'presencial' => ['entrantes' => 0, 'salientes' => 0],
                     ],
@@ -139,12 +147,16 @@ class DashboardCharts extends Component
                         'virtual' => ['entrantes' => 0, 'salientes' => 0],
                         'presencial' => ['entrantes' => 0, 'salientes' => 0],
                     ],
+                    'emprendedor' => [
+                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
+                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
+                    ],
                 ],
             ];
 
             // Procesar los datos como lo hace AssistancesBarChart
-            $comfenalco = University::where('name', 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO')->first();
-            $comfenalcoId = $comfenalco ? $comfenalco->id : null;
+            $comfenalco = University::where('name', 'Fundación Universitaria Tecnológico Comfenalco')->first();
+            $comfenalcoId = $comfenalco ?->id;
 
             foreach ($events as $event) {
                 $location = strtolower($event->location ?: '');
@@ -177,7 +189,7 @@ class DashboardCharts extends Component
                     // Determinar rol
                     $role = strtolower($assistance->mobility->type ?: '');
 
-                    if (!in_array($role, ['estudiante', 'profesor', 'egresado', 'administrativo'])) {
+                    if (!in_array($role, ['estudiante', 'profesor', 'egresado', 'administrativo', 'emprendedor'])) {
                         \Illuminate\Support\Facades\Log::info("Asistencia {$assistance->id} con rol no válido: '{$role}'");
                         continue;
                     }
@@ -221,7 +233,7 @@ class DashboardCharts extends Component
     protected function calculatePieChartData()
     {
         // Obtener el id real de Comfenalco
-        $comfenalco = University::where('name', 'FUNDACIÓN UNIVERSITARIA TECNOLÓGICO COMFENALCO')->first();
+        $comfenalco = University::where('name', 'Fundación Universitaria Tecnológico Comfenalco')->first();
         $comfenalcoId = $comfenalco ? $comfenalco->id : null;
 
         // Solo asistencias de eventos del último año (por start_date)

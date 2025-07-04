@@ -8,6 +8,7 @@
                 <option value="estudiante">Estudiantes</option>
                 <option value="profesor">Docentes</option>
                 <option value="egresado">Egresados</option>
+                <option value="emprendedor">Emprendedores</option>
                 <option value="administrativo">Administrativos</option>
             </select>
             <select class="font-semibold rounded-lg" name="modality" id="modality-select">

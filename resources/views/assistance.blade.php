@@ -198,6 +198,9 @@
                                 <option value="desplazado"
                                     {{ session('found') && session('person')->minority == 'desplazado' ? 'selected' : '' }}>
                                     {{ __('Desplazado') }}</option>
+                                <option value="PDET"
+                                    {{ session('found') && session('person')->minority == 'PDET' ? 'selected' : '' }}>
+                                    {{ __('Población PDET') }}</option>
                             </select>
                         </div>
                     </div>

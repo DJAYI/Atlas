@@ -34,16 +34,18 @@
                         'profesor' => 'Movilidad de Docentes del Exterior hacia Colombia',
                         'estudiante' => 'Movilidad de Estudiantes del Exterior hacia Colombia',
                         'administrativo' => 'Movilidad de Administrativos del Exterior hacia Colombia',
+                        'egresado' => 'Movilidad de Egresados del Exterior hacia Colombia',
+                        'emprendedor' => 'Movilidad de Emprendedores del Exterior hacia Colombia',
                     ];
                 @endphp
 
                 @foreach ($localTypes as $type => $title)
-                    <x-report-table :filtered-events="$events->filter(fn($event) => $event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name !== 'Colombia' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="false" />
+                    <x-report-table :filtered-events="$events->filter(fn($event) =>$event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name !== 'Colombia' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="false" />
                 @endforeach
             </div>
 
-            <div class="flex-col items-center justify-center hidden col-span-1 md:flex">
-                <hr class="min-h-96 w-[1px] bg-gray-300/60">
+            <div class="flex-col items-center justify-center hidden h-full col-span-1 md:flex">
+                <hr class="min-h-full w-[1px] bg-gray-300/60">
             </div>
 
             <div class="relative grid self-start grid-cols-1 col-span-1 gap-4 px-3">
@@ -57,11 +59,13 @@
                         'profesor' => 'Movilidad de Docentes hacia el Exterior',
                         'estudiante' => 'Movilidad de Estudiantes hacia el Exterior',
                         'administrativo' => 'Movilidad de Administrativos hacia el Exterior',
+                        'egresado' => 'Movilidad de Egresados hacia el Exterior',
+                        'emprendedor' => 'Movilidad de Emprendedores hacia el Exterior',
                     ];
                 @endphp
 
                 @foreach ($localTypes as $type => $title)
-                    <x-report-table :filtered-events="$events->filter(fn($event) =>  $event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name === 'Colombia' && $assistance->person->type === $type))" :title="$title" :type="$type" is-colombian="true" />
+                    <x-report-table :filtered-events="$events->filter(fn($event) =>  $event->modality === 'presencial' && $event->assistances->contains(fn($assistance) => $assistance->person->country->name === 'Colombia' && $assistance->person->type === $type && $event->location === 'internacional'))" :title="$title" :type="$type" is-colombian="true" />
                 @endforeach
             </div>
         </div>
