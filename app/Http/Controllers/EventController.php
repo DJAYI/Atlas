@@ -64,7 +64,9 @@ class EventController extends Controller
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i',
             'universities' => 'required|array', // Debe ser un array de IDs
-            'universities.*' => 'exists:universities,id' // Cada ID debe existir en la BD
+            'universities.*' => 'exists:universities,id', // Cada ID debe existir en la BD
+            'description' => 'nullable|string',
+            'career_id' => 'nullable|exists:careers,id', // Carrera asociada
         ]);
 
         // Si hay errores de validación, devolverlos
@@ -95,6 +97,7 @@ class EventController extends Controller
             'end_time' => $request->end_time,
             'event_code' => $eventCode,
             'description' => $request->description,
+            'career_id' => $request->career_id, // Carrera asociada
         ]);
 
         // Asociar universidades al evento en la tabla pivote
@@ -176,6 +179,7 @@ class EventController extends Controller
             'universities' => 'required|array', // Debe ser un array de IDs
             'universities.*' => 'exists:universities,id', // Cada ID debe existir en la BD
             'description' => 'nullable|string',
+            'career_id' => 'nullable|exists:careers,id', // Carrera asociada
         ]);
 
         // Si hay errores de validación, devolverlos
@@ -202,6 +206,7 @@ class EventController extends Controller
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'description' => $request->description,
+            'career_id' => $request->career_id, // Carrera asociada
         ]);
         // Actualizar el acuerdo asociado al evento
         if ($request->has_agreement == 'si') {

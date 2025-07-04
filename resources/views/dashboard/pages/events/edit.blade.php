@@ -155,6 +155,7 @@
 
                 <div class="flex flex-col gap-2">
                     <label for="career_id" class="text-gray-500">Carrera</label>
+
                     <select name="career_id" id="career_id" required
                         class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
                         <option selected disabled value="">Seleccione una carrera</option>
