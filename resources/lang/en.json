@@ -87,5 +87,12 @@
     "Formato permitido: JPG, JPEG, PNG, WEBP. Tamaño máximo: 2MB.": "Allowed format: JPG, JPEG, PNG, WEBP. Maximum size: 2MB.",
     "¿Éres un Gestor?": "Are you a Manager?",
     "¿Vas a gestionar tu asistencia?": "Are you going to manage your attendance?",
-    "Inicia Sesión": "Log In"
+    "Inicia Sesión": "Log In",
+    "assistance.already_registered": "You have already registered for this event.",
+    "assistance.file_size_exceeded": "The file size exceeds the maximum limit of 2MB.",
+    "assistance.event_not_found": "Event not found.",
+    "assistance.event_expired": "The event has expired.",
+    "assistance.event_not_started": "The event has not started yet.",
+    "assistance.no_identity_documents_found": "No identity documents found for this event.",
+    "assistance.zip_creation_failed": "Failed to create ZIP file."
 }

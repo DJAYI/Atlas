@@ -96,30 +96,31 @@ class AssistanceController extends Controller
         }
 
         // Validar que el asistente no haya sido registrado previamente
-        $existingAssistance = Assistance::where('event_id', $event->id)
+        $existingPerson = Assistance::where('event_id', $event->id)
             ->where('person_id', $person->id)
             ->first();
 
         /**
          * Handle existing assistance record
          */
-        if ($existingAssistance) {
+        if ($existingPerson) {
             if ($request->hasFile('identity_document')) {
-                // Borrar el archivo anterior si existe
-                if ($existingAssistance->identity_document_file) {
-                    Storage::disk('public')->delete($existingAssistance->identity_document_file);
+                // Delete the previous file if it exists
+                if ($existingPerson->identity_document_file) {
+                    Storage::disk('public')->delete($existingPerson->identity_document_file);
                 }
 
-                // Validar tamaño del archivo (máximo 2MB)
+                // Validate file size (maximum 2MB)
                 if ($request->file('identity_document')->getSize() > 2 * 1024 * 1024) {
                     return redirect()->route('assistance', ['locale' => $request->locale])
-                        ->with('error', __('El archivo no debe superar los 2MB.'));
+                        ->with('error', __('assistance.file_size_exceeded'));
                 }
-                // Subir el nuevo archivo
+
+                // Upload the new file
                 $documentFilePath = $request->file('identity_document')->store('identity_documents', 'public');
 
-                // Actualizar el registro
-                $existingAssistance->update([
+                // Update the record
+                $existingPerson->update([
                     'identity_document_file' => $documentFilePath,
                 ]);
 

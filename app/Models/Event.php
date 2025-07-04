@@ -24,6 +24,8 @@ class Event extends Model
         'start_time',
         'end_time',
         'university_id',
+        'career_id',
+        'description',
     ];
 
     protected $casts = [
@@ -57,6 +59,11 @@ class Event extends Model
     public function assistances()
     {
         return $this->hasMany(Assistance::class);
+    }
+
+    public function career()
+    {
+        return $this->belongsTo(Career::class);
     }
 
     public function isActive(): bool

@@ -46,7 +46,7 @@
                             class="px-4 py-3 transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300">
 
                         @error('email')
-                            <p class="text-red-500 text-sm text-pretty">{{ $message }}</p>
+                            <p class="text-sm text-red-500 text-pretty">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -56,7 +56,7 @@
                             class="px-4 py-3 transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300">
 
                         @error('password')
-                            <p class="text-red-500 text-sm text-pretty">{{ $message }}</p>
+                            <p class="text-sm text-red-500 text-pretty">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -65,13 +65,13 @@
                             <label for="verification_code" class="text-lg">{{ __('Código de verificación') }}</label>
                             <input type="text" name="verification_code" id="verification_code" maxlength="6"
                                 placeholder="Ingresa el código de 6 dígitos" required
-                                class="px-4 py-3 transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300 text-center text-lg font-mono tracking-wider">
+                                class="px-4 py-3 font-mono text-lg tracking-wider text-center transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300">
 
                             @error('verification_code')
-                                <p class="text-red-500 text-sm text-pretty">{{ $message }}</p>
+                                <p class="text-sm text-red-500 text-pretty">{{ $message }}</p>
                             @enderror
 
-                            <div class="flex items-center gap-2 p-3 bg-blue-50 rounded-md">
+                            <div class="flex items-center gap-2 p-3 rounded-md bg-blue-50">
                                 <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
                                         d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
@@ -84,10 +84,10 @@
                         </div>
                     @endif
 
-                    <div class="cf-turnstile" data-sitekey="0x4AAAAAABgyCFXRn5k6igzX"></div>
+                    <div class="cf-turnstile" data-sitekey={{ config('services.turnstile.site_key') }}></div>
 
                     @error('cf-turnstile-response')
-                        <p class="text-red-500 text-sm text-pretty">{{ $message }}</p>
+                        <p class="text-sm text-red-500 text-pretty">{{ $message }}</p>
                     @enderror
 
                     <button type="submit"

@@ -15,12 +15,16 @@
                 <div class="flex flex-col gap-2">
                     <label for="name" class="text-gray-500">Nombre</label>
                     <input required value="{{ $event->name }}" type="text" name="name" id="name"
+                        placeholder="Ingrese el nombre del evento"
                         class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                    <small class="text-gray-400">Ingrese el nombre completo del evento</small>
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="responsable" class="text-gray-500">Responsable</label>
                     <input required value="{{ $event->responsable }}" type="text" name="responsable" id="responsable"
+                        placeholder="Ingrese el nombre del responsable"
                         class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                    <small class="text-gray-400">Indique quién será el responsable del evento</small>
                 </div>
             </div>
         </div>
@@ -31,25 +35,33 @@
                     <label for="start_date" class="text-gray-500">Fecha de Inicio</label>
                     <input required type="date" name="start_date" id="start_date"
                         value="{{ old('start_date', $event->start_date ? $event->start_date->format('Y-m-d') : '') }}"
+                        placeholder="Seleccione la fecha de inicio"
                         class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                    <small class="text-gray-400">Seleccione la fecha en la que comenzará el evento</small>
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="end_date" class="text-gray-500">Fecha de Fin</label>
                     <input required type="date" name="end_date" id="end_date"
                         value="{{ old('end_date', $event->end_date ? $event->end_date->format('Y-m-d') : '') }}"
+                        placeholder="Seleccione la fecha de fin"
                         class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                    <small class="text-gray-400">Seleccione la fecha en la que finalizará el evento</small>
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="start_time" class="text-gray-500">Hora de Inicio</label>
                     <input required type="time" name="start_time" id="start_time"
                         value="{{ old('start_time', $event->start_time ? $event->start_time->format('H:i') : '') }}"
+                        placeholder="Seleccione la hora de inicio"
                         class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                    <small class="text-gray-400">Indique la hora en la que comenzará el evento</small>
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="end_time" class="text-gray-500">Hora de Fin</label>
                     <input required type="time" name="end_time" id="end_time"
                         value="{{ old('end_time', $event->end_time ? $event->end_time->format('H:i') : '') }}"
+                        placeholder="Seleccione la hora de fin"
                         class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                    <small class="text-gray-400">Indique la hora en la que finalizará el evento</small>
                 </div>
             </div>
         </div>
@@ -139,6 +151,28 @@
                             </option>
                         @endforeach
                     </select>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label for="career_id" class="text-gray-500">Carrera</label>
+                    <select name="career_id" id="career_id" required
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        <option selected disabled value="">Seleccione una carrera</option>
+                        @foreach ($careers as $career)
+                            <option value="{{ $career->id }}" @if ($event->career_id == $career->id) selected @endif>
+                                {{ $career->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <small class="text-gray-400">Seleccione la carrera asociada al evento</small>
+                </div>
+
+                <div class="flex flex-col col-span-3 gap-2">
+                    <label for="description" class="text-gray-500">Descripción del Evento</label>
+                    <textarea name="description" id="description" rows="4"
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        placeholder="Escriba el nombre del invitado, la universidad a la que pertenece, su última formación académica y un breve perfil profesional. Indique también el tema a tratar y qué se busca fomentar en los asistentes (estudiantes, docentes, egresados, entre otros).">{{ $event->description }}</textarea>
+                    <small class="text-gray-400">Proporcione una descripción detallada del evento</small>
                 </div>
             </div>
             <div class="grid grid-cols-1">

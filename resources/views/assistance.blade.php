@@ -21,7 +21,7 @@
 
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información Personal') }}</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                         <div class="flex flex-col gap-2">
                             <label for="first_name" class="text-gray-500">{{ __('Nombre') }}<span
@@ -61,7 +61,7 @@
 
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Contacto') }}</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div class="flex flex-col gap-2">
                             <label for="personal_email" class="text-gray-500">{{ __('Correo Electrónico') }}<span
                                     class="text-secondary-400">*</span></label>
@@ -107,7 +107,7 @@
 
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información Adicional') }}</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div class="flex flex-col gap-2">
                             <label for="origin_university" class="text-gray-500">{{ __('Universidad de Origen') }}<span
                                     class="text-secondary-400">*</span></label>
@@ -205,12 +205,12 @@
 
                 <div class="flex flex-col gap-3">
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información de Asistencia') }}</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div class="col-span-2">
                             @livewire('select-mobility', ['type' => session('found') ? session('person')->type : ''])
 
                         </div>
-                        <div class="flex flex-col gap-2 col-span-2 md:col-span-1">
+                        <div class="flex flex-col col-span-2 gap-2 md:col-span-1">
                             <label for="destination_university"
                                 class="text-gray-500">{{ __('Universidad de Destino') }}<span
                                     class="text-secondary-400">*</span></label>
@@ -232,7 +232,7 @@
                             </select>
                         </div>
 
-                        <div class="flex-col hidden gap-2 col-span-2 md:col-span-1">
+                        <div class="flex-col hidden col-span-2 gap-2 md:col-span-1">
                             <label for="identity_document"
                                 class="text-gray-500">{{ __('Fotocopia de Documento de Identidad') }}<span
                                     class="text-secondary-400">*</span></label>
@@ -252,22 +252,21 @@
                                     class="object-cover opacity-0 transition {{ session('identity_document_file') ? '' : 'hidden' }} w-full h-full rounded-lg shadow-sm border-primary-300"
                                     alt="{{ __('Vista previa del documento de identidad') }}">
                             </div>
-                            @if ($error)
-                                <p class="text-red-500 text-sm mt-2">
-                                    {{ $error }}
+                            @if ($errors->has('identity_document'))
+                                <p class="mt-2 text-sm text-red-500">
+                                    {{ $errors->first('identity_document') }}
                                 </p>
-                                
                             @endif
                         </div>
                         {{-- Submit Button --}}
 
                         <div
-                            class="flex col-span-2 md:col-span-2 justify-between w-full px-6 py-4 mt-4 bg-white rounded-lg md:flex-row flex-col gap-4">
-                            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                            class="flex flex-col justify-between w-full col-span-2 gap-4 px-6 py-4 mt-4 bg-white rounded-lg md:col-span-2 md:flex-row">
+                            <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
                                 <button type="submit"
                                     class="px-4 w-full ms-4 col-span-1 items-center mx-auto mt-4 py-3 text-lg font-semibold text-white transition bg-secondary-500 rounded-md hover:shadow-[1px_1px_20px] bg-gradient-to-tr to-secondary-500 from-primary-500 hover:shadow-primary-400/60 bg-blend-lighten hover:bg-secondary-400">{{ __('Registrar Asistencia') }}</button>
                             </div>
-                            <div class="cf-turnstile" data-sitekey="0x4AAAAAABgyCFXRn5k6igzX"
+                            <div class="cf-turnstile" data-sitekey={{ config('services.turnstile.site_key') }}
                                 data-response-field-name="cf-turnstile-response">
                             </div>
                         </div>
@@ -275,12 +274,6 @@
 
                 </div>
             </form>
-        @endif
-
-        @if (session()->has('success'))
-            <div class="w-full p-4 my-4 text-green-700 bg-green-100 border border-green-400">
-                {{ session('success') }}
-            </div>
         @endif
 
         <div class="flex flex-col items-center justify-center w-full px-6 py-4 bg-white ">

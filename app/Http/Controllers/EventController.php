@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Agreement;
+use App\Models\Career;
 use App\Models\Event;
 use App\Models\University;
 use Illuminate\Http\Request;
@@ -93,6 +94,7 @@ class EventController extends Controller
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'event_code' => $eventCode,
+            'description' => $request->description,
         ]);
 
         // Asociar universidades al evento en la tabla pivote
@@ -110,6 +112,8 @@ class EventController extends Controller
     {
         // Buscar el evento por ID
         $event = Event::findOrFail($id);
+        // Obtener todas las carrersa
+        $careers = Career::all();
         // Obtener todas las universidades
         $universities = University::all();
         // Obtener todas las actividades
@@ -122,6 +126,8 @@ class EventController extends Controller
         $agreementAssociated = $event->agreement_id;
         // Obtener la actividad asociada al evento
         $activityAssociated = $event->activity_id;
+        // Obtener la carrera asociada al evento
+        $careerAssociated = $event->career_id;
 
         // Obtener los asistentes al evento
         $assistances = $event->assistances()->with('person')->get();
@@ -139,6 +145,8 @@ class EventController extends Controller
             'activityAssociated',
             'assistances',
             'assistancesPaginated',
+            'careerAssociated',
+            'careers'
         ]));
     }
 
@@ -166,7 +174,8 @@ class EventController extends Controller
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i',
             'universities' => 'required|array', // Debe ser un array de IDs
-            'universities.*' => 'exists:universities,id' // Cada ID debe existir en la BD
+            'universities.*' => 'exists:universities,id', // Cada ID debe existir en la BD
+            'description' => 'nullable|string',
         ]);
 
         // Si hay errores de validación, devolverlos
@@ -192,6 +201,7 @@ class EventController extends Controller
             'end_date' => $request->end_date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'description' => $request->description,
         ]);
         // Actualizar el acuerdo asociado al evento
         if ($request->has_agreement == 'si') {

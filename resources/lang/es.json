@@ -1,1 +1,9 @@
-{}
+{
+    "assistance.already_registered": "Ya te has registrado para este evento.",
+    "assistance.file_size_exceeded": "El tamaño del archivo supera el límite máximo de 2MB.",
+    "assistance.event_not_found": "Evento no encontrado.",
+    "assistance.event_expired": "El evento ha expirado.",
+    "assistance.event_not_started": "El evento aún no ha comenzado.",
+    "assistance.no_identity_documents_found": "No se encontraron documentos de identidad para este evento.",
+    "assistance.zip_creation_failed": "Error al crear el archivo ZIP."
+}

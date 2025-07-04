@@ -1,4 +1,4 @@
-<nav class="flex flex-col md:flex-row md:items-center gap-4 mb-3 p-6">
+<nav class="flex flex-col gap-4 p-6 mb-3 md:flex-row md:items-center">
     <li class="list-none w-fit">
         <a class="flex flex-row items-center gap-1 px-4 py-2 text-lg font-semibold transition rounded-md shadow-xl group shadow-transparent hover:shadow-red-300 ring-1 hover:ring-4 ring-red-300 hover:text-white w-fit hover:bg-red-500"
             href="{{ route('home', ['locale' => 'es']) }}">
@@ -9,9 +9,9 @@
         </a>
     </li>
 
-    <li class="md:w-2/5 w-full md:mx-3 list-none">
+    <li class="w-full list-none md:w-2/5 md:mx-3">
         <span>
-            <h1 class="text-2xl sm:text-3xl font-black drop-shadow-md ">
+            <h1 class="text-2xl font-black sm:text-3xl drop-shadow-md ">
                 {{ __('Verifíca tu Asistencia') }}
             </h1>
         </span>
@@ -23,10 +23,10 @@
     @csrf
     @method('POST')
 
-    <div class="flex flex-col md:flex-row items-center justify-center w-full">
+    <div class="flex flex-col items-center justify-center w-full md:flex-row">
 
         {{-- Tipo de documento --}}
-        <div class="flex flex-col w-full gap-4 md:py-4 px-6">
+        <div class="flex flex-col w-full gap-4 px-6 md:py-4">
             <label for="document_type" class="text-lg font-semibold text-gray-700">
                 {{ __('Tipo de documento') }} <span class="text-secondary-400">*</span>
             </label>
@@ -78,8 +78,8 @@
         </div>
     </div>
 
-    <div class="flex justify-between w-full px-6 py-4 mt-4 bg-white rounded-lg md:flex-row flex-col gap-4">
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAABgyCFXRn5k6igzX"
+    <div class="flex flex-col justify-between w-full gap-4 px-6 py-4 mt-4 bg-white rounded-lg md:flex-row">
+        <div class="cf-turnstile" data-sitekey={{ config('services.turnstile.site_key') }}
             data-response-field-name="cf-turnstile-response"></div>
 
         {{-- Botón de búsqueda --}}
@@ -93,7 +93,7 @@
         <div class="w-full p-4 my-4 text-red-700 bg-red-100 border border-red-400">
             <ul>
                 @foreach ($errors->all() as $error)
-                    <li class="flex gap-2 items-center"> <span class="w-2 h-2 rounded-full bg-red-500 p-1 block"></span>
+                    <li class="flex items-center gap-2"> <span class="block w-2 h-2 p-1 bg-red-500 rounded-full"></span>
                         {{ $error }}</li>
                 @endforeach
             </ul>
@@ -104,6 +104,12 @@
     @if (session('success'))
         <div class="w-full p-4 my-4 text-green-700 bg-green-100 border border-green-400">
             {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="w-full p-4 my-4 text-red-700 bg-red-100 border border-red-400">
+            {{ session('error') }}
         </div>
     @endif
 </form>
