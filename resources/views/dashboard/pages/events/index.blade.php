@@ -31,7 +31,7 @@
                 </div>
                 <div class="flex flex-row gap-2">
                     <a href="{{ route('events.edit', $event->id) }}"
-                        class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                        class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                         popovertarget="edit-event" popoverdata="{{ $event->id }}">Ver más</a>
                     <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
                         @csrf
@@ -74,7 +74,7 @@
         </thead>
         <tbody id="table-data" class="">
             @foreach ($eventsPaginated->sortByDesc('created_at') as $event)
-                <tr class="hover:bg-primary-50/50 transition">
+                <tr class="transition hover:bg-primary-50/50">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{ $event->name }}
                     </td>
@@ -99,9 +99,9 @@
                             {{ $event->isActive() ? 'Activo' : 'Inactivo' }}
                         </span>
                     </td>
-                    <td class="px-6 py-4 flex flex-col gap-2">
+                    <td class="flex flex-col gap-2 px-6 py-4">
                         <a href="{{ route('events.edit', $event->id) }}"
-                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                             popovertarget="edit-event" popoverdata="{{ $event->id }}">Ver más</a>
                         <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
                             @csrf

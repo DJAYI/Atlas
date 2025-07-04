@@ -17,7 +17,7 @@
 
         <div class="relative sm:w-1/2">
             <input required type="text" placeholder="Buscar convenio" id="filter-search"
-                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border border-primary-300 rounded-lg shadow-sm">
+                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border rounded-lg shadow-sm border-primary-300">
             <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -64,7 +64,7 @@
 
                     <td class="px-6 py-4">
                         <a href="{{ route('agreements.edit', $agreement->id) }}"
-                            class="inline-block inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                             popovertarget="edit-university" popoverdata="{{ $agreement->id }}">Ver más</a>
                         <form action="{{ route('agreements.destroy', $agreement->id) }}" method="POST" class="inline">
                             @csrf

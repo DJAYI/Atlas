@@ -1,4 +1,4 @@
-<table class="text-sm text-gray-500 rounded-lg text-center">
+<table class="text-sm text-center text-gray-500 rounded-lg">
     <thead>
         <tr class="px-2 py-1 text-sm font-semibold text-gray-700 uppercase bg-gray-100">
             <th class="px-2 py-1 border">Nombre</th>
@@ -27,20 +27,21 @@
             @endphp
 
 
-            <tr class="hover:bg-gray-50 transition">
+            <tr class="transition hover:bg-gray-50">
                 <td class="px-2 py-1 border">
                     {{ $assistance->person->firstname . ' ' . ($assistance->person->middlename ?? '') . ' ' . $assistance->person->lastname . ' ' . ($assistance->person->second_lastname ?? '') }}
                 </td>
                 <td class="px-2 py-1 border">{{ $assistance->person->document_type }}</td>
                 <td class="px-2 py-1 border">{{ $assistance->person->document_number }}</td>
 
-                <td>Por su participación en el evento de tipo {{ $assistance->event->activity->name }} del programa
-                    {{ $assistance->person->career->name }} en modalidad {{ $assistance->event->modality }} durante
-                    {{ abs($end->diffInDays($start)) + 1 }} días</td>
+                <td>Por su participación en el evento</td>
 
-                <td class="px-2 py-1 border">{{ $assistance->event->name }}</td>
+                <td class="px-2 py-1 border">{{ $assistance->event->activity->name }} - {{ $assistance->event->name }}
+                </td>
 
-                <td></td>
+                <td>Agradecemos su aporte al mejoramiento de la calidad educativa a través de la transferencia del
+                    conocimiento y el intercambio de experiencias académicas y multiculturales en Cartagena- Colombia.
+                </td>
 
                 <td class="px-2 py-1 border">
 
