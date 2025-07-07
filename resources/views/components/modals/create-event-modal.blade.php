@@ -86,6 +86,9 @@
                         <option value="si">Si</option>
                         <option value="no">No</option>
                     </select>
+
+                    <small class="text-gray-400">Solo si el evento es realizada dentro de la Fundación Universitaria
+                        Tecnológico Comfenalco</small>
                 </div>
 
                 <div class="flex flex-col gap-2">
