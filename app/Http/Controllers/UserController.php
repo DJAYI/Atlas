@@ -28,6 +28,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'institutional_email' => 'required|string|email|max:255|unique:users,institutional_email',
             'password' => 'required|string|min:8',
             'role' => 'required|exists:roles,name',
         ]);
@@ -35,6 +36,7 @@ class UserController extends Controller
         $user = User::create([
             'username' => $validated['username'],
             'email' => $validated['email'],
+            'institutional_email' => $validated['institutional_email'],
             'password' => Hash::make($validated['password']),
         ]);
 
@@ -46,6 +48,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+     public function edit(string $id)
+     {
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+        
+        return view('dashboard.pages.users.edit', compact('user', 'roles'));
+     }
+
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
@@ -53,6 +64,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'institutional_email' => 'required|string|email|max:255|unique:users,institutional_email,'.$user->id,
             'password' => 'nullable|string|min:8',
             'role' => 'required|exists:roles,name',
         ]);
@@ -60,6 +72,7 @@ class UserController extends Controller
         $user->update([
             'username' => $validated['username'],
             'email' => $validated['email'],
+            'institutional_email' => $validated['institutional_email'],
         ]);
 
         if (!empty($validated['password'])) {

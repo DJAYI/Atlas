@@ -12,169 +12,88 @@
             </button>
         @endcan
     </div>
+    <br>
+    <div class="flex flex-row justify-between mx-5">
+        <h3 class="text-lg font-semibold">Todos los Usuarios</h3>
+
+        <div class="relative sm:w-1/2">
+            <input required type="text" placeholder="Buscar usuario" id="filter-search"
+                class="w-full px-4 py-2 pl-10 pr-4 placeholder-gray-500 transition bg-white border rounded-lg shadow-sm border-primary-300">
+            <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+        </div>
+    </div>
+    <br>
 
     <!-- Users List -->
-    <div class="mt-6">
-        <table class="w-full border-collapse">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="p-2 text-left">Nombre</th>
-                    <th class="p-2 text-left">Correo</th>
-                    <th class="p-2 text-left">Rol</th>
-                    <th class="p-2 text-center">Acciones</th>
+    <table class="w-full text-sm text-left text-gray-500 rtl:text-right">
+        <thead class="text-gray-700 uppercase">
+            <tr>
+                <th scope="col" class="px-6 py-3">Nombre</th>
+                <th scope="col" class="px-6 py-3">Correo</th>
+                <th scope="col" class="px-6 py-3">Rol</th>
+                <th scope="col" class="px-6 py-3">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="table-data">
+            @foreach ($users as $user)
+                <tr class="transition hover:bg-primary-50/50">
+                    <td
+                        class="max-w-full px-6 py-4 overflow-hidden font-medium text-gray-900 text-ellipsis whitespace-nowrap">
+                        {{ $user->username }}
+                    </td>
+                    <td class="px-6 py-4 text-ellipsis max-w-[200px] overflow-hidden whitespace-nowrap">
+                        {{ $user->email }}
+                    </td>
+                    <td class="px-6 py-4">
+                        @foreach ($user->roles as $role)
+                            <span
+                                class="px-2 py-1 text-xs font-semibold text-white rounded-full {{ $role->name == 'admin' ? 'bg-red-500' : 'bg-blue-500' }}">
+                                {{ ucfirst($role->name) }}
+                            </span>
+                        @endforeach
+                    </td>
+                    <td class="flex gap-2 px-6 py-4">
+                        @can('manage users')
+                            <a href="{{ route('users.edit', $user->id) }}"
+                                class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95">
+                                Ver más
+                            </a>
+
+                            @if ($user->id !== auth()->id())
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
+                                        onclick="return confirm('¿Estás seguro de querer eliminar este usuario?')">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            @endif
+                        @endcan
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $user)
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="p-2">{{ $user->username }}</td>
-                        <td class="p-2">{{ $user->email }}</td>
-                        <td class="p-2">
-                            @foreach ($user->roles as $role)
-                                <span
-                                    class="px-2 py-1 text-xs font-semibold text-white rounded-full {{ $role->name == 'admin' ? 'bg-red-500' : 'bg-blue-500' }}">
-                                    {{ ucfirst($role->name) }}
-                                </span>
-                            @endforeach
-                        </td>
-                        <td class="p-2 text-center">
-                            @can('manage users')
-                                <button class="px-3 py-1 mr-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-                                    popovertarget="edit-user"
-                                    popoverdata="{{ json_encode([
-                                        'id' => $user->id,
-                                        'username' => $user->username,
-                                        'email' => $user->email,
-                                        'role' => $user->roles->first() ? $user->roles->first()->name : '',
-                                    ]) }}">
-                                    Editar
-                                </button>
+            @endforeach
 
-                                @if ($user->id !== auth()->id())
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-                                            onclick="return confirm('¿Estás seguro de querer eliminar este usuario?')">
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                @endif
-                            @endcan
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+            @if ($users->isEmpty())
+                <tr>
+                    <td colspan="4" class="px-6 py-4 text-center">
+                        No hay usuarios disponibles.
+                    </td>
+                </tr>
+            @endif
+        </tbody>
+    </table>
 
-    <!-- Create User Popover -->
-    <div id="create-user" popover class="p-6 bg-white border rounded-lg shadow-lg w-96">
-        <h3 class="mb-4 text-xl font-semibold">Crear Nuevo Usuario</h3>
-        <form action="{{ route('users.store') }}" method="POST">
-            @csrf
-            <div class="mb-4">
-                <label for="username" class="block mb-1 font-medium">Nombre</label>
-                <input type="text" id="username" name="username" required
-                    class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-primary-300">
-            </div>
-            <div class="mb-4">
-                <label for="email" class="block mb-1 font-medium">Correo Electrónico</label>
-                <input type="email" id="email" name="email" required
-                    class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-primary-300">
-            </div>
-            <div class="mb-4">
-                <label for="password" class="block mb-1 font-medium">Contraseña</label>
-                <input type="password" id="password" name="password" required
-                    class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-primary-300">
-            </div>
-            <div class="mb-4">
-                <label for="role" class="block mb-1 font-medium">Rol</label>
-                <select id="role" name="role" required
-                    class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-primary-300">
-                    @foreach ($roles as $role)
-                        <option value="{{ $role->name }}">{{ ucfirst($role->name) }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="flex justify-end gap-2">
-                <button type="button" popovertarget="create-user" popovertargetaction="hide"
-                    class="px-4 py-2 text-gray-700 bg-gray-200 rounded hover:bg-gray-300">Cancelar</button>
-                <button type="submit"
-                    class="px-4 py-2 text-white bg-primary-600 rounded hover:bg-primary-700">Guardar</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Edit User Popover -->
-    <div id="edit-user" popover class="p-6 bg-white border rounded-lg shadow-lg w-96">
-        <h3 class="mb-4 text-xl font-semibold">Editar Usuario</h3>
-        <form id="edit-user-form" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="mb-4">
-                <label for="edit_username" class="block mb-1 font-medium">Nombre</label>
-                <input type="text" id="edit_username" name="username" required
-                    class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-primary-300">
-            </div>
-            <div class="mb-4">
-                <label for="edit_email" class="block mb-1 font-medium">Correo Electrónico</label>
-                <input type="email" id="edit_email" name="email" required
-                    class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-primary-300">
-            </div>
-            <div class="mb-4">
-                <label for="edit_password" class="block mb-1 font-medium">Contraseña (dejar en blanco para mantener la
-                    actual)</label>
-                <input type="password" id="edit_password" name="password"
-                    class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-primary-300">
-            </div>
-            <div class="mb-4">
-                <label for="edit_role" class="block mb-1 font-medium">Rol</label>
-                <select id="edit_role" name="role" required
-                    class="w-full px-3 py-2 border rounded-md focus:ring focus:ring-primary-300">
-                    @foreach ($roles as $role)
-                        <option value="{{ $role->name }}">{{ ucfirst($role->name) }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="flex justify-end gap-2">
-                <button type="button" popovertarget="edit-user" popovertargetaction="hide"
-                    class="px-4 py-2 text-gray-700 bg-gray-200 rounded hover:bg-gray-300">Cancelar</button>
-                <button type="submit"
-                    class="px-4 py-2 text-white bg-primary-600 rounded hover:bg-primary-700">Actualizar</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- JavaScript for the Edit User form -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const editButtons = document.querySelectorAll('[popovertarget="edit-user"]');
-
-            editButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const userData = JSON.parse(this.getAttribute('popoverdata'));
-                    const form = document.getElementById('edit-user-form');
-
-                    // Set form action URL
-                    form.action = `/dashboard/users/${userData.id}`;
-
-                    // Fill form fields
-                    document.getElementById('edit_username').value = userData.username;
-                    document.getElementById('edit_email').value = userData.email;
-                    document.getElementById('edit_password').value = '';
-
-                    // Set the role
-                    const roleSelect = document.getElementById('edit_role');
-                    for (let i = 0; i < roleSelect.options.length; i++) {
-                        if (roleSelect.options[i].value === userData.role) {
-                            roleSelect.selectedIndex = i;
-                            break;
-                        }
-                    }
-                });
-            });
-        });
-    </script>
+    @if (method_exists($users, 'links'))
+        {{ $users->links() }}
+    @endif
 </x-layouts.dashboard-layout>
+
+<x-modals.create-user-modal :roles="$roles" />
+
+<script src="{{ asset('js/modules/utils/filterSearch.js') }}"></script>

@@ -94,6 +94,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     // User management routes - only accessible by admin with manage users permission
     Route::prefix('users')->middleware('permission:manage users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users');
+        Route::get('/{id}', [UserController::class, 'edit'])->name('users.edit')->where('id', '[0-9]+');
         Route::post('/', [UserController::class, 'store'])->name('users.store');
         Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
