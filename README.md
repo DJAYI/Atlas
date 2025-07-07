@@ -4,7 +4,7 @@
 
 <h2>Fundación Universitaria Tecnológico Comfenalco</h2>
 
-# Proyecto Hermes
+# Proyecto Wonderlust
 
 <table>
     <thead>

@@ -1,5 +1,13 @@
 <x-app-layout>
-    <x-utils.language-selector route="assistance" />
+    <div class="flex items-center justify-around">
+        <div class="flex flex-row items-center justify-center">
+            <img loading="lazy" src="{{ asset('images/wonderlust_logo.webp') }}"
+                class="h-16 mix-blend-multiply brightness-105" alt="">
+            <h1 class="text-3xl font-black text-primary-700">Wonderlust</h1>
+        </div>
+
+        <x-utils.language-selector route="assistance" />
+    </div>
 
     <div style="view-transition-name: assistance-view"
         class="grid mt-2 w-auto min-h-screen grid-cols-1 grid-rows-[100px_1fr] gap-5 mx-auto bg-white sm:max-w-5xl rounded-t-xl md:grid-cols-1 ">
@@ -109,7 +117,8 @@
                     <h3 class="text-xl font-semibold text-gray-600">{{ __('Información Adicional') }}</h3>
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div class="flex flex-col gap-2">
-                            <label for="origin_university" class="text-gray-500">{{ __('Universidad de Origen') }}<span
+                            <label for="origin_university"
+                                class="text-gray-500">{{ __('Universidad de Origen') }}<span
                                     class="text-secondary-400">*</span></label>
                             <select id="origin_university" name="origin_university"
                                 class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">

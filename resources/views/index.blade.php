@@ -1,11 +1,19 @@
 <x-app-layout>
-    <x-utils.language-selector route="home" />
+    <div class="flex items-center justify-around">
+        <div class="flex flex-row items-center justify-center">
+            <img loading="lazy" src="{{ asset('images/wonderlust_logo.webp') }}"
+                class="h-16 mix-blend-multiply brightness-105" alt="">
+            <h1 class="text-3xl font-black text-primary-700">Wonderlust</h1>
+        </div>
+
+        <x-utils.language-selector route="home" />
+    </div>
 
     <div
         class="grid w-full mb-6 h-dvh grid-cols-1 gap-5 mx-auto md:grid-cols-[1fr_4px_1fr] max-w-7xl sm:place-items-center items-start">
         <div class="flex flex-col justify-center gap-4 mt-8">
             <h1 class="text-5xl font-black text-center sm:hidden drop-shadow-md ">{{ __('Bienvenido a') }} <span
-                    class="text-secondary-400">Hermes</span></h1>
+                    class="text-secondary-400">Wonderlust</span></h1>
             <h1 class="text-3xl font-black text-center drop-shadow-md ">
                 {{ __('¿Éres un Asistente?') }}</h1>
 
@@ -24,7 +32,7 @@
         </div>
         <div class="flex-col justify-center gap-4 mx-4 sm:flex">
             <h1 class="hidden text-5xl font-black text-center sm:block drop-shadow-md ">{{ __('Bienvenido a') }} <span
-                    class="text-secondary-400">Hermes</span></h1>
+                    class="text-secondary-400">Wonderlust</span></h1>
 
             <h1 class="text-3xl font-black text-center sm:hidden drop-shadow-md ">
                 {{ __('¿Éres un Gestor?') }} <br> {{ __('Inicia Sesión') }}</h1>
