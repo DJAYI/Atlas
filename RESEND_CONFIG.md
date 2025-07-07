@@ -10,7 +10,7 @@
 MAIL_MAILER=resend
 RESEND_API_KEY=re_h7wY79xT_Jf2s3qZ47Rof6txyjJmCeVYo
 MAIL_FROM_ADDRESS="onboarding@resend.dev"
-MAIL_FROM_NAME="Atlas - Tecnológico Comfenalco"
+MAIL_FROM_NAME="Wonderlust - Tecnológico Comfenalco"
 ```
 
 ## Limitaciones en Modo Desarrollo
@@ -32,7 +32,7 @@ MAIL_FROM_NAME="Atlas - Tecnológico Comfenalco"
 
 ```env
 MAIL_FROM_ADDRESS="noreply@tecnologicocomfenalco.edu.co"
-MAIL_FROM_NAME="Atlas - Tecnológico Comfenalco"
+MAIL_FROM_NAME="Wonderlust - Tecnológico Comfenalco"
 ```
 
 ### 3. Probar en Producción

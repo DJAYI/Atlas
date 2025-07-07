@@ -3,11 +3,13 @@
         <h2 class="text-2xl font-semibold text-primary-700">
             Gestión de Actividades
         </h2>
-        <button
-            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-            popovertarget="create-activity">
-            Crear Actividad
-        </button>
+        @can('create activities')
+            <button
+                class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                popovertarget="create-activity">
+                Crear Actividad
+            </button>
+        @endcan
     </div>
     <br>
     <div class="flex flex-row justify-between">
@@ -47,16 +49,21 @@
                         {{ $activity->description }}
                     </td>
                     <td colspan="1" class="px-6 py-4">
-                        <a href="{{ route('activities.edit', $activity->id) }}"
-                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-                            popovertarget="edit-activity" popoverdata="{{ $activity->id }}">Ver más</a>
-                        <form action="{{ route('activities.destroy', $activity->id) }}" method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
-                                popovertarget="delete-activity" popoverdata="{{ $activity->id }}">Eliminar</button>
-                        </form>
+                        @canany(['edit activities', 'view activities'])
+                            <a href="{{ route('activities.edit', $activity->id) }}"
+                                class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                                popovertarget="edit-activity" popoverdata="{{ $activity->id }}">Ver más</a>
+                        @endcanany
+
+                        @can('delete activities')
+                            <form action="{{ route('activities.destroy', $activity->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
+                                    popovertarget="delete-activity" popoverdata="{{ $activity->id }}">Eliminar</button>
+                            </form>
+                        @endcan
                     </td>
                 </tr>
             @endforeach

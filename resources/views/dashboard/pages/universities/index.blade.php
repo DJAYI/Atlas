@@ -4,11 +4,13 @@
             Gestión de Universidades
         </h2>
 
-        <button
-            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-            popovertarget="create-university">
-            Crear Universidad
-        </button>
+        @can('create universities')
+            <button
+                class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                popovertarget="create-university">
+                Crear Universidad
+            </button>
+        @endcan
     </div>
     <br>
 
@@ -58,17 +60,22 @@
                     </td>
 
                     <td class="px-6 py-4">
-                        <a href="{{ route('universities.edit', $university->id) }}"
-                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-                            popovertarget="edit-university" popoverdata="{{ $university->id }}">Ver más</a>
-                        <form action="{{ route('universities.destroy', $university->id) }}" method="POST"
-                            class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
-                                popovertarget="delete-university" popoverdata="{{ $university->id }}">Eliminar</button>
-                        </form>
+                        @canany(['edit universities', 'view universities'])
+                            <a href="{{ route('universities.edit', $university->id) }}"
+                                class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                                popovertarget="edit-university" popoverdata="{{ $university->id }}">Ver más</a>
+                        @endcanany
+
+                        @can('delete universities')
+                            <form action="{{ route('universities.destroy', $university->id) }}" method="POST"
+                                class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
+                                    popovertarget="delete-university" popoverdata="{{ $university->id }}">Eliminar</button>
+                            </form>
+                        @endcan
                     </td>
                 </tr>
             @endforeach

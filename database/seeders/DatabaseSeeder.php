@@ -16,14 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        User::create([
-            'username' => 'Admin',
-            'email' => 'danilo.arenasyi@gmail.com',
-            'institutional_email' => 'academic@mail.com',
-            'password' => 'password',
-        ]);
-
         $this->call([
             CountrySeeder::class,
             MobilitiesSeeder::class,
@@ -31,8 +23,9 @@ class DatabaseSeeder extends Seeder
             ActivitiesSeeder::class,
             CareersSeeder::class,
             UniversitySeeder::class,
+            RoleAndPermissionSeeder::class, // Add roles and permissions
             // PersonSeeder::class,
-            // UserSeeder::class,
+            UserSeeder::class, // Create users with roles
             // EventSeeder::class,
         ]);
     }

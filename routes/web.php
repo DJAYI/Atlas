@@ -8,6 +8,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
@@ -41,54 +42,61 @@ Route::post('/{locale}/assistance/verify', [AssistanceController::class, 'verify
 Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
         return view('dashboard.index');
-    })->name('dashboard');
+    })->middleware(['permission:access dashboard', 'redirect.auxiliar'])->name('dashboard');
 
     Route::prefix('events')->group(function () {
-
-        Route::get('/', [EventController::class, 'index'])->name('events');
-        Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate.report');
-        Route::post('/generate-certificate', [ReportController::class, 'generateTemplateCertificates'])->name('generate.certificate');
-        Route::get('/edit/{id}', [EventController::class, 'edit'])->name('events.edit');
-        Route::post('/', [EventController::class, 'store'])->name('events.store');
-        Route::put('/{id}', [EventController::class, 'update'])->name('events.update');
-        Route::delete('/{id}', [EventController::class, 'destroy'])->name('events.destroy');
-        Route::post('/events/{id}/surveys', [SurveyController::class, 'sendAllSurveys'])->name('events.sendAllSurveys');
-        Route::post('/events/{event_id}/surveys/{assistance_id}', [SurveyController::class, 'sendSurvey'])->name('events.sendSurvey');
-        Route::post('/events/{event_id}/assistances', [AssistanceController::class, 'exportAssistances'])->name('events.exportAssistances');
-        Route::post('/events/{event_id}/assistances/zip', [AssistanceController::class, 'exportIdentityDocumentsZip'])->name('events.zipIdentityDocuments');
+        Route::get('/', [EventController::class, 'index'])->middleware('permission:view events')->name('events');
+        Route::post('/generate-report', [ReportController::class, 'generateReport'])->middleware('permission:generate reports')->name('generate.report');
+        Route::post('/generate-certificate', [ReportController::class, 'generateTemplateCertificates'])->middleware('permission:generate reports')->name('generate.certificate');
+        Route::get('/edit/{id}', [EventController::class, 'edit'])->middleware('permission:edit events|view events')->name('events.edit');
+        Route::post('/', [EventController::class, 'store'])->middleware('permission:create events')->name('events.store');
+        Route::put('/{id}', [EventController::class, 'update'])->middleware('permission:edit events')->name('events.update');
+        Route::delete('/{id}', [EventController::class, 'destroy'])->middleware('permission:delete events')->name('events.destroy');
+        Route::post('/events/{id}/surveys', [SurveyController::class, 'sendAllSurveys'])->middleware('permission:edit events')->name('events.sendAllSurveys');
+        Route::post('/events/{event_id}/surveys/{assistance_id}', [SurveyController::class, 'sendSurvey'])->middleware('permission:edit events')->name('events.sendSurvey');
+        Route::post('/events/{event_id}/assistances', [AssistanceController::class, 'exportAssistances'])->middleware('permission:view events')->name('events.exportAssistances');
+        Route::post('/events/{event_id}/assistances/zip', [AssistanceController::class, 'exportIdentityDocumentsZip'])->middleware('permission:view events')->name('events.zipIdentityDocuments');
     });
 
     Route::prefix('universities')->group(function () {
-        Route::get('/', [UniversityController::class, 'index'])->name('universities');
-        Route::get('/{id}', [UniversityController::class, 'edit'])->name('universities.edit');
-        Route::post('/', [UniversityController::class, 'store'])->name('universities.store');
-        Route::put('/{id}', [UniversityController::class, 'update'])->name('universities.update');
-        Route::delete('/{id}', [UniversityController::class, 'destroy'])->name('universities.destroy');
+        Route::get('/', [UniversityController::class, 'index'])->middleware('permission:view universities')->name('universities');
+        Route::get('/{id}', [UniversityController::class, 'edit'])->middleware('permission:edit universities|view universities')->name('universities.edit');
+        Route::post('/', [UniversityController::class, 'store'])->middleware('permission:create universities')->name('universities.store');
+        Route::put('/{id}', [UniversityController::class, 'update'])->middleware('permission:edit universities')->name('universities.update');
+        Route::delete('/{id}', [UniversityController::class, 'destroy'])->middleware('permission:delete universities')->name('universities.destroy');
     });
 
     Route::prefix('activities')->group(function () {
-        Route::get('/', [ActivityController::class, 'index'])->name('activities');
-        Route::get('/{id}', [ActivityController::class, 'edit'])->name('activities.edit');
-        Route::post('/', [ActivityController::class, 'store'])->name('activities.store');
-        Route::put('/{id}', [ActivityController::class, 'update'])->name('activities.update');
-        Route::delete('/{id}', [ActivityController::class, 'destroy'])->name('activities.destroy');
+        Route::get('/', [ActivityController::class, 'index'])->middleware('permission:view activities')->name('activities');
+        Route::get('/{id}', [ActivityController::class, 'edit'])->middleware('permission:edit activities|view activities')->name('activities.edit');
+        Route::post('/', [ActivityController::class, 'store'])->middleware('permission:create activities')->name('activities.store');
+        Route::put('/{id}', [ActivityController::class, 'update'])->middleware('permission:edit activities')->name('activities.update');
+        Route::delete('/{id}', [ActivityController::class, 'destroy'])->middleware('permission:delete activities')->name('activities.destroy');
     });
 
     Route::prefix('agreements')->group(function () {
-        Route::get('/', [AgreementController::class, 'index'])->name('agreements');
-        Route::get('/{id}', [AgreementController::class, 'show'])->name('agreements.show');
-        Route::post('/', [AgreementController::class, 'store'])->name('agreements.store');
-        Route::put('/{id}', [AgreementController::class, 'update'])->name('agreements.update');
-        Route::get('/{id}', [AgreementController::class, 'edit'])->name('agreements.edit');
-        Route::delete('/{id}', [AgreementController::class, 'destroy'])->name('agreements.destroy');
+        Route::get('/', [AgreementController::class, 'index'])->middleware('permission:view agreements')->name('agreements');
+        Route::get('/{id}', [AgreementController::class, 'show'])->middleware('permission:view agreements')->name('agreements.show');
+        Route::post('/', [AgreementController::class, 'store'])->middleware('permission:create agreements')->name('agreements.store');
+        Route::put('/{id}', [AgreementController::class, 'update'])->middleware('permission:edit agreements')->name('agreements.update');
+        Route::get('/{id}', [AgreementController::class, 'edit'])->middleware('permission:edit agreements|view agreements')->name('agreements.edit');
+        Route::delete('/{id}', [AgreementController::class, 'destroy'])->middleware('permission:delete agreements')->name('agreements.destroy');
     });
 
     Route::prefix('careers')->group(function () {
-        Route::get('/', [CareerController::class, 'index'])->name('careers');
-        Route::get('/{id}', [CareerController::class, 'edit'])->name('careers.edit');
-        Route::post('/', [CareerController::class, 'store'])->name('careers.store');
-        Route::put('/{id}', [CareerController::class, 'update'])->name('careers.update');
-        Route::delete('/{id}', [CareerController::class, 'destroy'])->name('careers.destroy');
+        Route::get('/', [CareerController::class, 'index'])->middleware('permission:view programs')->name('careers');
+        Route::get('/{id}', [CareerController::class, 'edit'])->middleware('permission:edit programs|view programs')->name('careers.edit');
+        Route::post('/', [CareerController::class, 'store'])->middleware('permission:create programs')->name('careers.store');
+        Route::put('/{id}', [CareerController::class, 'update'])->middleware('permission:edit programs')->name('careers.update');
+        Route::delete('/{id}', [CareerController::class, 'destroy'])->middleware('permission:delete programs')->name('careers.destroy');
+    });
+    
+    // User management routes - only accessible by admin with manage users permission
+    Route::prefix('users')->middleware('permission:manage users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('users');
+        Route::post('/', [UserController::class, 'store'])->name('users.store');
+        Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 });
 

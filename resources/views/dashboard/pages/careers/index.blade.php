@@ -3,11 +3,13 @@
         <h2 class="text-2xl font-semibold text-primary-700">
             Gestión de Programas </h2>
 
-        <button
-            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-            popovertarget="create-career">
-            Crear Programa
-        </button>
+        @can('create programs')
+            <button
+                class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                popovertarget="create-career">
+                Crear Programa
+            </button>
+        @endcan
     </div>
     <br>
     <div class="flex flex-row justify-between mx-5">
@@ -58,16 +60,21 @@
                     @endif
 
                     <td class="flex gap-2 px-6 py-4">
-                        <a href="{{ route('careers.edit', $career->id) }}"
-                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-                            popovertarget="edit-career" popoverdata="{{ $career->id }}">Ver más</a>
-                        <form action="{{ route('careers.destroy', $career->id) }}" method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
-                                popovertarget="delete-career" popoverdata="{{ $career->id }}">Eliminar</button>
-                        </form>
+                        @canany(['edit programs', 'view programs'])
+                            <a href="{{ route('careers.edit', $career->id) }}"
+                                class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                                popovertarget="edit-career" popoverdata="{{ $career->id }}">Ver más</a>
+                        @endcanany
+
+                        @can('delete programs')
+                            <form action="{{ route('careers.destroy', $career->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
+                                    popovertarget="delete-career" popoverdata="{{ $career->id }}">Eliminar</button>
+                            </form>
+                        @endcan
                     </td>
                 </tr>
             @endforeach

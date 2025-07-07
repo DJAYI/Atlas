@@ -9,6 +9,11 @@
         @csrf
         @method('PUT')
 
+        @php
+            $readonly = !auth()->user()->can('edit events') ? 'readonly' : '';
+            $disabled = !auth()->user()->can('edit events') ? 'disabled' : '';
+        @endphp
+
         <div class="flex flex-col gap-3">
             <h3 class="text-xl font-semibold text-gray-600">Información General</h3>
             <div class="grid grid-cols-2 gap-4">
@@ -16,14 +21,16 @@
                     <label for="name" class="text-gray-500">Nombre</label>
                     <input required value="{{ $event->name }}" type="text" name="name" id="name"
                         placeholder="Ingrese el nombre del evento"
-                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $readonly }}>
                     <small class="text-gray-400">Ingrese el nombre completo del evento</small>
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="responsable" class="text-gray-500">Responsable</label>
                     <input required value="{{ $event->responsable }}" type="text" name="responsable" id="responsable"
                         placeholder="Ingrese el nombre del responsable"
-                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $readonly }}>
                     <small class="text-gray-400">Indique quién será el responsable del evento</small>
                 </div>
             </div>
@@ -36,7 +43,8 @@
                     <input required type="date" name="start_date" id="start_date"
                         value="{{ old('start_date', $event->start_date ? $event->start_date->format('Y-m-d') : '') }}"
                         placeholder="Seleccione la fecha de inicio"
-                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $readonly }}>
                     <small class="text-gray-400">Seleccione la fecha en la que comenzará el evento</small>
                 </div>
                 <div class="flex flex-col gap-2">
@@ -44,7 +52,8 @@
                     <input required type="date" name="end_date" id="end_date"
                         value="{{ old('end_date', $event->end_date ? $event->end_date->format('Y-m-d') : '') }}"
                         placeholder="Seleccione la fecha de fin"
-                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $readonly }}>
                     <small class="text-gray-400">Seleccione la fecha en la que finalizará el evento</small>
                 </div>
                 <div class="flex flex-col gap-2">
@@ -52,7 +61,8 @@
                     <input required type="time" name="start_time" id="start_time"
                         value="{{ old('start_time', $event->start_time ? $event->start_time->format('H:i') : '') }}"
                         placeholder="Seleccione la hora de inicio"
-                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $readonly }}>
                     <small class="text-gray-400">Indique la hora en la que comenzará el evento</small>
                 </div>
                 <div class="flex flex-col gap-2">
@@ -60,7 +70,8 @@
                     <input required type="time" name="end_time" id="end_time"
                         value="{{ old('end_time', $event->end_time ? $event->end_time->format('H:i') : '') }}"
                         placeholder="Seleccione la hora de fin"
-                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $readonly }}>
                     <small class="text-gray-400">Indique la hora en la que finalizará el evento</small>
                 </div>
             </div>
@@ -71,9 +82,11 @@
                 <div class="flex flex-col gap-2">
                     <label for="modality" class="text-gray-500">Modalidad del Evento</label>
                     <select required name="modality" id="modality"
-                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $disabled }}>
                         <option disabled value="">Seleccione una modalidad</option>
-                        <option value="presencial" @if ($event->modality == 'presencial') selected @endif>Presencial</option>
+                        <option value="presencial" @if ($event->modality == 'presencial') selected @endif>Presencial
+                        </option>
                         <option value="virtual" @if ($event->modality == 'virtual') selected @endif>Virtual</option>
                     </select>
                 </div>
@@ -82,7 +95,8 @@
                     <label for="internationalization_at_home" class="text-gray-500">Internacionalización en
                         Casa</label>
                     <select name="internationalization_at_home" id="internationalization_at_home"
-                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $disabled }}>
                         <option disabled value="">Seleccione una opción</option>
                         <option value="si" @if ($event->internationalization_at_home === 'si') selected @endif>Si</option>
                         <option value="no" @if ($event->internationalization_at_home === 'no') selected @endif>No</option>
@@ -92,7 +106,8 @@
                 <div class="flex flex-col gap-2">
                     <label for="location" class="text-gray-500">Localización del Evento</label>
                     <select required name="location" id="location"
-                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $disabled }}>
                         <option disabled value="">Seleccione una localización</option>
                         <option value="nacional" @if ($event->location == 'nacional') selected @endif>Nacional</option>
                         <option value="internacional" @if ($event->location == 'internacional') selected @endif>Internacional
@@ -103,7 +118,8 @@
 
                 <div class="flex flex-col gap-2 max-w-72">
                     <label for="university" class="text-gray-500">Universidad/es del Evento</label>
-                    <select required id="university" class="w-full" name="universities[]" multiple>
+                    <select required id="university" class="w-full" name="universities[]" multiple
+                        {{ $disabled }}>
                         <option disabled>Seleccione una universidad</option>
                         @foreach ($universities as $university)
                             <option value="{{ $university->id }}" @if (isset($event->universities) && in_array($university->id, $event->universities->pluck('id')->toArray())) selected @endif>
@@ -120,7 +136,8 @@
                 <div class="flex flex-col gap-2">
                     <label for="agreement" class="text-gray-500">¿Tiene Convenio?</label>
                     <select name="has_agreement" required id="has_agreement"
-                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $disabled }}>
                         <option disabled value="">Seleccione una opción</option>
                         <option value="si" @if ($event->has_agreement == 'si') selected @endif>Si</option>
                         <option value="no" @if ($event->has_agreement == 'no') selected @endif>No</option>
@@ -130,7 +147,8 @@
                 <div class="flex-col {{ $event->has_agreement === 'si' ? '' : 'hidden' }} gap-2">
                     <label for="agreement_id" class="text-gray-500">Convenio</label>
                     <select name="agreement_id" id="agreement_id"
-                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $disabled }}>
                         <option disabled value="">Seleccione un convenio</option>
                         @foreach ($agreements as $agreement)
                             <option value="{{ $agreement->id }}" @if ($event->agreement_id == $agreement->id) selected @endif>
@@ -143,7 +161,8 @@
                 <div class="flex flex-col gap-2">
                     <label for="activity_id" class="text-gray-500">Actividad</label>
                     <select name="activity_id" id="activity_id"
-                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $disabled }}>
                         <option disabled value="">Seleccione una Actividad</option>
                         @foreach ($activities as $activity)
                             <option value="{{ $activity->id }}" @if ($event->activity_id == $activity->id) selected @endif>
@@ -157,7 +176,8 @@
                     <label for="career_id" class="text-gray-500">Carrera</label>
 
                     <select name="career_id" id="career_id" required
-                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
+                        {{ $disabled }}>
                         <option selected disabled value="">Seleccione una carrera</option>
                         @foreach ($careers as $career)
                             <option value="{{ $career->id }}" @if ($event->career_id == $career->id) selected @endif>
@@ -178,10 +198,12 @@
             </div>
             <div class="grid grid-cols-1">
                 <div class="flex flex-row items-center justify-end gap-2">
-                    <button type="submit"
-                        class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95">
-                        Actualizar Evento
-                    </button>
+                    @can('edit events')
+                        <button type="submit"
+                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95">
+                            Actualizar Evento
+                        </button>
+                    @endcan
                     <a href="{{ route('events') }}" type="button" popovertarget="create-event"
                         class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95">
                         Cancelar
@@ -201,35 +223,39 @@
             </h3>
 
             <div class="flex flex-row items-center gap-3">
-                {{-- Botón para enviar encuestas a todos --}}
-                <button type="button"
-                    class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-                    onclick="openSurveyPopover(null)" popovertarget="survey-popover">
-                    Enviar Encuestas a Todos
-                </button>
-
-                {{-- Botón para descargar Plantilla de certificado --}}
-                <form class="inline-block" action="{{ route('generate.certificate') }}" method="POST">
-                    @csrf
-                    @method('POST')
-
-                    <input type="hidden" name="event_id" value="{{ $event->id }}">
-                    <button type="submit"
-                        class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-secondary-700 from-secondary-500 hover:scale-95">
-                        Plantilla de Certificado
+                @can('edit events')
+                    {{-- Botón para enviar encuestas a todos --}}
+                    <button type="button"
+                        class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                        onclick="openSurveyPopover(null)" popovertarget="survey-popover">
+                        Enviar Encuestas a Todos
                     </button>
-                </form>
+                @endcan
 
-                <form class="inline-block" action="{{ route('events.exportAssistances', $event->id) }}"
-                    method="POST">
-                    @csrf
-                    @method('POST')
+                @can('generate reports')
+                    {{-- Botón para descargar Plantilla de certificado --}}
+                    <form class="inline-block" action="{{ route('generate.certificate') }}" method="POST">
+                        @csrf
+                        @method('POST')
 
-                    <button type="submit"
-                        class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
-                        Exportar Asistencias
-                    </button>
-                </form>
+                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                        <button type="submit"
+                            class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-secondary-700 from-secondary-500 hover:scale-95">
+                            Plantilla de Certificado
+                        </button>
+                    </form>
+
+                    <form class="inline-block" action="{{ route('events.exportAssistances', $event->id) }}"
+                        method="POST">
+                        @csrf
+                        @method('POST')
+
+                        <button type="submit"
+                            class="px-4 py-2 text-xs font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-green-700 from-green-500 hover:scale-95">
+                            Exportar Asistencias
+                        </button>
+                    </form>
+                @endcan
 
                 <form class="inline-block" action="{{ route('events.zipIdentityDocuments', $event->id) }}"
                     method="POST">

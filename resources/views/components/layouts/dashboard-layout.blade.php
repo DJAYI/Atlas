@@ -9,30 +9,58 @@
         </div>
 
         <nav id="menu" class="flex flex-col md:flex-row [&>*]:list-none items-center gap-5 rounded-xl p-4">
-            <li class="transition hover:scale-95">
-                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('dashboard') ? 'bg-primary-500 text-white scale-95' : '' }}"
-                    href="{{ route('dashboard') }}">Reportes</a>
-            </li>
-            <li class="transition hover:scale-95">
-                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('events') ? 'bg-primary-500 text-white scale-95' : '' }}"
-                    href="{{ route('events') }}">Eventos</a>
-            </li>
-            <li class="transition hover:scale-95">
-                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('universities') ? 'bg-primary-500 text-white scale-95' : '' }}"
-                    href="{{ route('universities') }}">Universidades</a>
-            </li>
-            <li class="transition hover:scale-95">
-                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('agreements') ? 'bg-primary-500 text-white scale-95' : '' }}"
-                    href="{{ route('agreements') }}">Convenios</a>
-            </li>
-            <li class="transition hover:scale-95">
-                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('careers') ? 'bg-primary-500 text-white scale-95' : '' }}"
-                    href="{{ route('careers') }}">Programas</a>
-            </li>
-            <li class="transition hover:scale-95">
-                <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('activities') ? 'bg-primary-500 text-white scale-95' : '' }}"
-                    href="{{ route('activities') }}">Actividades</a>
-            </li>
+            @can('access dashboard')
+                @role('auxiliar')
+                    {{-- No mostrar el enlace de Reportes para el rol auxiliar --}}
+                @else
+                    <li class="transition hover:scale-95">
+                        <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('dashboard') ? 'bg-primary-500 text-white scale-95' : '' }}"
+                            href="{{ route('dashboard') }}">Reportes</a>
+                    </li>
+                @endrole
+            @endcan
+
+            @canany(['view events', 'create events', 'edit events'])
+                <li class="transition hover:scale-95">
+                    <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('events') ? 'bg-primary-500 text-white scale-95' : '' }}"
+                        href="{{ route('events') }}">Eventos</a>
+                </li>
+            @endcanany
+
+            @canany(['view universities', 'create universities', 'edit universities'])
+                <li class="transition hover:scale-95">
+                    <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('universities') ? 'bg-primary-500 text-white scale-95' : '' }}"
+                        href="{{ route('universities') }}">Universidades</a>
+                </li>
+            @endcanany
+
+            @canany(['view agreements', 'create agreements', 'edit agreements'])
+                <li class="transition hover:scale-95">
+                    <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('agreements') ? 'bg-primary-500 text-white scale-95' : '' }}"
+                        href="{{ route('agreements') }}">Convenios</a>
+                </li>
+            @endcanany
+
+            @canany(['view programs', 'create programs', 'edit programs'])
+                <li class="transition hover:scale-95">
+                    <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('careers') ? 'bg-primary-500 text-white scale-95' : '' }}"
+                        href="{{ route('careers') }}">Programas</a>
+                </li>
+            @endcanany
+
+            @canany(['view activities', 'create activities', 'edit activities'])
+                <li class="transition hover:scale-95">
+                    <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('activities') ? 'bg-primary-500 text-white scale-95' : '' }}"
+                        href="{{ route('activities') }}">Actividades</a>
+                </li>
+            @endcanany
+
+            @can('manage users')
+                <li class="transition hover:scale-95">
+                    <a class="text-black font-semibold px-4 py-2 transition ring ring-primary-200/20 rounded-xl bg-primary-50 hover:shadow-[1px_1px_20px_2px_#80b1ff] {{ request()->routeIs('users') ? 'bg-primary-500 text-white scale-95' : '' }}"
+                        href="{{ route('users') }}">Usuarios</a>
+                </li>
+            @endcan
         </nav>
 
         <form action="{{ route('logout') }}" class="flex items-center justify-center w-full sm:w-fit" method="POST">

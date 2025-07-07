@@ -8,11 +8,13 @@
             Gestión de Eventos | Eventos Recientes
         </h2>
 
-        <button
-            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-            popovertarget="create-event">
-            Crear Evento
-        </button>
+        @can('create events')
+            <button
+                class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                popovertarget="create-event">
+                Crear Evento
+            </button>
+        @endcan
     </div>
     <div
         class="flex flex-col justify-around px-4 py-4 sm:flex-row bg-gradient-to-b from-primary-200/50 to-white rounded-t-xl min-h-52">
@@ -32,16 +34,21 @@
                     </p>
                 </div>
                 <div class="flex flex-row gap-2">
-                    <a href="{{ route('events.edit', $event->id) }}"
-                        class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
-                        popovertarget="edit-event" popoverdata="{{ $event->id }}">Ver más</a>
-                    <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
-                            popovertarget="delete-event" popoverdata="{{ $event->id }}">Eliminar</button>
-                    </form>
+                    @canany(['view events', 'edit events'])
+                        <a href="{{ route('events.edit', $event->id) }}"
+                            class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
+                            popovertarget="edit-event" popoverdata="{{ $event->id }}">Ver más</a>
+                    @endcanany
+
+                    @can('delete events')
+                        <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
+                                popovertarget="delete-event" popoverdata="{{ $event->id }}">Eliminar</button>
+                        </form>
+                    @endcan
                 </div>
             </div>
         @endforeach
@@ -106,13 +113,17 @@
                         <a href="{{ route('events.edit', $event->id) }}"
                             class="inline-block px-4 py-2 font-semibold text-white transition rounded-lg shadow-md w-fit bg-gradient-to-bl to-primary-700 from-primary-500 hover:scale-95"
                             popovertarget="edit-event" popoverdata="{{ $event->id }}">Ver más</a>
-                        <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
-                                popovertarget="delete-event" popoverdata="{{ $event->id }}">Eliminar</button>
-                        </form>
+
+                        @can('delete events')
+                            <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="px-4 py-2 font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-bl to-red-700 from-red-500 hover:scale-95"
+                                    popovertarget="delete-event" popoverdata="{{ $event->id }}">Eliminar</button>
+                            </form>
+                        @endcan
+
                     </td>
                 </tr>
             @endforeach

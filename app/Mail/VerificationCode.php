@@ -20,7 +20,7 @@ class VerificationCode extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Código de verificación - Atlas',
+            subject: 'Código de verificación - Wonderlust',
             from: config('mail.from.address'),
             replyTo: [config('mail.from.address')],
         );
@@ -33,7 +33,7 @@ class VerificationCode extends Mailable
             with: [
                 'code' => $this->code,
                 'email' => $this->email,
-                'appName' => config('app.name', 'Atlas'),
+                'appName' => config('app.name', 'Wonderlust'),
             ]
         );
     }

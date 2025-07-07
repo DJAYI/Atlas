@@ -51,7 +51,7 @@
     <div class="container">
         <div class="header">
             <h1>Código de verificación</h1>
-            <p>Para completar tu inicio de sesión en Atlas, utiliza el siguiente código:</p>
+            <p>Para completar tu inicio de sesión en Wonderlust, utiliza el siguiente código:</p>
         </div>
 
         <div class="code">
