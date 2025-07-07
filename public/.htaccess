@@ -8,6 +8,11 @@
     # Si la app está en una subcarpeta, establece RewriteBase
     RewriteBase /hermes/public/
 
+    
+    # Redirige desde /public a /public/es
+    RewriteCond %{REQUEST_URI} ^/hermes/public/?$
+    RewriteRule ^$ es/ [R=302,L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
