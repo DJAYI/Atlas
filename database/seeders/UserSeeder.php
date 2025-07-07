@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'username' => 'Auxiliar User',
             'password' => bcrypt('password'), // Ensure password is hashed
         ]);
-        $auxiliary->assignRole('auxiliar');
+        $auxiliary->assignRole('admin');
         
     }
 }
