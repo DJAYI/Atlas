@@ -14,14 +14,14 @@
             <h3 class="text-xl font-semibold text-gray-600">Información General</h3>
             <div class="grid grid-cols-2 gap-4">
                 <div class="flex flex-col gap-2">
-                    <label for="name" class="text-gray-500">Nombre</label>
+                    <label for="name" class="text-gray-500">Nombre del evento</label>
                     <input required type="text" name="name" id="name"
                         placeholder="Ingrese el nombre del evento"
                         class="py-2 px-4 w-[400px] bg-white border border-primary-300 rounded-lg shadow-sm  transition">
                     <small class="text-gray-400">Ingrese el nombre completo del evento</small>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <label for="responsable" class="text-gray-500">Responsable</label>
+                    <label for="responsable" class="text-gray-500">Responsable del evento</label>
                     <input required type="text" name="responsable" id="responsable"
                         placeholder="Ingrese el nombre del responsable"
                         class="py-2 px-4 w-[400px] bg-white border border-primary-300 rounded-lg shadow-sm  transition">
