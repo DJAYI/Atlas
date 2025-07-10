@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="flex items-center justify-around">
-        <div class="flex flex-row items-center justify-center">
+    <div class="flex flex-col items-center justify-around sm:flex-row">
+        <div class="flex flex-col items-center justify-center sm:flex-row">
             <img loading="lazy" src="{{ asset('images/wonderlust_logo.webp') }}"
                 class="h-16 mix-blend-multiply brightness-105" alt="">
             <h1 class="text-3xl font-black text-primary-700">Wonderlust</h1>

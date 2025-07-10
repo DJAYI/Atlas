@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="flex items-center justify-around">
-        <div class="flex flex-row items-center justify-center">
+    <div class="flex flex-col items-center justify-around sm:flex-row">
+        <div class="flex flex-col items-center justify-center sm:flex-row">
             <img loading="lazy" src="{{ asset('images/wonderlust_logo.webp') }}"
                 class="h-16 mix-blend-multiply brightness-105" alt="">
             <h1 class="text-3xl font-black text-primary-700">Wonderlust</h1>
@@ -10,7 +10,7 @@
     </div>
 
     <div
-        class="grid w-full mb-6 h-dvh grid-cols-1 gap-5 mx-auto md:grid-cols-[1fr_4px_1fr] max-w-7xl sm:place-items-center items-start">
+        class="grid w-full mb-6  sm:h-dvh grid-cols-1 gap-5 mx-auto md:grid-cols-[1fr_4px_1fr] max-w-7xl sm:place-items-center items-start">
         <div class="flex flex-col justify-center gap-4 mt-8">
             <h1 class="text-5xl font-black text-center sm:hidden drop-shadow-md ">{{ __('Bienvenido a') }} <span
                     class="text-secondary-400">Wonderlust</span></h1>
@@ -30,7 +30,7 @@
             {{ __('O') }}
             <hr class="h-56 w-[3px] bg-gradient-to-b from-secondary-300 to-transparent">
         </div>
-        <div class="flex-col justify-center gap-4 mx-4 sm:flex">
+        <div class="flex-col justify-center hidden gap-4 mx-4 sm:flex">
             <h1 class="hidden text-5xl font-black text-center sm:block drop-shadow-md ">{{ __('Bienvenido a') }} <span
                     class="text-secondary-400">Wonderlust</span></h1>
 
@@ -106,8 +106,7 @@
         </div>
     </div>
 
-    <footer
-        class="sticky flex-col items-center justify-between hidden w-full gap-4 px-6 py-4 bg-transparent md:flex sm:flex-row">
+    <footer class="sticky flex flex-col items-center justify-between w-full gap-4 px-6 py-4 bg-transparent sm:flex-row">
         <img src="{{ asset('images/logo_tecno_comfenalco.png') }}" class="max-h-24 aspect-video" alt="">
         <p class="self-end font-semibold text-center text-black sm:text-start">
             2025 &copy; Copyright - Fundación Universitaria Tecnológico Comfenalco
