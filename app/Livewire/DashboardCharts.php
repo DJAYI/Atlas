@@ -31,8 +31,8 @@ class DashboardCharts extends Component
 
     public function mount()
     {
-        // Tiempo de caché en segundos (10 segundos)
-        $cacheTime = 10;
+        // Tiempo de caché en segundos (20 segundos)
+        $cacheTime = 20;
 
         // Cargar datos desde caché o calcularlos si la caché ha expirado
         $this->barChartStatistics = Cache::remember('dashboard_bar_chart_statistics', $cacheTime, function () {
@@ -156,7 +156,7 @@ class DashboardCharts extends Component
 
             // Procesar los datos como lo hace AssistancesBarChart
             $comfenalco = University::where('name', 'Fundación Universitaria Tecnológico Comfenalco')->first();
-            $comfenalcoId = $comfenalco ?->id;
+            $comfenalcoId = $comfenalco?->id;
 
             foreach ($events as $event) {
                 $location = strtolower($event->location ?: '');

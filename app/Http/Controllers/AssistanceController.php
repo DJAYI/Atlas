@@ -59,7 +59,50 @@ class AssistanceController extends Controller
         $documentNumber = session('document_number');
         $eventCode = session('event_code');
 
+        if (!$documentType || !$documentNumber) {
+            return redirect()->route('assistance', ['locale' => $request->locale])
+                ->with('error', __('assistance.missing_document_data'));
+        }
 
+        $requiredFields = [
+            'first_name',
+            'last_name',
+            'personal_email',
+            'phone_number',
+            'country_of_origin',
+            'origin_university',
+            'academic_program',
+            'biological_sex',
+            'birth_date',
+            'type'
+        ];
+
+        foreach ($requiredFields as $field) {
+            if (!$request->filled($field)) {
+                return redirect()->route('assistance', ['locale' => $request->locale])
+                    ->with('error', __('assistance.missing_required_field', ['field' => $field]));
+            }
+        }
+
+        if (!filter_var($request->input('personal_email'), FILTER_VALIDATE_EMAIL)) {
+            return redirect()->route('assistance', ['locale' => $request->locale])
+                ->with('error', __('assistance.invalid_email'));
+        }
+
+        if ($request->filled('institutional_email') && !filter_var($request->input('institutional_email'), FILTER_VALIDATE_EMAIL)) {
+            return redirect()->route('assistance', ['locale' => $request->locale])
+                ->with('error', __('assistance.invalid_institutional_email'));
+        }
+
+        if (!is_numeric($request->input('phone_number'))) {
+            return redirect()->route('assistance', ['locale' => $request->locale])
+                ->with('error', __('assistance.invalid_phone_number'));
+        }
+
+        if (!strtotime($request->input('birth_date'))) {
+            return redirect()->route('assistance', ['locale' => $request->locale])
+                ->with('error', __('assistance.invalid_birth_date'));
+        }
 
         $person = Person::updateOrCreate(
             [

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('document_number');
 
             $table->string('email')->unique();
-            $table->string('institutional_email')->unique();
+            $table->string('institutional_email')->unique()->nullable();
             $table->string('phone')->nullable();
 
 
