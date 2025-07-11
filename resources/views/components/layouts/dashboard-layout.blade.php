@@ -3,8 +3,13 @@
 <x-app-layout>
     <header style="view-transition-name: dashboard-header"
         class="flex flex-col items-center justify-between w-full gap-5 px-4 py-3 bg-white/90 sm:flex-row">
-        <div class="flex items-center justify-center">
-            <img loading="lazy" src="{{ asset('images/wonderlust_logo.webp') }}" class="h-16" alt="">
+        <div class="flex flex-col items-center justify-center gap-x-3 sm:flex-row">
+            <div class="flex items-center justify-center p-2 mb-4 sm:mb-0">
+                <img src="{{ asset('images/logo_tecno_comfenalco.png') }}" class="w-24 aspect-video object-contain" alt="">
+                <hr class="h-16 w-[2px] bg-gradient-to-tr from-primary-400 to-secondary-300 rotate-12 mx-4">
+                <img loading="lazy" src="{{ asset('images/wonderlust_logo.webp') }}"
+                    class="w-14 mix-blend-multiply brightness-105 aspect-square object-contain" alt="">
+            </div>
             <h1 class="text-3xl font-black text-primary-700">Wonderlust</h1>
         </div>
 
