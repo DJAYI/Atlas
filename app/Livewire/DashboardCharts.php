@@ -7,6 +7,8 @@ use App\Models\Event;
 use App\Models\Activity;
 use App\Models\University;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class DashboardCharts extends Component
@@ -31,8 +33,8 @@ class DashboardCharts extends Component
 
     public function mount()
     {
-        // Tiempo de caché en segundos (20 segundos)
-        $cacheTime = 20;
+        // Tiempo de caché en minutos (aumentado a 15 minutos para reducir carga en la base de datos)
+        $cacheTime = now()->addMinutes(15);
 
         // Cargar datos desde caché o calcularlos si la caché ha expirado
         $this->barChartStatistics = Cache::remember('dashboard_bar_chart_statistics', $cacheTime, function () {
@@ -76,171 +78,99 @@ class DashboardCharts extends Component
         $currentYear = now()->year;
         $years = [$currentYear - 2, $currentYear - 1, $currentYear];
 
+        // Obtener y cachear el ID de Comfenalco por más tiempo (1 día), ya que es poco probable que cambie
+        $comfenalcoId = Cache::remember('comfenalco_university_id', now()->addDay(), function () {
+            return University::where('name', 'Fundación Universitaria Tecnológico Comfenalco')->value('id');
+        });
+
         $statistics = [];
+        $validRoles = ['estudiante', 'profesor', 'egresado', 'administrativo', 'emprendedor'];
+        $validLocations = ['nacional', 'internacional', 'local'];
+        $validModalities = ['virtual', 'presencial'];
 
         foreach ($years as $year) {
-            $events = Cache::remember("events_for_year_{$year}", 3600, function () use ($year) {
-                return Event::whereYear('start_date', $year)
-                    ->with(['assistances.person.university', 'assistances.mobility'])
+            // Inicializar la estructura de datos para este año
+            $yearData = $this->initializeYearDataStructure();
+            
+            // Optimización: ejecutar una consulta agregada con relaciones selectivas
+            $assistanceStats = Cache::remember("assistance_stats_{$year}", now()->addHours(6), function () use ($year, $validLocations, $validModalities, $comfenalcoId, $validRoles) {
+                // Obtenemos los datos procesados directamente de la base de datos usando subconsultas y joins
+                $query = Assistance::query()
+                    ->join('events', 'events.id', '=', 'assistances.event_id')
+                    ->join('mobilities', 'mobilities.id', '=', 'assistances.mobility_id')
+                    ->join('people', 'people.id', '=', 'assistances.person_id')
+                    ->whereYear('events.start_date', $year)
+                    ->whereIn('events.location', $validLocations)
+                    ->whereIn('events.modality', $validModalities)
+                    ->whereIn('mobilities.type', $validRoles)
+                    ->whereNotNull('people.university_id')
+                    ->select(
+                        'events.location',
+                        'events.modality',
+                        'mobilities.type as role',
+                        'people.university_id',
+                        \DB::raw('COUNT(*) as total')
+                    )
+                    ->groupBy('events.location', 'events.modality', 'mobilities.type', 'people.university_id')
                     ->get();
+                
+                return $query;
             });
 
-            $yearData = [
-                'internacional' => [
-                    'estudiante' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'profesor' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'egresado' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'administrativo' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'emprendedor' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                ],
-                'nacional' => [
-                    'estudiante' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'profesor' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'egresado' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'administrativo' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'emprendedor' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                ],
-                'local' => [
-                    'estudiante' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'profesor' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'egresado' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'administrativo' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                    'emprendedor' => [
-                        'virtual' => ['entrantes' => 0, 'salientes' => 0],
-                        'presencial' => ['entrantes' => 0, 'salientes' => 0],
-                    ],
-                ],
-            ];
+            // Procesar los resultados agregados
+            foreach ($assistanceStats as $stat) {
+                $location = strtolower($stat->location);
+                $modality = strtolower($stat->modality);
+                $role = strtolower($stat->role);
+                $direction = ($stat->university_id == $comfenalcoId) ? 'salientes' : 'entrantes';
 
-            // Procesar los datos como lo hace AssistancesBarChart
-            $comfenalco = University::where('name', 'Fundación Universitaria Tecnológico Comfenalco')->first();
-            $comfenalcoId = $comfenalco?->id;
-
-            foreach ($events as $event) {
-                $location = strtolower($event->location ?: '');
-                $modality = strtolower($event->modality ?: '');
-
-                // Verificamos que la ubicación sea una de las válidas
-                if (!in_array($location, ['nacional', 'internacional', 'local'])) {
-                    \Illuminate\Support\Facades\Log::info("Evento {$event->id} con ubicación no válida: '{$location}'");
-                    continue;
-                }
-
-                // Verificamos que la modalidad sea una de las válidas
-                if (!in_array($modality, ['virtual', 'presencial'])) {
-                    \Illuminate\Support\Facades\Log::info("Evento {$event->id} con modalidad no válida: '{$modality}'");
-                    continue;
-                }
-
-                foreach ($event->assistances as $assistance) {
-                    \Illuminate\Support\Facades\Log::debug('Mobilidad de asistencia', [
-                        'assistance_id' => $assistance->id,
-                        'mobility' => $assistance->mobility,
-                    ]);
-
-                    // Verificar si la asistencia tiene movilidad
-                    if (!$assistance->mobility) {
-                        \Illuminate\Support\Facades\Log::info("Asistencia {$assistance->id} sin movilidad");
-                        continue;
-                    }
-
-                    // Determinar rol
-                    $role = strtolower($assistance->mobility->type ?: '');
-
-                    if (!in_array($role, ['estudiante', 'profesor', 'egresado', 'administrativo', 'emprendedor'])) {
-                        \Illuminate\Support\Facades\Log::info("Asistencia {$assistance->id} con rol no válido: '{$role}'");
-                        continue;
-                    }
-
-                    // Verificar si la persona tiene universidad asociada
-                    if (!$assistance->person || !$assistance->person->university) {
-                        \Illuminate\Support\Facades\Log::info("Asistencia {$assistance->id} sin universidad asociada");
-                        continue;
-                    }
-
-                    // Determinar dirección (entrante/saliente)
-                    $universityId = $assistance->person->university->id ?? null;
-                    if (!$universityId || !$comfenalcoId) {
-                        \Illuminate\Support\Facades\Log::info("Asistencia {$assistance->id} sin universidad válida o Comfenalco no encontrado");
-                    }
-                    $direction = ($universityId == $comfenalcoId) ? 'salientes' : 'entrantes';
-
-                    // Validar claves y sumar
-                    if (
-                        isset($yearData[$location]) &&
-                        isset($yearData[$location][$role]) &&
-                        isset($yearData[$location][$role][$modality]) &&
-                        isset($yearData[$location][$role][$modality][$direction])
-                    ) {
-                        $yearData[$location][$role][$modality][$direction]++;
-                    } else {
-                        \Illuminate\Support\Facades\Log::warning("Estructura no válida: year=$year, location=$location, role=$role, modality=$modality, direction=$direction");
-                    }
+                if (
+                    isset($yearData[$location]) &&
+                    isset($yearData[$location][$role]) &&
+                    isset($yearData[$location][$role][$modality]) &&
+                    isset($yearData[$location][$role][$modality][$direction])
+                ) {
+                    $yearData[$location][$role][$modality][$direction] += $stat->total;
                 }
             }
+            
             $statistics[$year] = $yearData;
         }
 
-        // Log de depuración para ver los datos procesados
-        // \Illuminate\Support\Facades\Log::info("Datos procesados para gráfico de barras:", ['data' => $statistics]);
-
         return $statistics;
+    }
+    
+    // Método auxiliar para inicializar la estructura de datos de un año
+    private function initializeYearDataStructure()
+    {
+        $roles = ['estudiante', 'profesor', 'egresado', 'administrativo', 'emprendedor'];
+        $locations = ['internacional', 'nacional', 'local'];
+        $modalities = ['virtual', 'presencial'];
+        $directions = ['entrantes' => 0, 'salientes' => 0];
+
+        $yearData = [];
+        foreach ($locations as $location) {
+            $yearData[$location] = [];
+            foreach ($roles as $role) {
+                $yearData[$location][$role] = [];
+                foreach ($modalities as $modality) {
+                    $yearData[$location][$role][$modality] = $directions;
+                }
+            }
+        }
+        
+        return $yearData;
     }
 
     // Calcular datos para MobilityPieChart (sin guardarlos en la propiedad)
     protected function calculatePieChartData()
     {
-        // Obtener el id real de Comfenalco
-        $comfenalco = University::where('name', 'Fundación Universitaria Tecnológico Comfenalco')->first();
-        $comfenalcoId = $comfenalco ? $comfenalco->id : null;
+        // Obtener el id real de Comfenalco (usando el valor cacheado)
+        $comfenalcoId = Cache::remember('comfenalco_university_id', now()->addDay(), function () {
+            return University::where('name', 'Fundación Universitaria Tecnológico Comfenalco')->value('id');
+        });
 
-        // Solo asistencias de eventos del último año (por start_date)
-        $eventIds = Event::where('start_date', '>=', now()->subYear())->pluck('id');
-        $lastYearAssistances = Assistance::whereIn('event_id', $eventIds)->with(['person', 'event'])->get();
-
-        if ($lastYearAssistances->isEmpty() || !$comfenalcoId) {
+        if (!$comfenalcoId) {
             return [
                 "entrantes" => 0,
                 "salientes" => 0,
@@ -248,24 +178,37 @@ class DashboardCharts extends Component
             ];
         }
 
-        return $lastYearAssistances->reduce(function ($carry, $assistance) use ($comfenalcoId) {
-            $universityId = $assistance->person->university_id;
+        // Optimización: usar agregaciones de base de datos en lugar de cargar todas las asistencias y procesarlas en PHP
+        $lastYearDate = now()->subYear();
 
-            if ($universityId != $comfenalcoId) {
-                $carry['entrantes'] += 1;
-            } else {
-                if ($assistance->event->internationalization_at_home === 'si') {
-                    $carry['en_casa'] += 1;
-                } else {
-                    $carry['salientes'] += 1;
-                }
-            }
-            return $carry;
-        }, [
-            "entrantes" => 0,
-            "salientes" => 0,
-            "en_casa" => 0,
-        ]);
+        // Contar entrantes (no son de Comfenalco)
+        $entrantes = Assistance::join('people', 'assistances.person_id', '=', 'people.id')
+            ->join('events', 'assistances.event_id', '=', 'events.id')
+            ->where('events.start_date', '>=', $lastYearDate)
+            ->where('people.university_id', '!=', $comfenalcoId)
+            ->count();
+
+        // Contar salientes (son de Comfenalco, pero no internationalization_at_home)
+        $salientes = Assistance::join('people', 'assistances.person_id', '=', 'people.id')
+            ->join('events', 'assistances.event_id', '=', 'events.id')
+            ->where('events.start_date', '>=', $lastYearDate)
+            ->where('people.university_id', '=', $comfenalcoId)
+            ->where('events.internationalization_at_home', '!=', 'si')
+            ->count();
+
+        // Contar en_casa (son de Comfenalco e internationalization_at_home)
+        $enCasa = Assistance::join('people', 'assistances.person_id', '=', 'people.id')
+            ->join('events', 'assistances.event_id', '=', 'events.id')
+            ->where('events.start_date', '>=', $lastYearDate)
+            ->where('people.university_id', '=', $comfenalcoId)
+            ->where('events.internationalization_at_home', '=', 'si')
+            ->count();
+
+        return [
+            "entrantes" => $entrantes,
+            "salientes" => $salientes,
+            "en_casa" => $enCasa,
+        ];
     }
 
     // Calcular datos para TableAssistanceOfLastYearByPeriod (sin guardarlos en la propiedad)
@@ -273,8 +216,7 @@ class DashboardCharts extends Component
     {
         $currentDate = now();
         $periods = $this->getLastThreeSemesters($currentDate);
-        // Ya no guardamos los periodLabels aquí, se retornan desde getLastThreePeriodsLabels()
-
+        
         $data = [
             'Internacional Presencial' => [],
             'Nacional Presencial' => [],
@@ -282,42 +224,64 @@ class DashboardCharts extends Component
             'Nacional Virtual' => [],
             'total' => [],
         ];
-
+        
+        // Inicializar todos los contadores en 0
         foreach ($periods as $period) {
             $periodKey = $period['key'];
-
-            // Inicializar contadores
             foreach (array_keys($data) as $key) {
                 $data[$key][$periodKey] = 0;
             }
+        }
 
-            // Contar asistencias por periodo y modalidad usando start_date del evento
-            $data['Internacional Presencial'][$periodKey] = Assistance::whereHas('event', function ($q) use ($period) {
-                $q->where('location', 'internacional')
-                    ->where('modality', 'presencial')
-                    ->whereBetween('start_date', [$period['start'], $period['end']]);
-            })->count();
-
-            $data['Nacional Presencial'][$periodKey] = Assistance::whereHas('event', function ($q) use ($period) {
-                $q->whereIn('location', ['nacional', 'local'])
-                    ->where('modality', 'presencial')
-                    ->whereBetween('start_date', [$period['start'], $period['end']]);
-            })->count();
-
-            $data['Internacional Virtual'][$periodKey] = Assistance::whereHas('event', function ($q) use ($period) {
-                $q->where('location', 'internacional')
-                    ->where('modality', 'virtual')
-                    ->whereBetween('start_date', [$period['start'], $period['end']]);
-            })->count();
-
-            $data['Nacional Virtual'][$periodKey] = Assistance::whereHas('event', function ($q) use ($period) {
-                $q->whereIn('location', ['nacional', 'local'])
-                    ->where('modality', 'virtual')
-                    ->whereBetween('start_date', [$period['start'], $period['end']]);
-            })->count();
-
-            // Calcular total por periodo
-            $data['total'][$periodKey] =
+        // Optimización: realizar una única consulta para todas las asistencias en los períodos relevantes
+        // y procesar los datos en memoria, evitando múltiples consultas
+        $startDate = $periods[count($periods)-1]['start']; // Fecha de inicio del periodo más antiguo
+        $endDate = $periods[0]['end']; // Fecha de fin del periodo más reciente
+        
+        $stats = DB::table('assistances')
+            ->join('events', 'assistances.event_id', '=', 'events.id')
+            ->whereBetween('events.start_date', [$startDate, $endDate])
+            ->select(
+                'events.location',
+                'events.modality',
+                'events.start_date',
+                DB::raw('COUNT(*) as count')
+            )
+            ->groupBy('events.location', 'events.modality', 'events.start_date')
+            ->get();
+            
+        // Procesar los resultados para cada periodo
+        foreach ($stats as $stat) {
+            $eventDate = Carbon::parse($stat->start_date);
+            
+            // Encontrar a qué periodo corresponde esta fecha
+            foreach ($periods as $period) {
+                $periodStart = Carbon::parse($period['start']);
+                $periodEnd = Carbon::parse($period['end']);
+                
+                if ($eventDate->between($periodStart, $periodEnd)) {
+                    $periodKey = $period['key'];
+                    
+                    // Determinar la categoría según location y modality
+                    if ($stat->location === 'internacional' && $stat->modality === 'presencial') {
+                        $data['Internacional Presencial'][$periodKey] += $stat->count;
+                    } elseif (in_array($stat->location, ['nacional', 'local']) && $stat->modality === 'presencial') {
+                        $data['Nacional Presencial'][$periodKey] += $stat->count;
+                    } elseif ($stat->location === 'internacional' && $stat->modality === 'virtual') {
+                        $data['Internacional Virtual'][$periodKey] += $stat->count;
+                    } elseif (in_array($stat->location, ['nacional', 'local']) && $stat->modality === 'virtual') {
+                        $data['Nacional Virtual'][$periodKey] += $stat->count;
+                    }
+                    
+                    break; // Ya encontramos el periodo, no necesitamos seguir buscando
+                }
+            }
+        }
+        
+        // Calcular totales por periodo
+        foreach ($periods as $period) {
+            $periodKey = $period['key'];
+            $data['total'][$periodKey] = 
                 $data['Internacional Presencial'][$periodKey] +
                 $data['Nacional Presencial'][$periodKey] +
                 $data['Internacional Virtual'][$periodKey] +
@@ -330,37 +294,37 @@ class DashboardCharts extends Component
     // Calcular datos para TableTotalActivities (sin guardarlos en la propiedad)
     protected function calculateTableTotalActivitiesData()
     {
-        // Obtener todas las actividades
-        $activities = Activity::with(['events.assistances'])->get();
+        // Optimización: usar consultas agregadas para obtener los datos directamente
+        // en lugar de cargar todas las actividades y procesar en memoria
+        $activityStats = Activity::select('activities.id', 'activities.name')
+            ->selectRaw('COUNT(DISTINCT events.id) as total_activities')
+            ->selectRaw('COUNT(assistances.id) as total_assistants')
+            ->leftJoin('events', 'activities.id', '=', 'events.activity_id')
+            ->leftJoin('assistances', 'events.id', '=', 'assistances.event_id')
+            ->groupBy('activities.id', 'activities.name')
+            ->get()
+            ->map(function ($activity) {
+                return [
+                    'name' => $activity->name,
+                    'total_assistants' => (int)$activity->total_assistants,
+                    'total_activities' => (int)$activity->total_activities,
+                ];
+            })
+            ->toArray();
 
-        // Agrupar actividades por nombre y contar asistentes y eventos
-        return $activities->map(function ($activity) {
-            // 1. Cada evento tiene una actividad
-            $events = $activity->events;
-            // 2. Contar el número de asistentes por evento
-            $totalAssistants = $events->sum(function ($event) {
-                return $event->assistances->count();
-            });
-            // 3. Contar el número de eventos por actividad
-            $totalActivities = $events->count();
-
-            return [
-                'name' => $activity->name,
-                'total_assistants' => $totalAssistants,
-                'total_activities' => $totalActivities,
-            ];
-        })->toArray();
+        return $activityStats;
     }
 
     // Calcular totales para TableTotalActivities
     protected function calculateTotalResults()
     {
-        $activitiesData = $this->calculateTableTotalActivitiesData();
-
-        // Calcular el total de asistentes y actividades
+        // Optimización: obtener los totales directamente de la base de datos
+        $totalAssistants = Assistance::count();
+        $totalActivities = Event::count();
+        
         return [
-            'total_assistants' => collect($activitiesData)->sum('total_assistants'),
-            'total_activities' => collect($activitiesData)->sum('total_activities'),
+            'total_assistants' => $totalAssistants,
+            'total_activities' => $totalActivities,
         ];
     }
 
@@ -422,11 +386,18 @@ class DashboardCharts extends Component
      */
     public function refreshData()
     {
-        // Limpiar todas las cachés
+        // Limpiar sólo las cachés relevantes para el dashboard usando un patrón
         Cache::forget('dashboard_bar_chart_statistics');
         Cache::forget('dashboard_pie_chart_statistics');
         Cache::forget('dashboard_table_period_statistics');
         Cache::forget('dashboard_activities_data');
+
+        // También limpiar las cachés específicas de años para asistencias
+        $currentYear = now()->year;
+        for ($i = $currentYear - 2; $i <= $currentYear; $i++) {
+            Cache::forget("assistance_stats_{$i}");
+            Cache::forget("events_for_year_{$i}");
+        }
 
         // Recargar los datos
         $this->mount();
