@@ -4,6 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use App\Models\VerificationCode;
 use App\Mail\VerificationCode as VerificationCodeMail;
+use App\Mail\SuccessfulLogin;
 use App\Rules\Recaptcha;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
@@ -153,7 +154,11 @@ class LoginRequest extends FormRequest
         Log::info('User authenticated successfully after 2FA for email: ' . $email . ' at ' . now());
 
         // Usuario autenticado actual
-        Log::info('Authenticated user: ' . Auth::user()->email . ' at ' . now());
+        $user = Auth::user();
+        Log::info('Authenticated user: ' . $user->email . ' at ' . now());
+
+        // Enviar correo de notificación de inicio de sesión exitoso
+        $this->sendSuccessfulLoginNotification($user);
 
         session()->forget('pending_2fa_email');
         RateLimiter::clear($this->throttleKey());
@@ -185,5 +190,29 @@ class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
+    }
+
+    /**
+     * Send successful login notification to user's email
+     */
+    protected function sendSuccessfulLoginNotification($user): void
+    {
+        try {
+            $loginTime = now()->format('d/m/Y H:i:s T');
+            $ipAddress = $this->ip();
+            $userAgent = $this->header('User-Agent') ?? 'Navegador desconocido';
+
+            Mail::to($user->email)->send(new SuccessfulLogin(
+                $user->username,
+                $user->email,
+                $ipAddress,
+                $userAgent,
+                $loginTime
+            ));
+
+            Log::info('Successful login notification sent to: ' . $user->email . ' at ' . now());
+        } catch (\Exception $e) {
+            Log::error('Failed to send successful login notification: ' . $e->getMessage());
+        }
     }
 }
