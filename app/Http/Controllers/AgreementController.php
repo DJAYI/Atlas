@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agreement;
+use App\Http\Requests\AgreementRequest;
 use Illuminate\Http\Request;
 use Log;
 
@@ -36,22 +37,13 @@ class AgreementController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AgreementRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(AgreementRequest $request)
     {
-
-        // Validación de los datos
-        $validatedData = $request->validate([
-            'year' => 'required|integer',
-            'semester' => 'required|string|max:1',
-            'code' => 'required|string|max:6|unique:agreements,code',
-            'type' => 'required|in:marco,especifico',
-            'activity' => 'required|in:formacion,investigacion,extension,administrativa,otra',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-        ]);
+        // Datos ya validados por AgreementRequest
+        $validatedData = $request->validated();
         // Crear el acuerdo
         $agreement = new Agreement();
         $agreement->year = $validatedData['year'];
@@ -88,25 +80,17 @@ class AgreementController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AgreementRequest  $request
      * @param  string  $id  The ID of the agreement to update
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, string $id)
+    public function update(AgreementRequest $request, string $id)
     {
         // Find the agreement by ID
         $agreement = Agreement::findOrFail($id);
 
-        // Validación de los datos
-        $validatedData = $request->validate([
-            'year' => 'required|integer',
-            'semester' => 'required|string|max:1',
-            'code' => 'required|string|max:6|unique:agreements,code,' . $agreement->id,
-            'type' => 'required|in:marco,especifico',
-            'activity' => 'required|in:formacion,investigacion,extension,administrativa,otra',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-        ]);
+        // Datos ya validados por AgreementRequest
+        $validatedData = $request->validated();
 
         // Update the agreement with validated data
         $agreement->year = $validatedData['year'];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Http\Requests\ActivityRequest;
 use Illuminate\Http\Request;
 use Log;
 
@@ -32,17 +33,14 @@ class ActivityController extends Controller
      *
      * Validates and creates a new activity from the request data.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ActivityRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(ActivityRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
-        ]);
+        $validated = $request->validated();
 
-        Activity::create($request->all());
+        Activity::create($validated);
         Log::info('Activity created successfully by user: ' . auth()->user()->email . ' at ' . now());
 
         return redirect()->route('activities')->with('success', 'Activity created successfully.');
@@ -66,20 +64,17 @@ class ActivityController extends Controller
      *
      * Validates and updates the specified activity with request data.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ActivityRequest  $request
      * @param  string  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, string $id)
+    public function update(ActivityRequest $request, string $id)
     {
         $activity = Activity::findOrFail($id);
+        
+        $validated = $request->validated();
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-        ]);
-
-        $activity->update($request->all());
+        $activity->update($validated);
 
         Log::info('Activity updated successfully by user: ' . auth()->user()->email . ' at ' . now());
         Log::info('Activity updated: ' . $activity->name . ' at ' . now());

@@ -17,6 +17,9 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="{{ asset('css/index.css') }}" rel="stylesheet">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 
     {{-- Choice.JS --}}
@@ -62,6 +65,23 @@
         <main class="flex-grow ">
             {{ $slot }}
         </main>
+
+        <!-- Toast notifications -->
+        @if (session('success'))
+            <x-toast type="success" message="{{ session('success') }}" />
+        @endif
+
+        @if (session('error'))
+            <x-toast type="error" message="{{ session('error') }}" />
+        @endif
+
+        @if (session('warning'))
+            <x-toast type="warning" message="{{ session('warning') }}" />
+        @endif
+
+        @if (session('info'))
+            <x-toast type="info" message="{{ session('info') }}" />
+        @endif
 
     </div>
 
