@@ -224,7 +224,7 @@ class DashboardCharts extends Component
         }
 
         // Log de depuración para ver los datos procesados
-        \Illuminate\Support\Facades\Log::info("Datos procesados para gráfico de barras:", ['data' => $statistics]);
+        // \Illuminate\Support\Facades\Log::info("Datos procesados para gráfico de barras:", ['data' => $statistics]);
 
         return $statistics;
     }

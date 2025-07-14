@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="flex flex-col items-center justify-around sm:flex-row">
+    <div class="flex flex-col items-center justify-around sm:flex-row ">
         <div class="flex flex-col items-center justify-center sm:flex-row">
             <img loading="lazy" src="{{ asset('images/wonderlust_logo.webp') }}"
                 class="h-16 mix-blend-multiply brightness-105" alt="">
@@ -51,6 +51,7 @@
                         <label for="email" class="text-lg">{{ __('Correo electrónico') }}</label>
                         <input id="email" type="email" name="email" minlength="8" maxlength="254" required
                             autofocus autocomplete="username"
+                            @if (session()->has('pending_2fa_email')) value="{{ session('pending_2fa_email') }}" @endif
                             class="px-4 py-3 transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300">
 
                         @error('email')
@@ -136,11 +137,9 @@
             // Formatear el input para mejor UX
             verificationCodeInput.addEventListener('keyup', function(e) {
                 if (this.value.length === 6) {
-                    this.style.background = '#dcfdf4'; // Verde claro
-                    this.style.borderColor = '#10b981'; // Verde
+                    this.classList.add('bg-green-100', 'border-green-500');
                 } else {
-                    this.style.background = '';
-                    this.style.borderColor = '';
+                    this.classList.remove('bg-green-100', 'border-green-500');
                 }
             });
         }

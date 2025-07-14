@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Log;
 
 class LoginRequest extends FormRequest
 {
@@ -94,6 +95,7 @@ class LoginRequest extends FormRequest
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
+            Log::warning('Failed login attempt for email: ' . $this->input('email') . ' at ' . now());
             throw ValidationException::withMessages([
                 'email' => $this->messages()['auth.failed'],
             ]);
@@ -117,6 +119,7 @@ class LoginRequest extends FormRequest
 
         session(['pending_2fa_email' => $email]);
 
+        Log::info('2FA code sent to email: ' . $email . ' at ' . now());
         throw ValidationException::withMessages([
             'email' => 'Se ha enviado un código de verificación a tu correo electrónico.',
         ]);
@@ -131,6 +134,7 @@ class LoginRequest extends FormRequest
         $code = $this->input('verification_code');
 
         if (!VerificationCode::verify($email, $code)) {
+            Log::warning('Invalid 2FA code for email: ' . $email . ' at ' . now());
             throw ValidationException::withMessages([
                 'verification_code' => $this->messages()['verification_code.invalid'],
             ]);
@@ -138,12 +142,16 @@ class LoginRequest extends FormRequest
 
         // Código válido, autenticar al usuario
         if (! Auth::attempt(['email' => $email, 'password' => $this->input('password')], $this->boolean('remember'))) {
+
+            Log::warning('Failed login attempt after 2FA for email: ' . $email . ' at ' . now());
             throw ValidationException::withMessages([
                 'email' => $this->messages()['auth.failed'],
             ]);
         }
 
         // Limpiar sesión 2FA
+        Log::info('User authenticated successfully after 2FA for email: ' . $email . ' at ' . now());
+
         session()->forget('pending_2fa_email');
         RateLimiter::clear($this->throttleKey());
     }

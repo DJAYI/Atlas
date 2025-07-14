@@ -45,7 +45,7 @@ class TurnstileServiceCF
                 return false;
             }
 
-            logger()->info('Turnstile token validado correctamente', $result);
+            
             return $result;
         } catch (\Exception $e) {
             logger()->error('Error al validar Turnstile: ' . $e->getMessage());
