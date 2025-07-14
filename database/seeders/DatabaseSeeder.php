@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
             CareersSeeder::class,
             UniversitySeeder::class,
             RoleAndPermissionSeeder::class, // Add roles and permissions
-            PersonSeeder::class, // Necesario para asistencias
+            // PersonSeeder::class, // Necesario para asistencias
             UserSeeder::class, // Create users with roles
-            EventSeeder::class, // Necesario para asistencias
+            // EventSeeder::class, // Necesario para asistencias
             // AssistanceSeeder::class, // Comentado por defecto para evitar ejecución accidental de 10,000 registros
         ]);
     }

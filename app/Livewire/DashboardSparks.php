@@ -228,7 +228,7 @@ class DashboardSparks extends Component
     public function mount()
     {
         // Tiempo de caché en segundos (15 minutos para mejor rendimiento)
-        $cacheTime = 900;
+        $cacheTime = now()->addMinutes(1)->diffInSeconds();
 
         // Cache all events for 15 minutes con eager loading optimizado
         $this->events = Cache::remember('dashboard_events', $cacheTime, function () {
