@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use Log;
 
 /**
  * Controller for managing Activity resources.
@@ -42,6 +43,7 @@ class ActivityController extends Controller
         ]);
 
         Activity::create($request->all());
+        Log::info('Activity created successfully by user: ' . auth()->user()->email . ' at ' . now());
 
         return redirect()->route('activities')->with('success', 'Activity created successfully.');
     }
@@ -79,6 +81,8 @@ class ActivityController extends Controller
 
         $activity->update($request->all());
 
+        Log::info('Activity updated successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('Activity updated: ' . $activity->name . ' at ' . now());
         return redirect()->route('activities')->with('success', 'Activity updated successfully.');
     }
 
@@ -94,6 +98,9 @@ class ActivityController extends Controller
     {
         $activity = Activity::findOrFail($id);
         $activity->delete();
+
+        Log::info('Activity deleted successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('Activity deleted: ' . $activity->name . ' at ' . now());
 
         return redirect()->route('activities')->with('success', 'Activity deleted successfully.');
     }

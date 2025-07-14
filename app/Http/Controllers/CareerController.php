@@ -47,6 +47,9 @@ class CareerController extends Controller
 
         Career::create($request->all());
 
+        // Log the creation of the career
+        Log::info('Career created successfully by user: ' . auth()->user()->email . ' at ' . now());
+
         return redirect()->route('careers')->with('success', 'Career created successfully.');
     }
 
@@ -85,6 +88,9 @@ class CareerController extends Controller
         $career = Career::findOrFail($id);
         $career->update($request->all());
 
+        Log::info('Career updated successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('Career updated: ' . $career->name . ' at ' . now());
+
         return redirect()->route('careers')->with('success', 'Career updated successfully.');
     }
 
@@ -100,6 +106,9 @@ class CareerController extends Controller
     {
         $career = Career::findOrFail($id);
         $career->delete();
+
+        Log::info('Career deleted successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('Career deleted: ' . $career->name . ' at ' . now());
 
         return redirect()->route('careers')->with('success', 'Career deleted successfully.');
     }

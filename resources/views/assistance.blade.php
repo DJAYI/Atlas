@@ -1,8 +1,15 @@
 <x-app-layout>
     <div class="flex flex-col items-center justify-around sm:flex-row">
-        <div class="flex flex-col items-center justify-center sm:flex-row">
-            <img loading="lazy" src="{{ asset('images/wonderlust_logo.webp') }}"
-                class="h-16 mix-blend-multiply brightness-105" alt="">
+        <div class="flex flex-col items-center justify-center gap-x-3 sm:flex-row">
+            <div class="flex items-center justify-center p-2 mb-4 sm:mb-0">
+                <img src="{{ asset('images/logo_tecno_comfenalco.png') }}" onload="this.classList.add('opacity-100')"
+                    class="object-contain w-24 transition-opacity opacity-0 aspect-video" alt="">
+                <hr class="h-16 w-[2px] bg-gradient-to-tr from-primary-400 to-secondary-300 rotate-12 mx-4">
+                <img loading="lazy" src="{{ asset('images/wonderlust_logo.webp') }}"
+                    onload="this.classList.add('opacity-100')"
+                    class="object-contain transition-opacity opacity-0 w-14 mix-blend-multiply brightness-105 aspect-square"
+                    alt="">
+            </div>
             <h1 class="text-3xl font-black text-primary-700">Wonderlust</h1>
         </div>
 

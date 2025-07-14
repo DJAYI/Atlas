@@ -10,6 +10,7 @@ use App\Models\University;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Log;
 
 /**
  * Class EventController
@@ -69,14 +70,6 @@ class EventController extends Controller
             'career_id' => 'nullable|exists:careers,id', // Carrera asociada
         ]);
 
-        // Si hay errores de validación, devolverlos
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Error en la validación',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
         // Generar código del evento
         $dateCode = date('dm', strtotime($request->start_date)); // ddmm de la fecha
         $randomCode = mt_rand(100, 999); // Número aleatorio de 3 dígitos
@@ -102,6 +95,10 @@ class EventController extends Controller
 
         // Asociar universidades al evento en la tabla pivote
         $event->universities()->attach($request->universities);
+
+        Log::info('Event created successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('Event created: ' . $event->name . ' at ' . now());
+
         return redirect()->route('events')->with('success', 'Evento creado exitosamente.');
     }
 
@@ -217,6 +214,10 @@ class EventController extends Controller
         $event->save();
         // Actualizar las universidades asociadas al evento
         $event->universities()->sync($request->universities);
+
+        Log::info('Event updated successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('Event updated: ' . $event->name . ' at ' . now());
+
         return redirect()->route('events')->with('success', 'Evento actualizado exitosamente.');
     }
 
@@ -234,6 +235,10 @@ class EventController extends Controller
         // Eliminar el evento
         $event->universities()->detach(); // Desasociar universidades
         $event->delete(); // Eliminar el evento
+
+
+        Log::info('Event deleted successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('Event deleted: ' . $event->name . ' at ' . now());
 
         return redirect()->route('events')->with('success', 'Evento eliminado exitosamente.');
     }

@@ -152,6 +152,9 @@ class LoginRequest extends FormRequest
         // Limpiar sesión 2FA
         Log::info('User authenticated successfully after 2FA for email: ' . $email . ' at ' . now());
 
+        // Usuario autenticado actual
+        Log::info('Authenticated user: ' . Auth::user()->email . ' at ' . now());
+
         session()->forget('pending_2fa_email');
         RateLimiter::clear($this->throttleKey());
     }

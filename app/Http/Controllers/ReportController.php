@@ -7,6 +7,7 @@ use App\Models\Assistance;
 use App\Models\Country;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 /**
@@ -71,6 +72,9 @@ class ReportController extends Controller
         }
 
         $result = $query->get();
+
+        Log::info('Report generated successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('Report details: ' . json_encode($request->all()) . ' at ' . now());
 
         return Excel::download(new ReportsExport($result, $type, $filterByColombia), 'Reporte Internacional Presencial de SNIES.xlsx');
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agreement;
 use Illuminate\Http\Request;
+use Log;
 
 /**
  * Class AgreementController
@@ -62,6 +63,9 @@ class AgreementController extends Controller
 
         $agreement->end_date = $validatedData['end_date'];
         $agreement->save();
+
+        Log::info('Agreement created successfully by user: ' . auth()->user()->email . ' at ' . now());
+
         // Redirigir a la vista de acuerdos con un mensaje de éxito
         return redirect()->route('agreements')
             ->with('success', 'Agreement created successfully.');
@@ -116,6 +120,10 @@ class AgreementController extends Controller
         // Save the changes
         $agreement->save();
 
+        Log::info('Agreement updated successfully by user: ' . auth()->user()->email . ' at ' . now());
+
+        Log::info('Agreement updated: ' . $agreement->code . ' at ' . now());
+
         return redirect()->route('agreements')
             ->with('success', 'Agreement updated successfully.');
     }
@@ -130,6 +138,9 @@ class AgreementController extends Controller
     {
         $agreement = Agreement::findOrFail($id);
         $agreement->delete();
+
+        Log::info('Agreement deleted successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('Agreement deleted: ' . $agreement->code . ' at ' . now());
 
         return redirect()->route('agreements')
             ->with('success', 'Agreement deleted successfully.');

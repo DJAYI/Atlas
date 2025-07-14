@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Person;
 use App\Models\University;
 use Illuminate\Http\Request;
+use Log;
 
 /**
  * Controller for managing University resources.
@@ -56,6 +57,8 @@ class UniversityController extends Controller
         $university->country()->associate($country);
 
         $university->save();
+
+        Log::info('University created successfully by user: ' . auth()->user()->email . ' at ' . now());
 
         return redirect()->route('universities')
             ->with('success', 'University created successfully.');
@@ -110,6 +113,9 @@ class UniversityController extends Controller
 
         $university->save();
 
+        Log::info('University updated successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('University updated: ' . $university->name . ' at ' . now());
+
         return redirect()->route('universities')
             ->with('success', 'University updated successfully.');
     }
@@ -135,6 +141,9 @@ class UniversityController extends Controller
 
         // Delete the university
         $university->delete();
+
+        Log::info('University deleted successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('University deleted: ' . $university->name . ' at ' . now());
 
         return redirect()->route('universities')
             ->with('success', 'University deleted successfully.');

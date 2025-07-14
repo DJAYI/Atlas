@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Log;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
@@ -41,6 +42,9 @@ class UserController extends Controller
         ]);
 
         $user->assignRole($validated['role']);
+
+        // Log the creation of the user
+        Log::info('User created successfully by user: ' . auth()->user()->email . ' at ' . now());
 
         return redirect()->route('users')->with('success', 'Usuario creado exitosamente');
     }
@@ -84,6 +88,10 @@ class UserController extends Controller
         // Sync roles (remove current and assign new)
         $user->syncRoles([$validated['role']]);
 
+        Log::info('User updated successfully by user: ' . auth()->user()->email . ' at ' . now());
+
+        Log::info('User updated: ' . $user->username . ' at ' . now());
+
         return redirect()->route('users')->with('success', 'Usuario actualizado exitosamente');
     }
 
@@ -101,6 +109,9 @@ class UserController extends Controller
         
         $user->delete();
         
+        Log::info('User deleted successfully by user: ' . auth()->user()->email . ' at ' . now());
+        Log::info('User deleted: ' . $user->username . ' at ' . now());
+
         return redirect()->route('users')->with('success', 'Usuario eliminado exitosamente');
     }
 }

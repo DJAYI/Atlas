@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\SendSurveyEmailJob;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Log;
 
 /**
  * Class SurveyController
@@ -43,6 +44,11 @@ class SurveyController extends Controller
             // Opcional: Agregar un pequeño retraso entre paquetes para reducir la carga
             usleep(500000); // 500ms
         }
+
+        Log::info('Surveys sent successfully for event: ' . $event->name . ' at ' . now());
+
+        Log::info('Survey sent by user: ' . auth()->user()->email . ' at ' . now());
+
         return response()->json(['success' => true]);
     }
 
@@ -63,6 +69,10 @@ class SurveyController extends Controller
         $fullname = $person->firstname . ' ' . $person->middlename . ' ' . $person->lastname . ' ' . $person->second_lastname;
         $fullname = strtoupper($fullname);
         dispatch((new SendSurveyEmailJob($person, $fullname, $event, $assistance, $url))->delay(now()));
+
+        Log::info('Survey sent successfully for event: ' . $event->name . ' at ' . now());
+        Log::info('Survey sent by user: ' . auth()->user()->email . ' at ' . now());
+        
         return response()->json(['success' => true]);
     }
 }
