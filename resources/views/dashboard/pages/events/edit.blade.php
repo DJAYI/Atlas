@@ -9,6 +9,8 @@
         @csrf
         @method('PUT')
 
+        <x-validation-errors class="mb-4" :errors="$errors" />
+
         @php
             $readonly = !auth()->user()->can('edit events') ? 'readonly' : '';
             $disabled = !auth()->user()->can('edit events') ? 'disabled' : '';

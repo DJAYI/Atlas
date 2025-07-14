@@ -10,6 +10,8 @@
         @csrf
         @method('POST')
 
+        <x-validation-errors class="mb-4" :errors="$errors" />
+
         <div class="flex flex-col gap-3">
             <h3 class="text-xl font-semibold text-gray-600">Información General</h3>
             <div class="grid grid-cols-2 gap-4">

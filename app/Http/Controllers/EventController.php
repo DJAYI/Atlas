@@ -8,6 +8,7 @@ use App\Models\Career;
 use App\Models\Event;
 use App\Models\University;
 use Illuminate\Http\Request;
+use App\Http\Requests\EventRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Log;
@@ -45,30 +46,12 @@ class EventController extends Controller
     /**
      * Almacena un nuevo evento en la base de datos después de validar los datos recibidos.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\EventRequest  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        // Validación de los datos
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'responsable' => 'required|string|max:255',
-            'activity_id' => 'required|exists:activities,id',
-            'has_agreement' => ['required', Rule::in(['si', 'no'])],
-            'agreement_id' => 'nullable|exists:agreements,id',
-            'modality' => ['required', Rule::in(['presencial', 'virtual', 'en casa'])],
-            'location' => ['required', Rule::in(['nacional', 'internacional', 'local'])],
-            'internationalization_at_home' => ['nullable', Rule::in(['si', 'no'])],
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i',
-            'universities' => 'required|array', // Debe ser un array de IDs
-            'universities.*' => 'exists:universities,id', // Cada ID debe existir en la BD
-            'description' => 'nullable|string|max:1000',
-            'career_id' => 'nullable|exists:careers,id', // Carrera asociada
-        ]);
+        // Los datos ya están validados por el EventRequest
 
         // Generar código del evento
         $dateCode = date('dm', strtotime($request->start_date)); // ddmm de la fecha
@@ -153,39 +136,13 @@ class EventController extends Controller
     /**
      * Actualiza un evento existente en la base de datos después de validar los datos recibidos.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\EventRequest  $request
      * @param  string  $id  ID del evento a actualizar
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, string $id)
+    public function update(EventRequest $request, string $id)
     {
-        // Validación de los datos
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'responsable' => 'required|string|max:255',
-            'activity_id' => 'required|exists:activities,id',
-            'has_agreement' => ['required', Rule::in(['si', 'no'])],
-            'agreement_id' => 'nullable|exists:agreements,id',
-            'modality' => ['required', Rule::in(['presencial', 'virtual', 'en casa'])],
-            'location' => ['required', Rule::in(['nacional', 'internacional', 'local'])],
-            'internationalization_at_home' => ['nullable', Rule::in(['si', 'no'])],
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i',
-            'universities' => 'required|array', // Debe ser un array de IDs
-            'universities.*' => 'exists:universities,id', // Cada ID debe existir en la BD
-            'description' => 'nullable|string|max:1000',
-            'career_id' => 'nullable|exists:careers,id', // Carrera asociada
-        ]);
-
-        // Si hay errores de validación, devolverlos
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Error en la validación',
-                'errors' => $validator->errors()
-            ], 422);
-        }
+        // Los datos ya están validados por el EventRequest
         // Buscar el evento por ID
         $event = Event::findOrFail($id);
 
