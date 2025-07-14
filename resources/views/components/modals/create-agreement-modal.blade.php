@@ -3,6 +3,10 @@
     id="create-agreement" popover>
     <h3 class="text-4xl font-semibold">Nuevo Convenio</h3>
     <br>
+    
+    <!-- Display validation errors -->
+    <x-validation-errors class="mb-4" :errors="$errors" />
+    
     <form action="{{ route('agreements.store') }}" class="flex flex-col gap-6" method="POST">
         @csrf
         @method('POST')
@@ -12,13 +16,19 @@
             <div class="grid grid-cols-2 gap-4">
                 <div class="flex flex-col gap-2">
                     <label for="year" class="text-gray-500">Año</label>
-                    <input required maxlength="4" type="text" name="year" id="year"
-                        class="py-2 px-4 w-[400px] bg-white border border-primary-300 rounded-lg shadow-sm  transition">
+                    <input required maxlength="4" type="text" name="year" id="year" value="{{ old('year') }}"
+                        class="py-2 px-4 w-[400px] bg-white border {{ $errors->has('year') ? 'border-red-500' : 'border-primary-300' }} rounded-lg shadow-sm transition">
+                    @error('year')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="semester" class="text-gray-500">Periodo</label>
-                    <input required maxlength="1" type="text" name="semester" id="semester"
-                        class="py-2 px-4 w-[400px] bg-white border border-primary-300 rounded-lg shadow-sm  transition">
+                    <input required maxlength="1" type="text" name="semester" id="semester" value="{{ old('semester') }}"
+                        class="py-2 px-4 w-[400px] bg-white border {{ $errors->has('semester') ? 'border-red-500' : 'border-primary-300' }} rounded-lg shadow-sm transition">
+                    @error('semester')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use Log;
 use Spatie\Permission\Models\Role;
@@ -23,16 +24,13 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
+     * @param  \App\Http\Requests\UserRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $validated = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'institutional_email' => 'required|string|email|max:255|unique:users,institutional_email',
-            'password' => 'required|string|min:8',
-            'role' => 'required|exists:roles,name',
-        ]);
+        $validated = $request->validated();
 
         $user = User::create([
             'username' => $validated['username'],
@@ -61,17 +59,11 @@ class UserController extends Controller
         return view('dashboard.pages.users.edit', compact('user', 'roles'));
      }
 
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, string $id)
     {
         $user = User::findOrFail($id);
         
-        $validated = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'institutional_email' => 'required|string|email|max:255|unique:users,institutional_email,'.$user->id,
-            'password' => 'nullable|string|min:8',
-            'role' => 'required|exists:roles,name',
-        ]);
+        $validated = $request->validated();
 
         $user->update([
             'username' => $validated['username'],

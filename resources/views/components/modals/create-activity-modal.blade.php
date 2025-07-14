@@ -2,6 +2,9 @@
     id="create-activity" popover>
     <h3 class="text-4xl font-semibold">Nueva Actividad</h3>
     <br>
+    
+    <!-- Display validation errors -->
+    <x-validation-errors class="mb-4" :errors="$errors" />
 
     <form action="{{ route('activities.store') }}" class="flex flex-col gap-6" method="POST">
         @csrf
@@ -12,14 +15,20 @@
             <div class="grid grid-cols-1 w-[600px] gap-4 ">
                 <div class="flex flex-col gap-2">
                     <label for="name" class="text-gray-500">Nombre</label>
-                    <input required type="text" name="name" id="name"
-                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300 ">
+                    <input required type="text" name="name" id="name" value="{{ old('name') }}"
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300 {{ $errors->has('name') ? 'border-red-500' : '' }}">
+                    @error('name')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label for="description" class="text-gray-500">Descripción</label>
                     <textarea name="description" id="description" rows="3"
-                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm resize-none border-primary-300"></textarea>
+                        class="px-4 py-2 transition bg-white border rounded-lg shadow-sm resize-none border-primary-300 {{ $errors->has('description') ? 'border-red-500' : '' }}">{{ old('description') }}</textarea>
+                    @error('description')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
         </div>

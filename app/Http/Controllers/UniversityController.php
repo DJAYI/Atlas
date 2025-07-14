@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Person;
 use App\Models\University;
+use App\Http\Requests\UniversityRequest;
 use Illuminate\Http\Request;
 use Log;
 
@@ -34,17 +35,12 @@ class UniversityController extends Controller
      *
      * Validates and creates a new university, associating it with a country.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UniversityRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(UniversityRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'code' => 'required|string|max:50|unique:universities,code',
-            'description' => 'nullable|string',
-            'country_id' => 'required|exists:countries,id',
-        ]);
+        $validatedData = $request->validated();
 
         // Create a new university instance with validated data except the city relation
         $university = new University();
@@ -86,21 +82,16 @@ class UniversityController extends Controller
      *
      * Validates and updates the university, associating it with a country.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UniversityRequest  $request
      * @param  string  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, string $id)
+    public function update(UniversityRequest $request, string $id)
     {
         // Find the university by ID
         $university = University::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'code' => 'required|string|max:50|unique:universities,code,' . $university->id,
-            'description' => 'nullable|string',
-            'country_id' => 'required|exists:countries,id',
-        ]);
+        $validatedData = $request->validated();
 
         // Update the university with validated data
         $university->name = $validatedData['name'];

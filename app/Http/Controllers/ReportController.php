@@ -6,6 +6,7 @@ use App\Exports\ReportsExport;
 use App\Models\Assistance;
 use App\Models\Country;
 use App\Models\Event;
+use App\Http\Requests\ReportRequest;
 use Illuminate\Http\Request;
 use Log;
 use Maatwebsite\Excel\Facades\Excel;
@@ -28,15 +29,15 @@ class ReportController extends Controller
      * Retrieves assistance records filtered by event ID, type of person, and
      * whether the person is Colombian. The resulting data is exported as an Excel file.
      *
-     * @param Request $request The HTTP request containing query parameters:
+     * @param ReportRequest $request The HTTP request containing validated parameters:
      *                         - event_id: (int) The ID of the event to filter by (required).
      *                         - type: (string|null) The type of person to filter by (optional).
      *                         - is_colombian: (bool|string|null) Whether to filter by Colombians (optional).
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse The Excel file download response.
      */
-    public function generateReport(Request $request)
+    public function generateReport(ReportRequest $request)
     {
-        // Validar que el evento existe
+        // Data is already validated by ReportRequest
         $eventId = $request->query('event_id');
         $type = $request->query('type');
         $filterByColombia = $request->query('is_colombian');
