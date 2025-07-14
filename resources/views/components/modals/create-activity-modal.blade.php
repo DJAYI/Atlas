@@ -2,7 +2,7 @@
     id="create-activity" popover>
     <h3 class="text-4xl font-semibold">Nueva Actividad</h3>
     <br>
-    
+
     <!-- Display validation errors -->
     <x-validation-errors class="mb-4" :errors="$errors" />
 
