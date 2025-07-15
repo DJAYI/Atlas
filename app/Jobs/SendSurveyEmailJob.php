@@ -47,7 +47,7 @@ class SendSurveyEmailJob implements ShouldQueue
             $surveyUrl = $this->url ? '<br><a href="' . $this->url . '">' . $this->url . '</a>' : '';
             // Enviar el correo de encuesta
             Mail::send([], [], function ($message) use ($surveyUrl) {
-                $message->from('onboarding@resend.dev', 'Acme')
+                $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
                     ->to($this->person->email)
                     ->subject('Encuesta para ' . $this->fullname)
                     ->html('Hola ' . $this->fullname . ', por favor responde la encuesta para el evento: ' . $this->event->name . $surveyUrl);

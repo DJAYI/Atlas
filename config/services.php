@@ -13,13 +13,6 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-    'recaptcha' => [
-        'site_key' => env('RECAPTCHA_SITE_KEY'),
-        'secret_key' => env('RECAPTCHA_SECRET_KEY'),
-        'min_score' => env('RECAPTCHA_MIN_SCORE', .5),
-        'project_id' => env('RECAPTCHA_PROJECT_ID'),
-        'action' => env('RECAPTCHA_ACTION'),
-    ],
 
     'turnstile' => [ 
         'secret_key' => env('TURNSTILE_SECRET_KEY'),
@@ -34,10 +27,6 @@ return [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-    ],
-
-    'resend' => [
-        'key' => env('RESEND_KEY'),
     ],
 
     'slack' => [
