@@ -10,7 +10,7 @@ class UniversityFactory extends Factory
     public function definition(): array
     {
         return [
-            'country_id' => Country::inRandomOrder()->first()?->id ?? 1,
+            'country_id' => \App\Models\Country::factory(),
             'name' => $this->faker->company . ' University',
             'code' => strtoupper($this->faker->unique()->lexify('U????')),
             'description' => $this->faker->sentence,

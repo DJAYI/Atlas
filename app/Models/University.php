@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class University extends Model
 {
     use HasFactory;
-    protected $fillable = ['country', 'name', 'code', 'description'];
+    protected $fillable = ['country_id', 'name', 'code', 'description'];
 
     public function country()
     {

@@ -64,6 +64,7 @@ class EventController extends Controller
             'responsable' => $request->responsable,
             'activity_id' => $request->activity_id,
             'has_agreement' => $request->has_agreement,
+            'agreement_id' => $request->agreement_id,
             'modality' => $request->modality,
             'location' => $request->location,
             'internationalization_at_home' => $request->internationalization_at_home,
