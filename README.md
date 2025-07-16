@@ -1,6 +1,6 @@
 <p align="center">
-<a href="[https://laravel.com](https://laravel.com)" target="_blank">
-<img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
+<a href="https://www.tecnologicocomfenalco.edu.co" target="_blank">
+<img src="https://tecnologicocomfenalco.edu.co//wp-content/uploads/2025/02/Logo-1-01.png" width="400" alt="Tecnológico Comfenalco Logo">
 </a>
 </p>
 
@@ -14,8 +14,8 @@
 
 <p align="center">
 <img alt="PHP" src="https://img.shields.io/badge/PHP-8.1%2B-777BB4?style=for-the-badge&logo=php">
-<img alt="Laravel" src="https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel">
-<img alt="MySQL" src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql">
+<img alt="Laravel" src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel">
+<img alt="Postgres" src="https://img.shields.io/badge/Postgres-8.4-4479A1?style=for-the-badge&logo=postgresql">
 <img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge">
 </p>
 
@@ -25,7 +25,7 @@
 
 **Hermes (Wonderlust)** es una plataforma para la gestión de Internacionalización de Eventos, diseñada para que los usuarios de la **Fundación Universitaria Tecnológico Comfenalco** puedan administrar eventos, convenios y actividades académicas internacionales.
 
-La aplicación está construida con **Laravel 10** y sigue una arquitectura moderna para facilitar su desarrollo y mantenimiento.
+La aplicación está construida con **Laravel 12** y sigue una arquitectura moderna para facilitar su desarrollo y mantenimiento.
 
 ---
 
@@ -93,11 +93,11 @@ La aplicación está construida con **Laravel 10** y sigue una arquitectura mode
 </tr>
 <tr>
 <td>
-<img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="MySQL" width="100">
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg" alt="PostgreSQL" width="100">
 </td>
 <td>
-<b>MySQL</b>
-<p>Sistema de gestión de bases de datos relacional para almacenar y gestionar los datos. También soporta SQLite para desarrollo local.</p>
+<b>PostgreSQL</b>
+<p>Sistema de gestión de bases de datos relacional avanzado, utilizado para almacenar y gestionar los datos de la aplicación. También soporta SQLite para desarrollo local.</p>
 </td>
 </tr>
 <tr>
@@ -435,6 +435,7 @@ hermes/
 │   ├── Livewire/         # Componentes interactivos de Livewire
 │   ├── Mail/             # Clases de correo electrónico
 │   ├── Models/           # Modelos Eloquent con sus relaciones
+│   ├── Providers/        # Service Providers personalizados (gestión de datos y servicios)
 │   └── Services/         # Lógica de negocio desacoplada
 ├── database/
 │   ├── factories/
@@ -450,3 +451,61 @@ hermes/
 │   └── web.php
 └── ...
 ```
+
+---
+
+## 🔌 Service Providers Personalizados
+
+El proyecto incluye varios Service Providers especializados que manejan diferentes aspectos de la aplicación:
+
+### 🎓 CareerManagementServiceProvider
+
+Gestiona la funcionalidad relacionada con carreras académicas:
+
+-   **Propósito**: Proporciona datos de facultades a los componentes de creación de carreras
+-   **Funcionalidad**: Inyecta automáticamente la lista de facultades disponibles en los modales de creación
+-   **Optimización**: Solo se ejecuta si la tabla `faculties` existe en la base de datos
+
+### 📅 EventManagementServiceProvider
+
+Administra la lógica de gestión de eventos:
+
+-   **Propósito**: Centraliza la distribución de datos para eventos y componentes relacionados
+-   **Funcionalidad**:
+    -   Proporciona listas de actividades, universidades, acuerdos y carreras a los modales de eventos
+    -   Comparte datos de eventos con el dashboard principal
+-   **Optimización**: Verifica la existencia de múltiples tablas antes de ejecutarse
+-   **Componentes afectados**: `create-event-modal`, `dashboard.index`
+
+### 🏛️ UniversityManagementServiceProvider
+
+Maneja la gestión de universidades:
+
+-   **Propósito**: Proporciona datos de países para la creación de universidades
+-   **Funcionalidad**: Inyecta la lista de países disponibles en los componentes de gestión universitaria
+-   **Optimización**: Solo se activa si la tabla `countries` está disponible
+
+### 🗺️ UniversityAttendanceCoordsServiceProvider
+
+Provider especializado para geocodificación automática:
+
+-   **Propósito**: Obtiene automáticamente coordenadas geográficas para universidades
+-   **Funcionalidad**:
+    -   Identifica universidades sin coordenadas que tengan asistentes
+    -   Utiliza la API de OpenCage para geocodificación
+    -   Actualiza automáticamente las coordenadas en la base de datos
+-   **Optimización**:
+    -   Se ejecuta máximo una vez por día para evitar sobrecarga
+    -   Implementa cache para evitar peticiones duplicadas a la API
+    -   Solo procesa universidades con asistencias registradas
+-   **Configuración requerida**: Variable de entorno `OPENCAGE_API_KEY`
+
+### 🔧 Características Técnicas de los Providers
+
+**Verificación de Tablas**: Todos los providers verifican la existencia de las tablas necesarias antes de ejecutarse, evitando errores durante migraciones o en entornos de desarrollo.
+
+**Composición de Vistas**: Utilizan `View::composer()` para inyectar datos automáticamente en componentes específicos, reduciendo la duplicación de código.
+
+**Optimización de Rendimiento**: Implementan estrategias de cache y verificaciones condicionales para minimizar el impacto en el rendimiento.
+
+**Separación de Responsabilidades**: Cada provider maneja un dominio específico de la aplicación, facilitando el mantenimiento y testing.
