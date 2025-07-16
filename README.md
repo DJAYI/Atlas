@@ -79,7 +79,7 @@ La aplicación está construida con **Laravel 12** y sigue una arquitectura mode
 </td>
 <td>
 <b>Laravel Framework</b>
-<p>Framework de PHP con una sintaxis elegante y herramientas poderosas para el desarrollo rápido y seguro de aplicaciones web.</p>
+<p>Framework MVC de PHP basado en el patrón arquitectónico Model-View-Controller. Implementa el patrón Active Record mediante Eloquent ORM, incluye un motor de plantillas Blade, sistema de migraciones para versionado de base de datos, inyección de dependencias IoC, middleware para filtrado de requests HTTP, y un sistema de enrutamiento RESTful avanzado.</p>
 </td>
 </tr>
 <tr>
@@ -88,7 +88,7 @@ La aplicación está construida con **Laravel 12** y sigue una arquitectura mode
 </td>
 <td>
 <b>Composer</b>
-<p>Gestor de dependencias para PHP, utilizado para administrar las bibliotecas y paquetes del proyecto.</p>
+<p>Gestor de dependencias para PHP que utiliza archivos JSON para definir librerías requeridas. Implementa PSR-4 autoloading, resolución de dependencias con algoritmo SAT solver, versionado semántico, y generación de autoload optimizado con classmap y PSR-0/PSR-4 para mejorar el rendimiento de carga de clases.</p>
 </td>
 </tr>
 <tr>
@@ -97,7 +97,7 @@ La aplicación está construida con **Laravel 12** y sigue una arquitectura mode
 </td>
 <td>
 <b>PostgreSQL</b>
-<p>Sistema de gestión de bases de datos relacional avanzado, utilizado para almacenar y gestionar los datos de la aplicación. También soporta SQLite para desarrollo local.</p>
+<p>Sistema de gestión de bases de datos objeto-relacional (ORDBMS) que implementa el estándar SQL:2016. Soporta características avanzadas como tipos de datos personalizados, índices parciales y funcionales, procedimientos almacenados en múltiples lenguajes (PL/pgSQL, Python, etc.), replicación streaming, particionado declarativo, y extensiones como PostGIS para datos geoespaciales.</p>
 </td>
 </tr>
 <tr>
@@ -106,7 +106,7 @@ La aplicación está construida con **Laravel 12** y sigue una arquitectura mode
 </td>
 <td>
 <b>Node.js & Vite</b>
-<p>Entorno de ejecución para JavaScript del lado del servidor. Se utiliza para gestionar las dependencias del frontend y compilar assets con Vite.</p>
+<p>Runtime de JavaScript construido sobre el motor V8 de Chrome que utiliza arquitectura event-driven no bloqueante. Vite es un build tool que implementa ES modules nativos, Hot Module Replacement (HMR) instantáneo, tree-shaking automático, code splitting dinámico, y optimización de bundling con Rollup para producción. Soporta TypeScript, JSX y preprocesadores CSS out-of-the-box.</p>
 </td>
 </tr>
 <tr>
@@ -115,7 +115,7 @@ La aplicación está construida con **Laravel 12** y sigue una arquitectura mode
 </td>
 <td>
 <b>Tailwind CSS</b>
-<p>Framework de CSS <i>utility-first</i> para crear interfaces de usuario modernas y responsivas de manera eficiente.</p>
+<p>Framework CSS utility-first que implementa atomic design principles. Utiliza PostCSS para procesamiento, PurgeCSS para eliminación de CSS no usado, sistema de design tokens configurables, responsive design mobile-first, y JIT (Just-In-Time) compilation para generación dinámica de clases. Incluye sistema de componentes reutilizables y variantes condicionales.</p>
 </td>
 </tr>
 <tr>
@@ -124,7 +124,7 @@ La aplicación está construida con **Laravel 12** y sigue una arquitectura mode
 </td>
 <td>
 <b>Cloudflare Turnstile</b>
-<p>Alternativa a los CAPTCHAs tradicionales que distingue entre humanos y bots sin fricción para el usuario, mejorando la seguridad y la experiencia.</p>
+<p>Sistema de validación anti-bot que utiliza machine learning y análisis comportamental en lugar de CAPTCHAs tradicionales. Implementa challenge-response protocols invisibles, fingerprinting de dispositivos, análisis de patrones de mouse/teclado, y validación server-side mediante tokens JWT firmados. Reduce la fricción del usuario mientras mantiene alta efectividad contra ataques automatizados.</p>
 </td>
 </tr>
 <tr>
@@ -133,7 +133,7 @@ La aplicación está construida con **Laravel 12** y sigue una arquitectura mode
 </td>
 <td>
 <b>Choices.js</b>
-<p>Biblioteca de JavaScript para crear selectores y campos de entrada personalizables y amigables con el usuario.</p>
+<p>Biblioteca JavaScript vanilla (sin dependencias) para enhanced select boxes que implementa virtual scrolling para grandes datasets, búsqueda fuzzy, soporte para múltiple selección con tokenización, customización completa via CSS variables, accesibilidad ARIA compliant, y API programática para manipulación dinámica de opciones. Compatible con frameworks modernos via adaptadores.</p>
 </td>
 </tr>
 </tbody>
