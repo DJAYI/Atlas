@@ -2,7 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\EventHasAgreementEnum;
+use App\Enums\EventInternalizationAtHomeEnum;
+use App\Enums\EventLocationEnum;
+use App\Enums\EventModalityEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EventRequest extends FormRequest
 {
@@ -25,11 +30,11 @@ class EventRequest extends FormRequest
             'name' => 'required|string|max:255',
             'responsable' => 'required|string|max:255',
             'activity_id' => 'required|exists:activities,id',
-            'has_agreement' => 'required|in:si,no',
+            'has_agreement' => ['required', Rule::enum(EventHasAgreementEnum::class)],
             'agreement_id' => 'nullable|required_if:has_agreement,si|exists:agreements,id',
-            'modality' => 'required|in:presencial,virtual,en casa',
-            'location' => 'required|in:nacional,internacional,local',
-            'internationalization_at_home' => 'nullable|in:si,no',
+            'modality' => ['required', Rule::enum(EventModalityEnum::class)],
+            'location' => ['required', Rule::enum(EventLocationEnum::class)],
+            'internationalization_at_home' => ['nullable', Rule::enum(EventInternalizationAtHomeEnum::class)],
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'start_time' => 'required|date_format:H:i',

@@ -87,21 +87,22 @@
                         class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                         {{ $disabled }}>
                         <option disabled value="">Seleccione una modalidad</option>
-                        <option value="presencial" @if ($event->modality == 'presencial') selected @endif>Presencial
+                        <option value="presencial" @if ($event->modality == App\Enums\EventModalityEnum::presencial) selected @endif>Presencial
                         </option>
-                        <option value="virtual" @if ($event->modality == 'virtual') selected @endif>Virtual</option>
+                        <option value="virtual" @if ($event->modality == App\Enums\EventModalityEnum::virtual) selected @endif>Virtual</option>
                     </select>
                 </div>
 
-                <div class="flex-col {{ $event->modality === 'virtual' ? '' : 'hidden' }} gap-2" id="at_home">
+                <div class="flex-col {{ $event->modality === App\Enums\EventModalityEnum::virtual ? '' : 'hidden' }} gap-2"
+                    id="at_home">
                     <label for="internationalization_at_home" class="text-gray-500">Internacionalización en
                         Casa</label>
                     <select name="internationalization_at_home" id="internationalization_at_home"
                         class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                         {{ $disabled }}>
                         <option disabled value="">Seleccione una opción</option>
-                        <option value="si" @if ($event->internationalization_at_home === 'si') selected @endif>Si</option>
-                        <option value="no" @if ($event->internationalization_at_home === 'no') selected @endif>No</option>
+                        <option value="si" @if ($event->internationalization_at_home === App\Enums\EventInternalizationAtHomeEnum::si) selected @endif>Si</option>
+                        <option value="no" @if ($event->internationalization_at_home === App\Enums\EventInternalizationAtHomeEnum::no) selected @endif>No</option>
                     </select>
                 </div>
 
@@ -111,10 +112,10 @@
                         class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                         {{ $disabled }}>
                         <option disabled value="">Seleccione una localización</option>
-                        <option value="nacional" @if ($event->location == 'nacional') selected @endif>Nacional</option>
-                        <option value="internacional" @if ($event->location == 'internacional') selected @endif>Internacional
+                        <option value="nacional" @if ($event->location == App\Enums\EventLocationEnum::nacional) selected @endif>Nacional</option>
+                        <option value="internacional" @if ($event->location == App\Enums\EventLocationEnum::internacional) selected @endif>Internacional
                         </option>
-                        <option value="local" @if ($event->location == 'local') selected @endif>Local</option>
+                        <option value="local" @if ($event->location == App\Enums\EventLocationEnum::local) selected @endif>Local</option>
                     </select>
                 </div>
 
@@ -141,12 +142,13 @@
                         class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"
                         {{ $disabled }}>
                         <option disabled value="">Seleccione una opción</option>
-                        <option value="si" @if ($event->has_agreement == 'si') selected @endif>Si</option>
-                        <option value="no" @if ($event->has_agreement == 'no') selected @endif>No</option>
+                        <option value="si" @if ($event->has_agreement == App\Enums\EventHasAgreementEnum::si) selected @endif>Si</option>
+                        <option value="no" @if ($event->has_agreement == App\Enums\EventHasAgreementEnum::no) selected @endif>No</option>
                     </select>
                 </div>
 
-                <div class="flex-col {{ $event->has_agreement === 'si' ? '' : 'hidden' }} gap-2">
+                <div
+                    class="flex-col {{ $event->has_agreement === App\Enums\EventHasAgreementEnum::si ? '' : 'hidden' }} gap-2">
                     <label for="agreement_id" class="text-gray-500">Convenio</label>
                     <select name="agreement_id" id="agreement_id"
                         class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300"

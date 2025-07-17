@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\EventHasAgreementEnum;
+use App\Enums\EventInternalizationAtHomeEnum;
+use App\Enums\EventLocationEnum;
+use App\Enums\EventModalityEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,14 +33,14 @@ class Event extends Model
     ];
 
     protected $casts = [
-        'has_agreement' => 'string',
-        'modality' => 'string',
-        'location' => 'string',
-        'internationalization_at_home' => 'string',
-        'start_date' => 'date',
-        'end_date' => 'date',
-        'start_time' => 'datetime:H:i', // ✅ Formato correcto
-        'end_time' => 'datetime:H:i',   // ✅ Formato correcto
+        'has_agreement' => EventHasAgreementEnum::class,
+        'modality' => EventModalityEnum::class,
+        'location' => EventLocationEnum::class,
+        'internationalization_at_home' => EventInternalizationAtHomeEnum::class,
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i',
     ];
 
     // Relación con Activity
@@ -69,7 +73,25 @@ class Event extends Model
     public function isActive(): bool
     {
         $now = Carbon::now();
+        
+        // Obtener fechas como objetos Carbon de los casts
+        $startDateObj = $this->start_date; // Ya es Carbon por el cast
+        $endDateObj = $this->end_date;     // Ya es Carbon por el cast
+        
+        // Obtener horas como objetos DateTime de los casts
+        $startTimeObj = $this->start_time; // Ya es DateTime por el cast
+        $endTimeObj = $this->end_time;     // Ya es DateTime por el cast
+        
+        // Extraer solo las partes de fecha y hora
+        $startDate = $startDateObj->format('Y-m-d');
+        $endDate = $endDateObj->format('Y-m-d');
+        $startTime = $startTimeObj->format('H:i:s');
+        $endTime = $endTimeObj->format('H:i:s');
+        
+        // Crear instancias Carbon completas combinando fecha y hora
+        $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . ' ' . $startTime);
+        $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $endDate . ' ' . $endTime);
 
-        return Carbon::parse($this->start_date)->lte($now) && Carbon::parse($this->end_date)->gte($now);
+        return $startDateTime->lte($now) && $endDateTime->gte($now);
     }
 }
