@@ -230,10 +230,10 @@
 
                     @if (!$readonly)
                         <div class="relative">
-                            <input type="file" name="photographic_support[]" id="photographic_support"
+                            <input type="file" name="photographic_support[]" id="photographic_support" multiple
                                 class="px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
                                 accept=".png,.jpg,.jpeg,.webp,.pdf" onchange="previewFiles(this)">
-                            <small class="text-gray-400">Formatos permitidos: PNG, JPG, JPEG, WEBP, PDF. Máximo 2MB
+                            <small class="text-gray-400">Formatos permitidos: PNG, JPG, JPEG, WEBP, PDF. Máximo 10MB
                                 por archivo.</small>
                         </div>
 
