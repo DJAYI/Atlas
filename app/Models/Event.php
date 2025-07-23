@@ -30,6 +30,8 @@ class Event extends Model
         'university_id',
         'career_id',
         'description',
+        'significant_results',
+        'photographic_support',
     ];
 
     protected $casts = [
@@ -41,6 +43,7 @@ class Event extends Model
         'end_date' => 'datetime',
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
+        'photographic_support' => 'array',
     ];
 
     // Relación con Activity
@@ -93,5 +96,56 @@ class Event extends Model
         $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $endDate . ' ' . $endTime);
 
         return $startDateTime->lte($now) && $endDateTime->gte($now);
+    }
+
+    /**
+     * Obtiene las URLs públicas de los archivos de soporte fotográfico
+     */
+    public function getPhotographicSupportUrls(): array
+    {
+        if (!$this->photographic_support) {
+            return [];
+        }
+
+        return array_map(function ($file) {
+            return [
+                'name' => basename($file),
+                'url' => asset('storage/' . $file),
+                'path' => $file
+            ];
+        }, $this->photographic_support);
+    }
+
+    /**
+     * Añade archivos al soporte fotográfico
+     */
+    public function addPhotographicSupportFiles(array $files): void
+    {
+        $currentFiles = $this->photographic_support ?? [];
+        $this->photographic_support = array_merge($currentFiles, $files);
+        $this->save();
+    }
+
+    /**
+     * Elimina un archivo específico del soporte fotográfico
+     */
+    public function removePhotographicSupportFile(string $filePath): bool
+    {
+        $currentFiles = $this->photographic_support ?? [];
+        $updatedFiles = array_filter($currentFiles, fn($file) => $file !== $filePath);
+        
+        if (count($updatedFiles) !== count($currentFiles)) {
+            $this->photographic_support = array_values($updatedFiles);
+            $this->save();
+            
+            // Eliminar archivo físico del storage
+            if (\Storage::disk('public')->exists($filePath)) {
+                \Storage::disk('public')->delete($filePath);
+            }
+            
+            return true;
+        }
+        
+        return false;
     }
 }

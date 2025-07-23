@@ -52,6 +52,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::post('/', [EventController::class, 'store'])->middleware('permission:create events')->name('events.store');
         Route::put('/{id}', [EventController::class, 'update'])->middleware('permission:edit events')->name('events.update');
         Route::delete('/{id}', [EventController::class, 'destroy'])->middleware('permission:delete events')->name('events.destroy');
+        Route::get('/{id}/photographic-support/download', [EventController::class, 'downloadPhotographicSupport'])->middleware('permission:view events')->name('events.downloadPhotographicSupport');
+        Route::delete('/{eventId}/photographic-support/{fileIndex}', [EventController::class, 'removePhotographicSupportFile'])->middleware('permission:edit events')->name('events.removePhotographicSupportFile');
         Route::post('/events/{id}/surveys', [SurveyController::class, 'sendAllSurveys'])->middleware('permission:edit events')->name('events.sendAllSurveys');
         Route::post('/events/{event_id}/surveys/{assistance_id}', [SurveyController::class, 'sendSurvey'])->middleware('permission:edit events')->name('events.sendSurvey');
         Route::post('/events/{event_id}/assistances', [AssistanceController::class, 'exportAssistances'])->middleware('permission:view events')->name('events.exportAssistances');

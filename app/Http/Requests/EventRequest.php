@@ -43,6 +43,8 @@ class EventRequest extends FormRequest
             'universities.*' => 'exists:universities,id',
             'description' => 'nullable|string|max:1000',
             'career_id' => 'nullable|exists:careers,id',
+            'significant_results' => 'nullable|string|max:1000',
+            'photographic_support.*' => 'nullable|file|mimes:png,jpg,jpeg,webp,pdf|max:2048', // máximo 2MB (ajustado a configuración PHP)
         ];
     }
     
@@ -83,6 +85,10 @@ class EventRequest extends FormRequest
             'universities.*.exists' => 'Una o más de las universidades seleccionadas no son válidas.',
             'description.max' => 'La descripción no puede tener más de 1000 caracteres.',
             'career_id.exists' => 'La carrera seleccionada no es válida.',
+            'significant_results.max' => 'Los resultados significativos no pueden tener más de 1000 caracteres.',
+            'photographic_support.*.file' => 'El archivo debe ser un archivo válido.',
+            'photographic_support.*.mimes' => 'El archivo debe ser de tipo: PNG, JPG, JPEG, WEBP o PDF.',
+            'photographic_support.*.max' => 'El archivo no puede ser mayor a 2MB.',
         ];
     }
 }

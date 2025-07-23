@@ -75,7 +75,13 @@ class EventController extends Controller
             'event_code' => $eventCode,
             'description' => $request->description,
             'career_id' => $request->career_id, // Carrera asociada
+            'significant_results' => $request->significant_results,
         ]);
+
+        // Manejar archivos de soporte fotográfico
+        if ($request->hasFile('photographic_support')) {
+            $this->handlePhotographicSupport($request, $event);
+        }
 
         // Asociar universidades al evento en la tabla pivote
         $event->universities()->attach($request->universities);
@@ -147,7 +153,12 @@ class EventController extends Controller
         // Buscar el evento por ID
         $event = Event::findOrFail($id);
 
-        // Actualizar el evento sin incluir 'universities'
+        // Manejar archivos de soporte fotográfico ANTES de actualizar otros campos
+        if ($request->hasFile('photographic_support')) {
+            $this->handlePhotographicSupport($request, $event);
+        }
+
+        // Actualizar los campos del evento (sin incluir photographic_support para preservarlo)
         $event->update([
             'name' => $request->name,
             'responsable' => $request->responsable,
@@ -161,8 +172,10 @@ class EventController extends Controller
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'description' => $request->description,
-            'career_id' => $request->career_id, // Carrera asociada
+            'career_id' => $request->career_id,
+            'significant_results' => $request->significant_results,
         ]);
+        
         // Actualizar el acuerdo asociado al evento
         if ($request->has_agreement == 'si') {
             $event->agreement_id = $request->agreement_id;
@@ -170,6 +183,7 @@ class EventController extends Controller
             $event->agreement_id = null;
         }
         $event->save();
+        
         // Actualizar las universidades asociadas al evento
         $event->universities()->sync($request->universities);
 
@@ -199,5 +213,102 @@ class EventController extends Controller
         Log::info('Event deleted: ' . $event->name . ' at ' . now());
 
         return redirect()->route('events')->with('success', 'Evento eliminado exitosamente.');
+    }
+
+    /**
+     * Maneja la subida de archivos de soporte fotográfico
+     */
+    private function handlePhotographicSupport(Request $request, Event $event): void
+    {
+        $uploadedFiles = [];
+        
+        foreach ($request->file('photographic_support') as $file) {
+            if ($file->isValid()) {
+                // Generar nombre único para el archivo
+                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                
+                // Guardar archivo en storage/app/public/events/photographic_support
+                $filePath = $file->storeAs(
+                    'events/photographic_support/' . $event->id,
+                    $fileName,
+                    'public'
+                );
+                
+                $uploadedFiles[] = $filePath;
+            }
+        }
+        
+        if (!empty($uploadedFiles)) {
+            $event->addPhotographicSupportFiles($uploadedFiles);
+        }
+    }
+
+    /**
+     * Descarga un archivo comprimido con todo el soporte fotográfico del evento
+     */
+    public function downloadPhotographicSupport(string $id)
+    {
+        $event = Event::findOrFail($id);
+        
+        if (empty($event->photographic_support)) {
+            toast_warning('No hay archivos de soporte fotográfico para descargar.');
+            return back();
+        }
+
+        $zip = new \ZipArchive();
+        $zipFileName = 'soporte_fotografico_evento_' . $event->id . '_' . date('Y-m-d') . '.zip';
+        $zipPath = storage_path('app/temp/' . $zipFileName);
+
+        // Crear directorio temporal si no existe
+        if (!file_exists(dirname($zipPath))) {
+            mkdir(dirname($zipPath), 0755, true);
+        }
+
+        if ($zip->open($zipPath, \ZipArchive::CREATE) === TRUE) {
+            foreach ($event->photographic_support as $filePath) {
+                $fullPath = storage_path('app/public/' . $filePath);
+                
+                if (file_exists($fullPath)) {
+                    $zip->addFile($fullPath, basename($filePath));
+                }
+            }
+            
+            $zip->close();
+
+            // Descargar y eliminar archivo temporal después
+            return response()->download($zipPath)->deleteFileAfterSend(true);
+        }
+
+        toast_error('No se pudo crear el archivo comprimido.');
+        return back();
+    }
+
+    /**
+     * Elimina un archivo específico del soporte fotográfico
+     */
+    public function removePhotographicSupportFile(string $eventId, string $fileIndex)
+    {
+        $event = Event::findOrFail($eventId);
+        
+        if (!auth()->user()->can('edit events')) {
+            toast_error('No tienes permisos para realizar esta acción.');
+            return back();
+        }
+        
+        $files = $event->photographic_support ?? [];
+        
+        if (isset($files[$fileIndex])) {
+            $filePath = $files[$fileIndex];
+            
+            if ($event->removePhotographicSupportFile($filePath)) {
+                toast_success('Archivo eliminado exitosamente.');
+            } else {
+                toast_error('No se pudo eliminar el archivo.');
+            }
+        } else {
+            toast_error('Archivo no encontrado.');
+        }
+        
+        return back();
     }
 }
