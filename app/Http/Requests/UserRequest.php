@@ -21,7 +21,7 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route('user');
+        $userId = $this->route('id');
         
         $rules = [
             'username' => 'required|string|max:255',
@@ -29,6 +29,7 @@ class UserRequest extends FormRequest
             'institutional_email' => 'required|string|email|max:255|unique:users,institutional_email' . ($userId ? ',' . $userId : ''),
             'role' => 'required|exists:roles,name',
         ];
+
         
         // Only require password for new users or if it's provided for existing users
         if (!$userId || $this->filled('password')) {
