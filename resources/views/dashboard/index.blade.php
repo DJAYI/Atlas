@@ -35,7 +35,7 @@
                         'estudiante' => 'Movilidad de Estudiantes del Exterior hacia Colombia',
                         'administrativo' => 'Movilidad de Administrativos del Exterior hacia Colombia',
                         'egresado' => 'Movilidad de Egresados del Exterior hacia Colombia',
-                        'emprendedor' => 'Movilidad de Emprendedores del Exterior hacia Colombia',
+                        'empresario' => 'Movilidad de Empresarios del Exterior hacia Colombia',
                     ];
                 @endphp
 
@@ -60,7 +60,7 @@
                         'estudiante' => 'Movilidad de Estudiantes hacia el Exterior',
                         'administrativo' => 'Movilidad de Administrativos hacia el Exterior',
                         'egresado' => 'Movilidad de Egresados hacia el Exterior',
-                        'emprendedor' => 'Movilidad de Emprendedores hacia el Exterior',
+                        'empresario' => 'Movilidad de Empresarios hacia el Exterior',
                     ];
                 @endphp
 

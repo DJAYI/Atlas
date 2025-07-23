@@ -37,7 +37,7 @@ return new class extends Migration
 
             $table->foreignId('country_id')->constrained('countries');
 
-            $table->enum('type', ['estudiante', 'profesor', 'emprendedor', 'administrativo', 'egresado', 'otro'])->default('estudiante');
+            $table->enum('type', ['estudiante', 'profesor', 'empresario', 'administrativo', 'egresado', 'otro'])->default('estudiante');
 
             $table->foreignId('career_id')->nullable()->constrained('careers');
 

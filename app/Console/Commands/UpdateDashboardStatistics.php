@@ -65,7 +65,7 @@ class UpdateDashboardStatistics extends Command
     {
         $currentYear = now()->year;
         $years = [$currentYear - 2, $currentYear - 1, $currentYear];
-        $validRoles = ['estudiante', 'profesor', 'egresado', 'administrativo', 'emprendedor'];
+        $validRoles = ['estudiante', 'profesor', 'egresado', 'administrativo', 'empresario'];
         $validLocations = ['nacional', 'internacional', 'local'];
         $validModalities = ['virtual', 'presencial'];
         

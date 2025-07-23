@@ -37,7 +37,7 @@ class PersonSeeder extends Seeder
         ]);
 
         \App\Models\Person::factory(100)->create([
-            'type' => 'emprendedor',
+            'type' => 'empresario',
             'university_id' => $comfenalco->id
         ]);
 

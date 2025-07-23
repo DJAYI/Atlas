@@ -6,7 +6,7 @@
             class="w-full px-4 py-2 transition bg-white border rounded-lg shadow-sm border-primary-300">
             <option value="" disabled {{ empty($type) ? 'selected' : '' }}>{{ __('Seleccione una opción') }}
             </option>
-            @foreach (['estudiante' => __('Estudiante'), 'egresado' => __('Egresado'), 'profesor' => __('Profesor'), 'administrativo' => __('Administrativo'), 'emprendedor' => __('Emprendedor')] as $key => $label)
+            @foreach (['estudiante' => __('Estudiante'), 'egresado' => __('Egresado'), 'profesor' => __('Profesor'), 'administrativo' => __('Administrativo'), 'empresario' => __('Empresario')] as $key => $label)
                 <option value="{{ $key }}" {{ $type === $key ? 'selected' : '' }}>{{ $label }}</option>
             @endforeach
         </select>

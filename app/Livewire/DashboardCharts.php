@@ -84,7 +84,7 @@ class DashboardCharts extends Component
         });
 
         $statistics = [];
-        $validRoles = ['estudiante', 'profesor', 'egresado', 'administrativo', 'emprendedor'];
+        $validRoles = ['estudiante', 'profesor', 'egresado', 'administrativo', 'empresario'];
         $validLocations = ['nacional', 'internacional', 'local'];
         $validModalities = ['virtual', 'presencial'];
 
@@ -143,7 +143,7 @@ class DashboardCharts extends Component
     // Método auxiliar para inicializar la estructura de datos de un año
     private function initializeYearDataStructure()
     {
-        $roles = ['estudiante', 'profesor', 'egresado', 'administrativo', 'emprendedor'];
+        $roles = ['estudiante', 'profesor', 'egresado', 'administrativo', 'empresario'];
         $locations = ['internacional', 'nacional', 'local'];
         $modalities = ['virtual', 'presencial'];
         $directions = ['entrantes' => 0, 'salientes' => 0];

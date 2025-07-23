@@ -50,11 +50,11 @@ class MobilitiesSeeder extends Seeder
             ['name' => 'Doble Titulación', 'type' => 'egresado'],
             ['name' => 'Conversatorio', 'type' => 'egresado'],
 
-            // Emprendedores
-            ['name' => 'Asesoría', 'type' => 'emprendedor'],
-            ['name' => 'Mentoría', 'type' => 'emprendedor'],
-            ['name' => 'Networking', 'type' => 'emprendedor'],
-            ['name' => 'Talleres', 'type' => 'emprendedor'],
+            // Empresarios
+            ['name' => 'Asesoría', 'type' => 'empresario'],
+            ['name' => 'Mentoría', 'type' => 'empresario'],
+            ['name' => 'Networking', 'type' => 'empresario'],
+            ['name' => 'Talleres', 'type' => 'empresario'],
 
         ];
 
