@@ -392,8 +392,8 @@ Para procesar tareas en segundo plano (como el envío de correos) en un servidor
     After=network.target
 
     [Service]
-    User=apache          # Usuario que ejecuta el servidor web (www-data en Debian/Ubuntu)
-    Group=apache         # Grupo del usuario (www-data en Debian/Ubuntu)
+    User=root          # Usuario que ejecuta el servidor web (www-data en Debian/Ubuntu)
+    Group=root         # Grupo del usuario (www-data en Debian/Ubuntu)
     Restart=always
     ExecStart=/usr/bin/php /var/www/hermes/artisan queue:work --sleep=3 --tries=3
     WorkingDirectory=/var/www/hermes

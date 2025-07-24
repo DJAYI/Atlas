@@ -92,7 +92,7 @@
                     </div>
 
                     <!-- Submit button -->
-                    <button type="submit"
+                    <button type="submit" id="submit-button-2fa"
                         class="w-full px-4 py-3 text-lg font-semibold text-white transition rounded-lg bg-gradient-to-tr from-primary-500 to-secondary-500 hover:shadow-[1px_1px_20px] hover:shadow-primary-400/60 hover:from-primary-600 hover:to-secondary-600 focus:outline-none focus:ring-4 focus:ring-primary-400">
                         <span class="flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,6 +157,7 @@
             const verificationCodeInput = document.getElementById('verification_code');
             const form = document.getElementById('verification-form');
             const indicator = document.getElementById('input-indicator');
+            const submitButton = document.getElementById('submit-button-2fa');
 
             // Auto-focus en el campo del código
             verificationCodeInput.focus();
@@ -171,6 +172,9 @@
                     this.classList.add('bg-green-50', 'border-green-500', 'ring-4', 'ring-green-400/50');
                     this.classList.remove('bg-gray-50', 'border-gray-300');
                     indicator.classList.remove('hidden');
+                    submitButton.style.opacity = '.6';
+                    submitButton.style.cursor = 'not-allowed';
+                    submitButton.disabled = true;
 
                     // Auto-submit con animación
                     setTimeout(() => {
