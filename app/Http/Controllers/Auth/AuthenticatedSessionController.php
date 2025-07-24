@@ -24,9 +24,20 @@ class AuthenticatedSessionController extends Controller
             session()->flash('error_captcha', 'La validación de Turnstile falló. Intenta de nuevo.');
             return redirect()->back();
         }
-        $request->authenticate();
-        session()->regenerate();
-        return redirect()->intended(route('dashboard', absolute: false));
+
+        try {
+            $request->authenticate();
+            session()->regenerate();
+            return redirect()->intended(route('dashboard', absolute: false));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Si el error contiene 'redirect_to_2fa', redirigir a la vista de 2FA
+            if (isset($e->errors()['email']) && in_array('redirect_to_2fa', $e->errors()['email'])) {
+                return redirect()->route('2fa.show');
+            }
+            
+            // Para otros errores de validación, volver atrás con errores
+            throw $e;
+        }
     }
 
     /**

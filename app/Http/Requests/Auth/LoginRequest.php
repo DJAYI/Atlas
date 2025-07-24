@@ -32,18 +32,11 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        return [
             'email' => ['required', 'string', 'email', 'min:8', 'max:254'],
             'password' => ['required', 'string', 'min:8', 'max:254'],
             'cf-turnstile-response' => ['required', 'string']
         ];
-
-        // Si hay un código en la sesión, requerir el código de verificación
-        if (session()->has('pending_2fa_email')) {
-            $rules['verification_code'] = ['required', 'string', 'size:6'];
-        }
-
-        return $rules;
     }
 
     /**
@@ -69,11 +62,8 @@ class LoginRequest extends FormRequest
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
             'password.max' => 'La contraseña no debe exceder los 30 caracteres.',
             'cf-turnstile-response.required' => 'La verificación de Turnstile es obligatoria.',
-            'verification_code.required' => 'El código de verificación es obligatorio.',
-            'verification_code.size' => 'El código de verificación debe tener 6 dígitos.',
             'auth.failed' => 'Las credenciales proporcionadas son incorrectas.',
             'auth.throttle' => 'Demasiados intentos de inicio de sesión. Por favor, inténtalo de nuevo en :seconds segundos.',
-            'verification_code.invalid' => 'El código de verificación es inválido o ya ha sido utilizado.',
         ];
     }
 
@@ -86,12 +76,6 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        // Si hay un 2FA pendiente, verificar el código
-        if (session()->has('pending_2fa_email')) {
-            $this->verify2FA();
-            return;
-        }
-
         // Verificar credenciales
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
@@ -102,7 +86,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        // Si las credenciales son correctas, enviar código 2FA
+        // Si las credenciales son correctas, enviar código 2FA y redirigir
         $this->send2FACode();
     }
 
@@ -114,54 +98,26 @@ class LoginRequest extends FormRequest
         Auth::logout(); // Cerrar sesión temporal
 
         $email = $this->input('email');
+        $password = $this->input('password');
+        $remember = $this->boolean('remember');
+        
         $code = VerificationCode::generateCode($email);
 
         Mail::to($email)->send(new VerificationCodeMail($code, $email));
 
-        session(['pending_2fa_email' => $email]);
+        // Guardar datos en sesión para la verificación
+        session([
+            'pending_2fa_email' => $email,
+            'pending_2fa_password' => $password,
+            'pending_2fa_remember' => $remember
+        ]);
 
         Log::info('2FA code sent to email: ' . $email . ' at ' . now());
+        
+        // Lanzar excepción para redirigir a la vista de 2FA
         throw ValidationException::withMessages([
-            'email' => 'Se ha enviado un código de verificación a tu correo electrónico.',
+            'email' => 'redirect_to_2fa',
         ]);
-    }
-
-    /**
-     * Verify 2FA code
-     */
-    protected function verify2FA(): void
-    {
-        $email = session('pending_2fa_email');
-        $code = $this->input('verification_code');
-
-        if (!VerificationCode::verify($email, $code)) {
-            Log::warning('Invalid 2FA code for email: ' . $email . ' at ' . now());
-            throw ValidationException::withMessages([
-                'verification_code' => $this->messages()['verification_code.invalid'],
-            ]);
-        }
-
-        // Código válido, autenticar al usuario
-        if (! Auth::attempt(['email' => $email, 'password' => $this->input('password')], $this->boolean('remember'))) {
-
-            Log::warning('Failed login attempt after 2FA for email: ' . $email . ' at ' . now());
-            throw ValidationException::withMessages([
-                'email' => $this->messages()['auth.failed'],
-            ]);
-        }
-
-        // Limpiar sesión 2FA
-        Log::info('User authenticated successfully after 2FA for email: ' . $email . ' at ' . now());
-
-        // Usuario autenticado actual
-        $user = Auth::user();
-        Log::info('Authenticated user: ' . $user->email . ' at ' . now());
-
-        // Enviar correo de notificación de inicio de sesión exitoso
-        $this->sendSuccessfulLoginNotification($user);
-
-        session()->forget('pending_2fa_email');
-        RateLimiter::clear($this->throttleKey());
     }
 
     /**
@@ -190,29 +146,5 @@ class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
-    }
-
-    /**
-     * Send successful login notification to user's email
-     */
-    protected function sendSuccessfulLoginNotification($user): void
-    {
-        try {
-            $loginTime = now()->format('d/m/Y H:i:s T');
-            $ipAddress = $this->ip();
-            $userAgent = $this->header('User-Agent') ?? 'Navegador desconocido';
-
-            Mail::to($user->email)->send(new SuccessfulLogin(
-                $user->username,
-                $user->email,
-                $ipAddress,
-                $userAgent,
-                $loginTime
-            ));
-
-            Log::info('Successful login notification sent to: ' . $user->email . ' at ' . now());
-        } catch (\Exception $e) {
-            Log::error('Failed to send successful login notification: ' . $e->getMessage());
-        }
     }
 }

@@ -58,7 +58,6 @@
                         <label for="email" class="text-lg">{{ __('Correo electrónico') }}</label>
                         <input id="email" type="email" name="email" minlength="8" maxlength="254" required
                             autofocus autocomplete="username"
-                            @if (session()->has('pending_2fa_email')) value="{{ session('pending_2fa_email') }}" @endif
                             class="px-4 py-3 transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300">
 
                         @error('email')
@@ -75,30 +74,6 @@
                             <p class="text-sm text-red-500 text-pretty">{{ $message }}</p>
                         @enderror
                     </div>
-
-                    @if (session()->has('pending_2fa_email'))
-                        <div class="flex flex-col gap-2">
-                            <label for="verification_code" class="text-lg">{{ __('Código de verificación') }}</label>
-                            <input type="text" name="verification_code" id="verification_code" maxlength="6"
-                                placeholder="Ingresa el código de 6 dígitos" required
-                                class="px-4 py-3 font-mono text-lg tracking-wider text-center transition border-none rounded-md ring-2 focus:ring-4 focus:ring-primary-400 ring-primary-300">
-
-                            @error('verification_code')
-                                <p class="text-sm text-red-500 text-pretty">{{ $message }}</p>
-                            @enderror
-
-                            <div class="flex items-center gap-2 p-3 rounded-md bg-blue-50">
-                                <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                                <p class="text-sm text-blue-700">
-                                    {{ __('Revisa tu correo electrónico para obtener el código de verificación. El código solo puede ser utilizado una vez.') }}
-                                </p>
-                            </div>
-                        </div>
-                    @endif
 
                     <div class="cf-turnstile" data-sitekey={{ config('services.turnstile.site_key') }}></div>
 
@@ -121,34 +96,3 @@
         </p>
     </footer>
 </x-app-layout>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const verificationCodeInput = document.getElementById('verification_code');
-
-        if (verificationCodeInput) {
-            // Auto-focus en el campo del código si está presente
-            verificationCodeInput.focus();
-
-            // Solo permitir números
-            verificationCodeInput.addEventListener('input', function(e) {
-                this.value = this.value.replace(/[^0-9]/g, '');
-
-                // Auto-submit cuando se complete el código de 6 dígitos
-                if (this.value.length === 6) {
-                    setTimeout(() => {
-                        document.getElementById('login-form').submit();
-                    }, 100);
-                }
-            });
-
-            // Formatear el input para mejor UX
-            verificationCodeInput.addEventListener('keyup', function(e) {
-                if (this.value.length === 6) {
-                    this.classList.add('bg-green-100', 'border-green-500');
-                } else {
-                    this.classList.remove('bg-green-100', 'border-green-500');
-                }
-            });
-        }
-    });
-</script>
