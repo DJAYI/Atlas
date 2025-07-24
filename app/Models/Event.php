@@ -77,25 +77,37 @@ class Event extends Model
     {
         $now = Carbon::now();
         
-        // Obtener fechas como objetos Carbon de los casts
-        $startDateObj = $this->start_date; // Ya es Carbon por el cast
-        $endDateObj = $this->end_date;     // Ya es Carbon por el cast
+        // Asegurar que tenemos instancias Carbon y combinar correctamente fecha y hora
+        $startDate = Carbon::parse($this->start_date);
+        $endDate = Carbon::parse($this->end_date);
+        $startTime = Carbon::parse($this->start_time);
+        $endTime = Carbon::parse($this->end_time);
         
-        // Obtener horas como objetos DateTime de los casts
-        $startTimeObj = $this->start_time; // Ya es DateTime por el cast
-        $endTimeObj = $this->end_time;     // Ya es DateTime por el cast
+        // Combinar fecha y hora usando setTime
+        $startDateTime = $startDate->copy()->setTime(
+            $startTime->hour,
+            $startTime->minute,
+            $startTime->second
+        );
         
-        // Extraer solo las partes de fecha y hora
-        $startDate = $startDateObj->format('Y-m-d');
-        $endDate = $endDateObj->format('Y-m-d');
-        $startTime = $startTimeObj->format('H:i:s');
-        $endTime = $endTimeObj->format('H:i:s');
-        
-        // Crear instancias Carbon completas combinando fecha y hora
-        $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . ' ' . $startTime);
-        $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $endDate . ' ' . $endTime);
+        $endDateTime = $endDate->copy()->setTime(
+            $endTime->hour,
+            $endTime->minute,
+            $endTime->second
+        );
 
-        return $startDateTime->lte($now) && $endDateTime->gte($now);
+        // Verificar si el momento actual está entre el inicio y fin del evento (inclusive)
+        $isActive = $now->greaterThanOrEqualTo($startDateTime) && $now->lessThanOrEqualTo($endDateTime);
+        
+        // Log temporal para debug
+        \Log::info("Event {$this->event_code} isActive check:", [
+            'now' => $now->format('Y-m-d H:i:s'),
+            'start' => $startDateTime->format('Y-m-d H:i:s'),
+            'end' => $endDateTime->format('Y-m-d H:i:s'),
+            'result' => $isActive
+        ]);
+
+        return $isActive;
     }
 
     /**

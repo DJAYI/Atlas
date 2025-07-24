@@ -210,16 +210,16 @@ class AssistanceController extends Controller
         // Buscar evento (ya validado que existe por ValidateAssistaceRequest) y cargar relaciones
         $event = Event::with('universities')->firstWhere('event_code', $request->event_code);
 
-        // Verificar si el evento ya ha pasado
-        if (Carbon::parse($event->end_date)->isPast()) {
+        // Verificar si el evento está activo
+        if (!$event || !$event->isActive()) {
             return redirect()->route('assistance', ['locale' => $request->locale])
-                ->with('error', __('assistance.event_expired'));
+                ->with([
+                    'error' => __('Evento no encontrado o no activo'),
+                    'found' => false,
+                    'event' => $event,
+                ]);
         }
-
-        if (Carbon::parse($event->start_date)->isFuture()) {
-            return redirect()->route('assistance', ['locale' => $request->locale])
-                ->with('error', __('assistance.event_not_started'));
-        }
+        
 
         // Almacenar información necesaria en la sesión para el formulario
         session()->put('document_type', $request->document_type);
